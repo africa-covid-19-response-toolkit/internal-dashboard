@@ -1,0 +1,32 @@
+{
+  "name": "TackleCovid19",
+  "version": "1.0.0",
+  "description": "Tackle Covid19",
+  "author": "Yohannes Ejigu",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "@feathersjs/authentication-client": "^4.5.2",
+    "@feathersjs/feathers": "^4.5.2",
+    "@feathersjs/socketio-client": "^4.5.2",
+    "@vue/composition-api": "^0.4.0",
+    "feathers-hooks-common": "^5.0.2",
+    "feathers-vuex": "^3.7.0",
+    "nuxt": "^2.0.0",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0",
+    "@nuxtjs/eslint-config": "^2.0.0",
+    "@nuxtjs/eslint-module": "^1.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^6.1.0",
+    "eslint-plugin-nuxt": ">=0.4.2"
+  }
+}
