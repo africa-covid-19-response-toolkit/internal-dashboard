@@ -1,25 +1,23 @@
 import feathersClient, {
   makeServicePlugin,
   BaseModel
-} from "../../feathers-client";
+} from "~/plugins/feathers-client";
 
-class User extends BaseModel {
+class Messages extends BaseModel {
   constructor(data, options) {
     super(data, options);
   }
   // Required for $FeathersVuex plugin to work after production transpile.
-  static modelName = "User";
+  static modelName = "Messeges";
   // Define default properties here
   static instanceDefaults() {
-    return {
-      email: "",
-      password: ""
-    };
+    return {};
   }
 }
-const servicePath = "users";
+const servicePath = "messeges";
 const servicePlugin = makeServicePlugin({
-  Model: User,
+  Model: Messages,
+  addOnUpsert: true,
   service: feathersClient.service(servicePath),
   servicePath
 });

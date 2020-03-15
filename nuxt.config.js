@@ -2,6 +2,9 @@
 import colors from "vuetify/es5/util/colors";
 
 export default {
+  env: {
+    API_URL: process.env.API_URL || "http://localhost:3030"
+  },
   mode: "spa",
   /*
    ** Headers of the page
@@ -20,6 +23,9 @@ export default {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
+  router: {
+    middleware: ["auth"]
+  },
   /*
    ** Customize the progress-bar color
    */
@@ -31,7 +37,13 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    { src: "~/plugins/apex.chart.js" },
+    { src: "~/plugins/feathers-vuex.js" },
+    { src: "~/plugins/feathers-client.js" },
+    { src: "~/plugins/authInit.js", ssr: false }
+  ],
+
   /*
    ** Nuxt.js dev-modules
    */
@@ -43,7 +55,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: ["nuxt-client-init-module"],
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -73,6 +85,6 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {},
-    transpile: ["feathers-vuex"]
+    transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
   }
 };

@@ -1,92 +1,120 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <v-container align-center>
+    <h4>DASHBOARD</h4>
+    <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
+    <v-divider class="mt-4" />
+    <v-row>
+      <v-col
+        v-for="(item, index) in getLiveStats"
+        :key="index"
+        cols="12"
+        xs="6"
+        sm="4"
+        md="3"
+        lg="2"
+      >
+        <v-card height="90px" elevation="1" class="pb-1 my-0">
+          <v-card-title>
+            <h1>{{item}}</h1>
+          </v-card-title>
+          <v-card-subtitle>{{getCat(index)}}</v-card-subtitle>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" xs="12" sm="12" md="4" lg="4">
+        <TotalRadar />
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="8" lg="8">
+        <DailyCasesLineChart />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" xs="12" sm="12" md="4" lg="4">
+        <TotalDoghnut />
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="8" lg="8">
+        <MonthlyCasesLineChart />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import { mapState, mapGetters, mapActions } from "vuex";
+
+import DailyCasesBarChart from "~/components/DailyCasesBarChart";
+import DailyCasesLineChart from "~/components/DailyCasesLineChart";
+import MonthlyCasesLineChart from "~/components/MonthlyCasesLineChart";
+import TotalDoghnut from "~/components/TotalDonut";
+import TotalRadar from "~/components/TotalSummaryRadarChart";
+import LineChart from "~/components/LineChart.vue";
+import TotalBarChart from "~/components/TotalBarchart.vue";
+import VuetifyLogo from "~/components/VuetifyLogo.vue";
 
 export default {
   components: {
-    Logo,
+    DailyCasesBarChart,
+    MonthlyCasesLineChart,
+    TotalRadar,
+    DailyCasesLineChart,
+    TotalDoghnut,
+    TotalBarChart,
+    LineChart,
     VuetifyLogo
+  },
+  data() {
+    return {
+      labels: [
+        "ማግለያ የገቡ",
+        "የተገኘባቸው",
+        "ወደ ህክምና የገቡ",
+        "በጠና የታመሙ",
+        "ያገገሙ",
+        "በሞት የተለዩ"
+      ]
+    };
+  },
+  computed: {
+    ...mapState("stats", { isLoading: "isFindPending" }),
+    ...mapGetters("stats", { findStatStore: "find" }),
+    getLiveStats() {
+      const all = this.findStatStore({ query: {} });
+      if (all && all.data && all.data.length > 0) {
+        const daily = all.data[0].total;
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ];
+        const total = [...daily.data];
+        total.splice(0, 1);
+        return total;
+      }
+      return 0;
+    }
+  },
+  methods: {
+    ...mapState("stats", { isLoading: "isFindPending" }),
+    ...mapActions("stats", { findStats: "find" }),
+    async getStats() {
+      await this.findStats({ query: {} });
+    },
+    getCat: function(index) {
+      return this.labels[index];
+    }
+  },
+  mounted() {
+    this.getStats();
   }
-}
+};
 </script>
