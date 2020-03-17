@@ -1,11 +1,10 @@
-<<<<<<< HEAD
 # TackleCovid19
 
 > Tackle Covid19
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
@@ -19,8 +18,3 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-=======
-# Covid19.ET
->>>>>>> 22a5ee012b3e4e899b2df786a45aff1e528c32ce
