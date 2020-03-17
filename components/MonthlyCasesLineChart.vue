@@ -3,12 +3,11 @@
     <v-card-title>{{ chart_title }}</v-card-title>
 
     <apexchart
-      v-if="!isLoading"
       width="100%"
       height="240"
       type="area"
-      :options="chartOptions"
-      :series="getLiveStats"
+      :options="getChartOptions"
+      :series="getSeries"
     ></apexchart>
   </v-card>
 </template>
@@ -17,6 +16,14 @@
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
+  props: {
+    chartdata: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data: function() {
     return {
       chart_title: `ወርሃዊ መረጃ - ${new Date().getFullYear()}`,
@@ -33,81 +40,79 @@ export default {
         },
 
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          categories: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ]
+        },
+        stroke: {
+          width: 3,
+          curve: "smooth"
         },
         fill: {
           type: "gradient"
-        }
-      },
-      series: [
-        {
-          name: "series-1",
-          data: [30, 40, 45, 50, 49, 60, 70, 81]
         },
-        {
-          name: "series-1",
-          data: [60, 40, 64, 50, 49, 10, 47, 51]
-        }
-      ]
+        dataLabels: {
+          enabled: true,
+          style: {
+            fontSize: "10px",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontWeight: "bold",
+            colors: undefined
+          },
+          background: {
+            enabled: true,
+
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: "#fff",
+            opacity: 0.9
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              dataLabels: {
+                enabled: false
+              }
+            }
+          }
+        ]
+      }
     };
   },
 
   computed: {
-    ...mapState("stats", { isLoading: "isFindPending" }),
-    ...mapGetters("stats", { findStatStore: "find" }),
-    getLiveStats() {
-      const all = this.findStatStore({ query: {} });
-      if (all && all.data && all.data.length > 0) {
-        const daily = all.data[0].monthly;
-        const months = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ];
-        // const currentMonth = nonths[daily.month];
-
-        this.chartOptions = {
+    getChartOptions() {
+      if (this.chartdata && this.chartdata.xaxis) {
+        return {
           ...this.chartOptions,
-          xaxis: { categories: months }
-        };
-
-        const series = [
-          {
-            name: "ቫይረሱ የተገኘባቸው",
-            data: daily.confirmed.data
-          },
-          {
-            name: "ያገገሙ",
-            data: daily.recovered.data
-          },
-          {
-            name: "በሞት የተለዩ",
-            data: daily.dead.data
+          xaxis: this.chartdata.xaxis,
+          theme: {
+            mode: this.$vuetify.theme.dark ? "dark" : "light",
+            palette: "palette6"
           }
-        ];
-        return series;
+        };
       }
-      return [];
+
+      return this.chartOptions;
+    },
+    getSeries() {
+      return this.chartdata && this.chartdata.series
+        ? this.chartdata.series
+        : [];
     }
-  },
-  methods: {
-    ...mapState("stats", { isLoading: "isFindPending" }),
-    ...mapActions("stats", { findStats: "find" }),
-    async getStats() {
-      const all = await this.findStats({ query: {} });
-    }
-  },
-  mounted() {
-    this.getStats();
   }
 };
 </script>

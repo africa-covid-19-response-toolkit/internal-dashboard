@@ -7,8 +7,9 @@ import io from "socket.io-client";
 import { CookieStorage } from "cookie-storage";
 import { iff, discard } from "feathers-hooks-common";
 import feathersVuex, { initAuth, hydrateApi } from "feathers-vuex";
+import Util from "../util/util";
 // Get the api url from the environment variable
-const apiUrl = process.env.API_URL;
+const apiUrl = Util.apiHost;
 let socket;
 let restClient;
 // We won't use socket to comunicate from server to server

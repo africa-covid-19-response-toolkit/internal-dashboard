@@ -7,19 +7,29 @@
       width="100%"
       height="252"
       type="radialBar"
-      :options="chartOptions"
-      :series="series"
+      :options="getChartOptions"
+      :series="getSeries"
     ></apexchart>
   </v-card>
 </template>
 
 <script>
 export default {
+  props: {
+    chartdata: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data: function() {
     return {
       name: "ቫይረሱ የተገኘባቸው",
-      series: [76, 15, 60, 1],
       chartOptions: {
+        theme: {
+          palette: "palette6"
+        },
         plotOptions: {
           radialBar: {
             offsetY: 0,
@@ -45,9 +55,9 @@ export default {
         legend: {
           show: true,
           floating: true,
-          fontSize: "13px",
+          fontSize: "11px",
           position: "left",
-          offsetX: 0,
+          offsetX: 20,
           offsetY: -6,
           labels: {
             useSeriesColors: true
@@ -61,9 +71,54 @@ export default {
           itemMargin: {
             vertical: 3
           }
-        }
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              legend: {
+                show: false
+              },
+              plotOptions: {
+                radialBar: {
+                  dataLabels: {
+                    name: {
+                      show: true
+                    },
+                    value: {
+                      show: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
       }
     };
+  },
+  computed: {
+    getChartOptions() {
+      if (this.chartdata && this.chartdata.xaxis) {
+        return {
+          ...this.chartOptions,
+          xaxis: this.chartdata.xaxis,
+          theme: {
+            mode: this.$vuetify.theme.dark ? "dark" : "light",
+            palette: "palette6"
+          }
+        };
+      }
+
+      return this.chartOptions;
+    },
+    getSeries() {
+      return this.chartdata
+        ? this.chartdata.series
+          ? this.chartdata.series
+          : []
+        : [];
+    }
   }
 };
 </script>

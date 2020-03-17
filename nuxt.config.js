@@ -3,7 +3,7 @@ import colors from "vuetify/es5/util/colors";
 
 export default {
   env: {
-    API_URL: process.env.API_URL || "http://localhost:3030"
+    API_URL: process.env.API_URL || "http://localhost:5535"
   },
   mode: "spa",
   /*
@@ -55,7 +55,12 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ["nuxt-client-init-module"],
+  modules: ["nuxt-client-init-module", "@nuxtjs/pwa", "@nuxtjs/toast"],
+
+  toast: {
+    position: "top-right",
+    duration: 3000
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -66,15 +71,29 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
+          primary: colors.blueGrey,
+          accent: colors.orange.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
+        },
+        light: {
+          primary: colors.deepOrange.darken1,
+          secondary: "#ffc107",
+          accent: "#ff9800",
+          error: "#f44336",
+          warning: "#ff5722",
+          info: "#8bc34a",
+          success: "#03a9f4"
         }
       }
+    }
+  },
+  pwa: {
+    workbox: {
+      /* workbox options */
     }
   },
   /*

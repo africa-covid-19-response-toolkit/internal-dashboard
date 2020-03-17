@@ -2,13 +2,12 @@
   <v-card hover elevation="1">
     <v-card-title>{{ name }}</v-card-title>
     <apexchart
-      v-if="!isLoading"
       ref="donut"
       width="100%"
       height="252"
       type="donut"
-      :options="chartOptions"
-      :series="series"
+      :options="getChartOptions"
+      :series="getSeries"
     ></apexchart>
   </v-card>
 </template>
@@ -16,9 +15,25 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 export default {
+  props: {
+    chartdata: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data: function() {
     return {
       name: "አጠቃላይ ቻርት",
+      labels: [
+        "ማግለያ የገቡ",
+        "የተገኘባቸው",
+        "ወደ ህክምና የገቡ",
+        "በጥና የታመሙ",
+        "ያገገሙ",
+        "በሞት የተለዩ"
+      ],
       chartOptions: {
         dataLabels: {
           formatter: function(val, opts) {
@@ -26,7 +41,7 @@ export default {
           }
         },
         theme: {
-          palette: "palette4"
+          palette: "palette6"
         },
         labels: [
           "ማግለያ የገቡ",
@@ -38,7 +53,7 @@ export default {
         ],
         plotOptions: {
           pie: {
-            customScale: 1,
+            customScale: 0.9,
             offsetX: 0,
             offsetY: 0,
             expandOnClick: true,
@@ -47,7 +62,7 @@ export default {
               minAngleToShowLabel: 10
             },
             donut: {
-              size: "65%",
+              size: "58%",
               background: "transparent",
               labels: {
                 show: true,
@@ -74,7 +89,7 @@ export default {
                   show: true,
                   showAlways: false,
                   label: "ሁሉም",
-                  fontSize: "18px",
+                  fontSize: "14px",
                   fontFamily: "Helvetica, Arial, sans-serif",
                   fontWeight: 600,
                   color: "#373d3f",
@@ -90,20 +105,6 @@ export default {
         },
         legend: {
           position: "right"
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            shade: "dark",
-            type: "horizontal",
-            shadeIntensity: 0.5,
-            gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
-            inverseColors: true,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 50, 100],
-            colorStops: []
-          }
         }
       },
       series: [],
@@ -113,71 +114,28 @@ export default {
     };
   },
   methods: {
-    updateChart() {
-      const max = 90;
-      const min = 20;
-      const newData = this.series.map(() => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      });
-      this.series = newData;
-    },
-    ...mapActions("stats", { findStats: "find" })
+    updateChart() {}
   },
   computed: {
-    ...mapState("stats", { isLoading: "isFindPending" }),
-    ...mapGetters("stats", { findStatsStore: "find" }),
-    async getStats() {
-      const all = await this.findStats({ query: {} });
-      if (all && all.data && all.data.length > 0) {
-        const totals = all.data[0].total;
-        var series = [];
-        const labels = [
-          "ማግለያ የገቡ",
-          "የተገኘባቸው",
-          "ወደ ህክምና የገቡ",
-          "በጥና የታመሙ",
-          "ያገገሙ",
-          "በሞት የተለዩ",
-          "ሁሉም"
-        ];
-        var c = 0;
-        for (var o in totals) {
-          if (c == 0) {
-            c++;
-            continue;
+    getChartOptions() {
+      if (this.chartdata && this.chartdata.xaxis) {
+        return {
+          ...this.chartOptions,
+          xaxis: this.chartdata.xaxis,
+          theme: {
+            mode: this.$vuetify.theme.dark ? "dark" : "light",
+            palette: "palette6"
           }
-          series.push(totals[o]);
-          li++;
-          c++;
-        }
-
-        this.chartOptions = { ...this.chartOptions, labels };
-        // this.series = series;
+        };
       }
 
-      return [];
+      return this.chartOptions;
+    },
+    getSeries() {
+      return this.chartdata && this.chartdata.series
+        ? this.chartdata.series
+        : [];
     }
-  },
-  mounted() {
-    this.findStats({ query: {} }).then(all => {
-      if (all && all.data && all.data.length > 0) {
-        const totals = all.data[0].total;
-
-        const labels = [
-          "ማግለያ የገቡ",
-          "የተገኘባቸው",
-          "ወደ ህክምና የገቡ",
-          "በጥና የታመሙ",
-          "ያገገሙ",
-          "በሞት የተለዩ"
-        ];
-
-        this.chartOptions = { ...this.chartOptions, labels };
-        const filteredAry = [...totals.data];
-        filteredAry.splice(0, 1);
-        this.series = filteredAry;
-      }
-    });
   }
 };
 </script>
