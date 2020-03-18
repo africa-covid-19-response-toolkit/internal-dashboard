@@ -82,6 +82,10 @@
       <span class="overline mx-1 mt-4"> ALPHA</span>
       <v-spacer />
 
+      <!-- message button -->
+      <v-btn v-if="admin" text @click="send_new_message = true">+ NEW Message</v-btn>
+      <!-- message button -->
+
       <v-btn v-if="admin" text @click="add_new_case = true">+ NEW CASE</v-btn>
       <v-btn text v-if="!admin" to="login">LOG IN</v-btn>
       <v-btn text v-else @click="signout">LOG OUT</v-btn>
@@ -115,6 +119,30 @@
         /></v-card>
       </v-dialog>
     </v-content>
+
+    <!-- message button -->
+    <v-content>
+      <v-container>
+        <nuxt />
+      </v-container>
+      <v-dialog
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+        persistent
+        v-model="send_new_message"
+        ><v-card tile>
+          <v-toolbar flat dark color="primary">
+            <v-btn icon dark @click="send_new_message = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Send Message</v-toolbar-title>
+            <v-spacer></v-spacer></v-toolbar
+          ><SendNewMessage @successCallback="send_new_message = false"
+        /></v-card>
+      </v-dialog>
+    </v-content>
+    <!-- message button -->
     <v-footer small app>
       <span class="overline">
         &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems
@@ -125,11 +153,12 @@
 
 <script>
 import Util from "@/util/util";
+import SendNewMessage from "@/components/SendNewMessage"
 import AddNewCases from "@/components/AddNewCases";
 import { mapActions, mapMutations } from "vuex";
 
 export default {
-  components: { AddNewCases },
+  components: { AddNewCases, SendNewMessage },
   data() {
     return {
       clipped: true,
@@ -137,6 +166,7 @@ export default {
       fixed: false,
       expandOnHover: true,
       add_new_case: false,
+      send_new_message:false,
       color: "primary",
       btn_color: "#5778ff",
       isFullscreen: false,
