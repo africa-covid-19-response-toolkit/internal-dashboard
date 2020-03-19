@@ -65,7 +65,7 @@ import MonthlyCasesLineChart from "~/components/MonthlyCasesLineChart";
 import TotalDoghnut from "~/components/TotalDonut";
 import TotalRadar from "~/components/TotalSummaryRadarChart";
 import LineChart from "~/components/LineChart.vue";
-import TotalBarChart from "~/components/TotalBarchart.vue";
+import TotalBarChart from "~/components/TotalBarChart.vue";
 import VuetifyLogo from "~/components/VuetifyLogo.vue";
 
 export default {
