@@ -4,6 +4,8 @@
       v-model="drawer"
       :mini-variant="miniVariant"
       floating
+      dark
+      color="primary"
       mini-variant-width="54"
       :expand-on-hover="!smallScreen && expandOnHover"
       app
@@ -34,12 +36,12 @@
                 <v-icon large v-else>mdi-account</v-icon>
               </v-avatar>
             </v-list-item>
-            <v-list-item link two-line to="admins/profile">
+            <v-list-item link two-line to="/admins/profile">
               <v-list-item-content>
-                <v-list-item-title class="subtitle"
-                  >{{ admin.first_name }}
-                  {{ admin.last_name }}</v-list-item-title
-                >
+                <v-list-item-title class="subtitle">
+                  {{ admin.first_name }}
+                  {{ admin.last_name }}
+                </v-list-item-title>
                 <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action>
@@ -49,14 +51,7 @@
           </v-container>
 
           <v-divider class="mx-2"></v-divider>
-          <v-list-item
-            v-for="(item, i) in items"
-            :key="i"
-            :to="item.to"
-            dense
-            router
-            exact
-          >
+          <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" dense router exact>
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -68,22 +63,15 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-app-bar
-      dark
-      color="primary"
-      elevation="2"
-      hide-on-scroll
-      scroll-off-screen
-      app
-    >
+    <v-app-bar elevation="8" dark color="primary" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="title" />
-      <span class="overline mx-1 mt-4"> ALPHA</span>
+      <span class="overline mx-1 mt-4">ALPHA</span>
       <v-spacer />
 
-      <v-btn v-if="admin" text @click="add_new_case = true">+ NEW CASE</v-btn>
-      <v-btn text v-if="!admin" to="login">LOG IN</v-btn>
+      <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
+      <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
       <v-btn text v-else @click="signout">LOG OUT</v-btn>
 
       <v-btn icon @click="fullscreen">
@@ -104,21 +92,21 @@
         transition="dialog-bottom-transition"
         persistent
         v-model="add_new_case"
-        ><v-card tile>
+      >
+        <v-card tile>
           <v-toolbar flat dark color="primary">
             <v-btn icon dark @click="add_new_case = false">
               <v-icon>mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title>New Case Form</v-toolbar-title>
-            <v-spacer></v-spacer></v-toolbar
-          ><AddNewCases @successCallback="add_new_case = false"
-        /></v-card>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <AddNewCases @successCallback="add_new_case = false" />
+        </v-card>
       </v-dialog>
     </v-content>
     <v-footer small app>
-      <span class="overline">
-        &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems
-      </span>
+      <span class="overline">&copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems</span>
     </v-footer>
   </v-app>
 </template>
@@ -140,16 +128,55 @@ export default {
       color: "primary",
       btn_color: "#5778ff",
       isFullscreen: false,
-      items: [
+      public: [
         {
           icon: "mdi-apps",
           title: "Dashboard",
           to: "/"
         },
         {
-          icon: "mdi-account-group",
+          icon: "mdi-card-text",
           title: "Cases",
           to: "/cases"
+        },
+        {
+          icon: "mdi-map",
+          title: "Map",
+          to: "/maps"
+        },
+        {
+          icon: "mdi-earth",
+          title: "World Data",
+          to: "/world"
+        }
+      ],
+
+      adminsNav: [
+        {
+          icon: "mdi-apps",
+          title: "Dashboard",
+          to: "/"
+        },
+        {
+          icon: "mdi-card-text",
+          title: "Cases",
+          to: "/cases"
+        },
+
+        {
+          icon: "mdi-cellphone-message",
+          title: "Bulk SMS",
+          to: "/bulksms"
+        },
+        {
+          icon: "mdi-account-plus",
+          title: "Add Staff",
+          to: "/admins/add"
+        },
+        {
+          icon: "mdi-account-multiple",
+          title: "All Staffs",
+          to: "/admins/list"
         },
         {
           icon: "mdi-map",
@@ -197,6 +224,9 @@ export default {
     }
   },
   computed: {
+    navItems() {
+      return this.admin ? this.adminsNav : this.public;
+    },
     admin() {
       return this.$store.state.auth.user;
     },

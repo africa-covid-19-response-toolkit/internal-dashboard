@@ -1,5 +1,5 @@
 <template>
-  <v-card hover elevation="1" class="ma-0">
+  <v-card hover tile>
     <v-card-title>{{ name }}</v-card-title>
 
     <apexchart
@@ -29,6 +29,9 @@ export default {
       chartOptions: {
         theme: {
           palette: "palette6"
+        },
+        animations: {
+          enabled: false
         },
         plotOptions: {
           radialBar: {

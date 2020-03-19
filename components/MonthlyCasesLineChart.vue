@@ -1,14 +1,8 @@
 <template>
-  <v-card hover elevation="1">
+  <v-card hover tile>
     <v-card-title>{{ chart_title }}</v-card-title>
 
-    <apexchart
-      width="100%"
-      height="240"
-      type="area"
-      :options="getChartOptions"
-      :series="getSeries"
-    ></apexchart>
+    <apexchart width="100%" height="240" type="area" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -28,6 +22,9 @@ export default {
     return {
       chart_title: `ወርሃዊ መረጃ - ${new Date().getFullYear()}`,
       chartOptions: {
+        animations: {
+          enabled: false
+        },
         theme: {
           mode: "light",
           palette: "palette1",
@@ -55,8 +52,9 @@ export default {
             "Dec"
           ]
         },
+
         stroke: {
-          width: 3,
+          width: 2,
           curve: "smooth"
         },
         fill: {
@@ -74,11 +72,12 @@ export default {
             enabled: true,
 
             borderRadius: 10,
-            borderWidth: 1,
-            borderColor: "#fff",
+            borderWidth: 0.4,
+            borderColor: "#999",
             opacity: 0.9
           }
         },
+        legend: { position: "top", align: "left", horizontalAlign: "left" },
         responsive: [
           {
             breakpoint: 480,

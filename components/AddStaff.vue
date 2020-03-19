@@ -1,6 +1,6 @@
 <template>
   <v-container align-center>
-    <!-- <h4>ADD NEW ADMIN/STAFF</h4>
+    <h4>{{title}}</h4>
     <v-divider class="mt-4" />
     <v-card elevation="1" class="pa-4">
       <v-form lazy-validation ref="form">
@@ -68,47 +68,30 @@
         </v-row>
 
         <v-row>
+          <v-btn @click="$emit('canceled')" class="ma-8 my-auto">CANCEL</v-btn>
           <v-spacer />
           <v-progress-circular v-if="loading" color="primary" indeterminate class="my-auto mx-2" />
 
           <v-btn dark color="primary" @click.stop="saveForm" class="ma-8 my-auto">SAVE</v-btn>
         </v-row>
       </v-form>
-      <v-dialog v-model="success" width="460">
-        <v-card>
-          <v-card-title>Successfully added! {{newuser.first_name}}</v-card-title>
-          <v-card-text>PLEASE TELL {{newuser.first_name}} to change password after login in.</v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn small to="/" class="mx-4">HOME PAGE</v-btn>
-            <v-btn small color="primary" dark @click="success=false" class="mx-4">ADD OTHER USER</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-card>-->
-
-    <AddStaff @canceled="$router.push('/')" @successCallback="success=true" />
-
-    <v-dialog persistent v-model="success" width="460">
-      <v-card>
-        <v-card-title>Successfully added! {{newuser.first_name}}</v-card-title>
-        <v-card-text>PLEASE TELL {{newuser.first_name}} to change password after login in.</v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn small to="/" class="mx-4">HOME PAGE</v-btn>
-          <v-btn small color="primary" dark @click="success=false" class="mx-4">ADD OTHER USER</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    </v-card>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import AddStaff from "@/components/AddStaff";
 
 export default {
+  model: {
+    prop: ["case", "title"],
+    event: ["successCallback", "canceled"]
+  },
   props: {
+    title: {
+      type: String,
+      default: "ADD NEW ADMIN/STAFF"
+    },
     case: {
       type: Object,
       default: () => {
@@ -133,7 +116,7 @@ export default {
       }
     }
   },
-  components: { AddStaff },
+
   data() {
     return {
       rolenames: [
@@ -145,31 +128,7 @@ export default {
         "Kebele"
       ],
       rolevalues: [-1, -2, -3, -4, -5, -6],
-      status_amharic: [
-        "ማግለያ የገባ",
-        "ቫይረሱ የተገኘበት",
-        "ህክምና የጀመረ",
-        "በጠና የታመመ (ICU)",
-        "ያገገመ",
-        "ህይወቱ ያለፈ"
-      ],
-      status: [
-        "quarantined",
-        "confirmed",
-        "hospitalized",
-        "hospitalized_icu",
-        "recovered",
-        "dead"
-      ],
 
-      status_date_fields: [
-        "quarantine_time",
-        "detection_time",
-        "hospitaliztion_time",
-        "hospitaliztion_icu_time",
-        "recovery_time",
-        "death_time"
-      ],
       locationRequesting: false,
       tmep_role: "",
       loading: false,
@@ -185,8 +144,8 @@ export default {
     };
   },
   methods: {
-    ...mapActions("admins", [{ findAdmins: "find" }, { patchAdmin: "patch" }]),
-    saveForm() {
+    ...mapActions("admins", { findAdmins: "find", patchAdmin: "patch" }),
+    async saveForm() {
       if (!this.validate()) {
         return;
       }
@@ -198,28 +157,27 @@ export default {
 
       const { Admins } = this.$FeathersVuex.api;
 
-      // if (this.case.id && this.case.id > 0) {
-      //   // we are editing existion case
-      //   this.loading = true;
-      //   const data = this.formdata;
+      if (this.case.id && this.case.id > 0) {
+        // we are editing existion case
+        this.loading = true;
+        const data = this.formdata;
 
-      //   this.patchCase([this.case.id, data, {}])
-      //     .then(res => {
-      //       this.loading = false;
-      //       this.success = res;
-      //       this.$toast.show("Successfully added");
-      //       this.$refs.form.reset();
-      //     })
-      //     .catch(err => {
-      //       this.loading = false;
-      //       console.log(err);
-      //       this.$toast.error("Error " + err.message);
+        this.patchAdmin([this.case.id, data, {}])
+          .then(res => {
+            this.loading = false;
+            this.success = res;
+            this.$toast.show("Successfully edited");
+            this.$emit("successCallback");
+          })
+          .catch(err => {
+            this.loading = false;
+            console.log(err);
+            this.$toast.error("Error " + err.message);
+            this.err = err;
+          });
 
-      //       this.err = err;
-      //     });
-
-      //   return;
-      // }
+        return;
+      }
 
       this.loading = true;
       const statusIndex = this.rolenames.indexOf(this.tmep_role);
@@ -254,10 +212,10 @@ export default {
       new Admins(data)
         .create()
         .then(res => {
-          this.reset();
           this.loading = false;
           this.newuser = res;
           this.success = true;
+          this.$emit("successCallback");
         })
         .catch(err => {
           this.loading = false;
@@ -284,7 +242,16 @@ export default {
       this.$refs.form.resetValidation();
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.case && this.case.id) {
+      const index = this.rolevalues.indexOf(this.case.role);
+
+      this.tmep_role =
+        index >= 0 && index < this.rolenames.length
+          ? this.rolenames[index]
+          : "";
+    }
+  },
   computed: {
     admin() {
       return this.$store.state.auth.user;

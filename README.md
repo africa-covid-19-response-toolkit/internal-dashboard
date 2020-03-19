@@ -1,6 +1,10 @@
 # TackleCovid19
 
-> Tackle Covid19
+Covid19 outbreack status monitoring and case tracking front end
+
+# demo
+
+http://covid.fynsystems.com
 
 ## Build Setup
 
