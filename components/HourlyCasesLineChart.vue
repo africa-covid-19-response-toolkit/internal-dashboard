@@ -102,12 +102,9 @@ export default {
         return {
           ...this.chartOptions,
           xaxis: {
-            min: 1,
-            max: 24,
-
             labels: {
-              show: false,
-              yoffset: 10
+              show: true,
+              format: "hh"
             },
             type: "time",
             axisBorder: {

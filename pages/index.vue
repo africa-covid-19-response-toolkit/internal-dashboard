@@ -21,34 +21,46 @@
           </v-row>
         </v-card>
       </v-col>-->
-      <v-col v-for="(item, index) in getLiveStats" :key="index" xs="6" sm="4" md="4" lg="2">
-        <MiniStatistics
-          :subTitle="getCat(index)"
-          :title="`${item}`"
-          :color="getColorForCase(index)"
-        />
+      <v-col v-for="(item, index) in getLiveStats" :key="index" xs="6" sm="6" md="3" lg="2">
+        <v-lazy>
+          <MiniStatistics
+            :subTitle="getCat(index)"
+            :title="`${item}`"
+            :color="getColorForCase(index)"
+          />
+        </v-lazy>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
+        <v-lazy>
+          <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
+        </v-lazy>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="4" lg="4">
-        <TotalDoghnut :chartdata="getLiveTotal" />
+        <v-lazy>
+          <TotalDoghnut :chartdata="getLiveTotal" />
+        </v-lazy>
       </v-col>
 
       <v-col cols="12" xs="12" sm="6" md="8" lg="8">
-        <DailyCasesLineChart :chartdata="getDailyLiveStats" />
+        <v-lazy>
+          <DailyCasesLineChart :chartdata="getDailyLiveStats" />
+        </v-lazy>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="4" lg="4">
-        <TotalRadar :chartdata="getLiveTotalConfirmed" />
+        <v-lazy>
+          <TotalRadar :chartdata="getLiveTotalConfirmed" />
+        </v-lazy>
       </v-col>
       <v-col cols="12" xs="12" sm="6" md="8" lg="8">
-        <MonthlyCasesLineChart :chartdata="getMonthlyLiveStats" />
+        <v-lazy>
+          <MonthlyCasesLineChart :chartdata="getMonthlyLiveStats" />
+        </v-lazy>
       </v-col>
     </v-row>
   </v-container>

@@ -84,7 +84,9 @@
 
     <v-content>
       <v-container>
-        <nuxt />
+        <v-fade-transition>
+          <nuxt />
+        </v-fade-transition>
       </v-container>
       <v-dialog
         fullscreen
@@ -202,7 +204,7 @@ export default {
       await localStorage.clear();
       await this.logout();
       this.$router.push("/");
-      setTimeout(() => location.reload(true), 2 * 1000);
+      setTimeout(() => location.reload(true), 200);
 
       // location.reload(true);
     },

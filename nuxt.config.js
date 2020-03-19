@@ -38,6 +38,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    // { src: "~/plugins/leaflet.js", ssr: false },
     { src: "~/plugins/apex.chart.js" },
     { src: "~/plugins/feathers-vuex.js" },
     { src: "~/plugins/feathers-client.js" },
@@ -55,7 +56,12 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ["nuxt-client-init-module", "@nuxtjs/pwa", "@nuxtjs/toast"],
+  modules: [
+    "nuxt-client-init-module",
+    "@nuxtjs/pwa",
+    "@nuxtjs/toast",
+    "nuxt-leaflet"
+  ],
 
   toast: {
     position: "top-right",

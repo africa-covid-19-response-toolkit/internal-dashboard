@@ -68,8 +68,9 @@
         </v-row>
 
         <v-row>
-          <v-btn @click="$emit('canceled')" class="ma-8 my-auto">CANCEL</v-btn>
           <v-spacer />
+          <v-btn @click="$emit('canceled')" class="ma-8 my-auto">CANCEL</v-btn>
+
           <v-progress-circular v-if="loading" color="primary" indeterminate class="my-auto mx-2" />
 
           <v-btn dark color="primary" @click.stop="saveForm" class="ma-8 my-auto">SAVE</v-btn>
@@ -96,21 +97,21 @@ export default {
       type: Object,
       default: () => {
         return {
-          first_name: "Abebe",
-          last_name: "Kebede",
-          phone: "12345",
+          first_name: "",
+          last_name: "",
+          phone: "",
           email: "",
-          sex: "Male",
+          sex: "",
           image_url: "",
           role: -6,
-          kebele: "2",
-          town: "town",
-          woreda: "woreda",
-          kifleketema: "kifleketema",
-          city: "Bahir Dar",
-          zone: "Bahir Dar",
-          region: "Amhara",
-          country: "Ethiopia",
+          kebele: "",
+          town: "",
+          woreda: "",
+          kifleketema: "",
+          city: "",
+          zone: "",
+          region: "",
+          country: "",
           added_by: null
         };
       }
