@@ -150,7 +150,7 @@ export default {
           to: "/world"
         }
       ],
-      
+
       adminsNav: [
         {
           icon: "mdi-apps",
@@ -162,6 +162,7 @@ export default {
           title: "Cases",
           to: "/cases"
         },
+
         {
           icon: "mdi-cellphone-message",
           title: "Bulk SMS",
@@ -202,6 +203,7 @@ export default {
       await this.logout();
       this.$router.push("/");
       setTimeout(() => location.reload(true), 2 * 1000);
+
       // location.reload(true);
     },
     darkTheme() {
@@ -212,6 +214,7 @@ export default {
     },
     deleteAllCookies() {
       var cookies = document.cookie.split(";");
+
       for (var i = 0; i < cookies.length; i++) {
         var cookie = cookies[i];
         var eqPos = cookie.indexOf("=");
@@ -251,12 +254,13 @@ body,
 .bg {
   background-image: url("/svg/dashboard.svg");
   background-size: contain; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
 }
+
 html {
   overflow-y: auto !important;
 }
 </style>
- 
