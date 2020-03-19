@@ -5,11 +5,19 @@
         ><h4>DASHBOARD</h4>
         <h6>COVID19 LIVE STATUS - ETHIOPIA</h6></v-col
       >
-      <v-spacer /><v-progress-circular v-if="loading" /><v-btn @click="getStats"
+      <v-spacer /><v-progress-circular v-if="loading" /><v-btn @click="getStats" :loading="loading"
         >REFRESH</v-btn
       ></v-row
     >
     <v-divider class="mt-0" />
+
+
+<div v-if="loading">
+      <v-skeleton-loader boilerplate="false" type="table" tile="false" class="mx-auto"></v-skeleton-loader>
+    </div>
+
+    <div v-else>
+
     <v-row>
       <v-col
         v-for="(item, index) in getLiveStats"
@@ -43,6 +51,7 @@
         <MonthlyCasesLineChart :chartdata="getMonthlyLiveStats" />
       </v-col>
     </v-row>
+    </div>
   </v-container>
 </template>
 
@@ -79,7 +88,8 @@ export default {
         "በጠና የታመሙ",
         "ያገገሙ",
         "በሞት የተለዩ"
-      ]
+      ],
+      res_data: {},
     };
   },
   computed: {
@@ -234,6 +244,15 @@ export default {
 
   methods: {
     ...mapActions("stats", { findStats: "find" }),
+    async get_from_server() {
+      this.loading = true;
+      const res = await axios.get("https://coronavirus-scrapy.herokuapp.com/");
+
+      this.dateNoww = new Date().toLocaleString();
+
+      this.res_data = res.data;
+      this.loading = false;
+    },
     async getStats() {
       this.loading = true;
       await this.findStats({ query: {} })
@@ -250,6 +269,7 @@ export default {
   },
   created() {
     this.getStats();
+    //this.get_from_server();
   }
 };
 </script>
