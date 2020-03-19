@@ -65,7 +65,7 @@ export default {
     return {
       form: Object.assign({}, defaultForm),
       rules: {
-        number: [val => val.match(/\d/g).length === 12 || "This field is required"]
+        number: [val => val.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im) === 12 || "This field is required"]
       },
       snackbar: false,
       defaultForm
