@@ -1,6 +1,13 @@
 <template>
   <v-card hover tile>
-    <apexchart width="100%" height="160" type="area" :options="getChartOptions" :series="getSeries"></apexchart>
+    <v-card-title>{{ chart_title }}</v-card-title>
+    <apexchart
+      width="100%"
+      height="160"
+      type="area"
+      :options="getChartOptions"
+      :series="getSeries"
+    ></apexchart>
   </v-card>
 </template>
 
@@ -34,7 +41,6 @@ export default {
           }
         },
         title: {
-          text: `የየስዓቱ መረጃ  - ${new Date().toDateString()}`,
           align: "left",
           margin: 10,
           offsetX: 0,
@@ -47,7 +53,6 @@ export default {
             color: "#263238"
           }
         },
-
         grid: {
           show: false
         },
