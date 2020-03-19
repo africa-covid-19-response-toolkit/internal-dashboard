@@ -115,6 +115,7 @@
 import Util from "@/util/util";
 import AddNewCases from "@/components/AddNewCases";
 import { mapActions, mapMutations } from "vuex";
+
 export default {
   components: { AddNewCases },
   data() {
