@@ -69,13 +69,9 @@
       <v-toolbar-title v-text="title" />
       <span class="overline mx-1 mt-4">ALPHA</span>
       <v-spacer />
-      
-      <!-- message button -->
-      <v-btn v-if="admin" text @click="send_new_message = true">+ NEW Message</v-btn>
-      <!-- message button -->
 
-      <v-btn v-if="admin" text @click="add_new_case = true">+ NEW CASE</v-btn>
-      <v-btn text v-if="!admin" to="login">LOG IN</v-btn>
+      <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
+      <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
       <v-btn text v-else @click="signout">LOG OUT</v-btn>
 
       <v-btn icon @click="fullscreen">
@@ -109,30 +105,6 @@
         </v-card>
       </v-dialog>
     </v-content>
-
-    <!-- message button -->
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-      <v-dialog
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
-        persistent
-        v-model="send_new_message"
-        ><v-card tile>
-          <v-toolbar flat dark color="primary">
-            <v-btn icon dark @click="send_new_message = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title>Send Message</v-toolbar-title>
-            <v-spacer></v-spacer></v-toolbar
-          ><SendNewMessage @successCallback="send_new_message = false"
-        /></v-card>
-      </v-dialog>
-    </v-content>
-    <!-- message button -->
     <v-footer small app>
       <span class="overline">&copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems</span>
     </v-footer>
@@ -141,12 +113,10 @@
 
 <script>
 import Util from "@/util/util";
-import SendNewMessage from "@/components/SendNewMessage"
 import AddNewCases from "@/components/AddNewCases";
 import { mapActions, mapMutations } from "vuex";
-
 export default {
-  components: { AddNewCases, SendNewMessage },
+  components: { AddNewCases },
   data() {
     return {
       clipped: true,
@@ -154,7 +124,6 @@ export default {
       fixed: false,
       expandOnHover: true,
       add_new_case: false,
-      send_new_message:false,
       color: "primary",
       btn_color: "#5778ff",
       isFullscreen: false,
@@ -180,7 +149,6 @@ export default {
           to: "/world"
         }
       ],
-
       adminsNav: [
         {
           icon: "mdi-apps",
@@ -192,7 +160,6 @@ export default {
           title: "Cases",
           to: "/cases"
         },
-
         {
           icon: "mdi-cellphone-message",
           title: "Bulk SMS",
@@ -233,7 +200,6 @@ export default {
       await this.logout();
       this.$router.push("/");
       setTimeout(() => location.reload(true), 2 * 1000);
-
       // location.reload(true);
     },
     darkTheme() {
@@ -244,7 +210,6 @@ export default {
     },
     deleteAllCookies() {
       var cookies = document.cookie.split(";");
-
       for (var i = 0; i < cookies.length; i++) {
         var cookie = cookies[i];
         var eqPos = cookie.indexOf("=");
@@ -284,13 +249,12 @@ body,
 .bg {
   background-image: url("/svg/dashboard.svg");
   background-size: contain; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
 }
-
 html {
   overflow-y: auto !important;
 }
 </style>
+ 
