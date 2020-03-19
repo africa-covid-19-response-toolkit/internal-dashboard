@@ -6,6 +6,10 @@ Covid19 outbreack status monitoring and case tracking front end
 
 http://covid.fynsystems.com
 
+demo credentials
+username: 1234567890
+password: password
+
 ## Build Setup
 
 ```bash
