@@ -1,23 +1,15 @@
 <template>
   <v-container align-center>
-    <h4>ADD NEW CASE</h4>
+    <h4>{{title}}</h4>
     <v-divider class="mt-4" />
     <v-card elevation="1" class="pa-4">
       <v-form lazy-validation ref="form">
         <v-row>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="First Name"
-              v-model="formdata.first_name"
-            />
+            <v-text-field :rules="nameRules" label="First Name" v-model="formdata.first_name" />
           </v-col>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Last Name"
-              v-model="formdata.last_name"
-            />
+            <v-text-field :rules="nameRules" label="Last Name" v-model="formdata.last_name" />
           </v-col>
         </v-row>
 
@@ -33,12 +25,7 @@
 
         <v-row>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              type="number"
-              label="Age"
-              v-model="formdata.age"
-            />
+            <v-text-field :rules="nameRules" type="number" label="Age" v-model="formdata.age" />
           </v-col>
           <v-col xs="12" sm="6" md="6" lg="5">
             <v-select
@@ -51,74 +38,38 @@
         </v-row>
         <v-row>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Kebele"
-              v-model="formdata.kebele"
-            />
+            <v-text-field :rules="nameRules" label="Kebele" v-model="formdata.kebele" />
           </v-col>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Town"
-              v-model="formdata.town"
-            />
+            <v-text-field :rules="nameRules" label="Town" v-model="formdata.town" />
           </v-col>
         </v-row>
 
         <v-row>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="woreda"
-              v-model="formdata.woreda"
-            />
+            <v-text-field :rules="nameRules" label="woreda" v-model="formdata.woreda" />
           </v-col>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Kifle Ketema"
-              v-model="formdata.kifleketema"
-            />
+            <v-text-field :rules="nameRules" label="Kifle Ketema" v-model="formdata.kifleketema" />
           </v-col>
         </v-row>
         <v-row>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="City"
-              v-model="formdata.city"
-            />
+            <v-text-field :rules="nameRules" label="City" v-model="formdata.city" />
           </v-col>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Zone"
-              v-model="formdata.zone"
-            />
+            <v-text-field :rules="nameRules" label="Zone" v-model="formdata.zone" />
           </v-col>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Region"
-              v-model="formdata.region"
-            />
+            <v-text-field :rules="nameRules" label="Region" v-model="formdata.region" />
           </v-col>
         </v-row>
         <v-row>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Country"
-              v-model="formdata.country"
-            />
+            <v-text-field :rules="nameRules" label="Country" v-model="formdata.country" />
           </v-col>
           <v-col xs="12" sm="6" md="6" lg="5">
-            <v-text-field
-              :rules="nameRules"
-              label="Nationality"
-              v-model="formdata.nationality"
-            />
+            <v-text-field :rules="nameRules" label="Nationality" v-model="formdata.nationality" />
           </v-col>
         </v-row>
 
@@ -144,12 +95,8 @@
               </template>
               <v-date-picker v-model="date" no-title scrollable>
                 <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="datepicker = false"
-                  >Cancel</v-btn
-                >
-                <v-btn text color="primary" @click="$refs.onset_menu.save(date)"
-                  >OK</v-btn
-                >
+                <v-btn text color="primary" @click="datepicker = false">Cancel</v-btn>
+                <v-btn text color="primary" @click="$refs.onset_menu.save(date)">OK</v-btn>
               </v-date-picker>
             </v-menu>
           </v-col>
@@ -184,47 +131,44 @@
               </template>
               <v-date-picker v-model="date_status" no-title scrollable>
                 <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="datepicker_status = false"
-                  >Cancel</v-btn
-                >
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.status_date_menu.save(date_status)"
-                  >OK</v-btn
-                >
+                <v-btn text color="primary" @click="datepicker_status = false">Cancel</v-btn>
+                <v-btn text color="primary" @click="$refs.status_date_menu.save(date_status)">OK</v-btn>
               </v-date-picker>
             </v-menu>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col xs="12" sm="6" md="6" lg="5">
+            <v-text-field
+              label="Hospitalized At (if hospitalized)"
+              v-model="formdata.hospitalizedAt"
+            />
+          </v-col>
+          <!-- <v-col xs="12" sm="6" md="6" lg="5">
+            <v-text-field :rules="nameRules" label="Town" v-model="formdata.town" />
+          </v-col>-->
+        </v-row>
+        <v-divider />
         <v-row>Geo Location (GPS) (optional)</v-row>
-        <v-row
-          ><v-progress-linear indeterminate v-if="locationRequesting"
-        /></v-row>
+        <v-row>
+          <v-progress-linear indeterminate v-if="locationRequesting" />
+        </v-row>
         <v-row>
           <v-col xs="12" sm="6" md="4" lg="4">
-            <v-text-field
-              type="number"
-              label="Latitude"
-              v-model="formdata.lat"
-            />
+            <v-text-field type="number" label="Latitude" v-model="formdata.lat" />
           </v-col>
           <v-col xs="12" sm="6" md="4" lg="4">
-            <v-text-field
-              type="number"
-              label="Longtitude"
-              v-model="formdata.lng"
-            />
+            <v-text-field type="number" label="Longtitude" v-model="formdata.lng" />
           </v-col>
-          <v-btn color="primary" @click="requestLocation"
-            >Use this device's GPS</v-btn
-          >
+          <v-btn color="primary" @click="requestLocation">Use this device's GPS</v-btn>
         </v-row>
         <v-row>
           <v-spacer></v-spacer>
-          <v-btn dark color="primary" @click.stop="saveForm" class="ma-8"
-            >SAVE</v-btn
-          >
+
+          <v-btn dark color="primary" @click.stop="saveForm" class="ma-8">SAVE</v-btn>
+        </v-row>
+        <v-row class="my-0 mx-1">
+          <v-progress-linear indeterminate v-if="loading" />
         </v-row>
       </v-form>
     </v-card>
@@ -236,10 +180,14 @@ import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   model: {
-    prop: "case",
+    prop: ["case", "title"],
     event: "successCallback"
   },
   props: {
+    title: {
+      type: String,
+      default: "ADD NEW CASE"
+    },
     case: {
       type: Object,
       default: () => {
@@ -259,6 +207,7 @@ export default {
           country: "Ethiopia",
           nationality: "",
           status: "",
+          hospitalizedAt: "",
           lat: null,
           lng: null
         };
@@ -293,6 +242,7 @@ export default {
         "recovery_time",
         "death_time"
       ],
+      loading: false,
       locationRequesting: false,
       temp_status: false,
       datepicker: false,
@@ -314,6 +264,11 @@ export default {
         return;
       }
 
+      if (!this.admin) {
+        this.$toast.error("Unautherized! You must be logged in first!");
+        return;
+      }
+
       const { cases } = this.$FeathersVuex.api;
 
       if (this.case.id && this.case.id > 0) {
@@ -324,7 +279,6 @@ export default {
         if (this.case.status !== this.temp_status) {
           const statusIndex = this.status_amharic.indexOf(this.temp_status);
           data.status = this.status[statusIndex];
-          // data.symptom_onset = Date.parse(this.date);
 
           if (this.status_date_fields[statusIndex]) {
             data[this.status_date_fields[statusIndex]] = Date.parse(
@@ -332,6 +286,8 @@ export default {
             );
           }
         }
+
+        data.added_by = this.admin.id;
 
         await this.patchCase([this.case.id, data, {}])
           .then(res => {
@@ -374,7 +330,7 @@ export default {
         .then(res => {
           this.loading = false;
           this.success = res;
-
+          this.reset();
           this.$emit("successCallback");
         })
         .catch(err => {
@@ -400,6 +356,11 @@ export default {
     },
     resetValidation() {
       this.$refs.form.resetValidation();
+    }
+  },
+  computed: {
+    admin() {
+      return this.$store.state.auth.user;
     }
   },
   mounted() {

@@ -18,7 +18,9 @@ if (process.client) {
 } else {
   restClient = rest(apiUrl);
 }
-const transport = process.client ? socketio(socket) : restClient.axios(axios);
+const transport = process.client
+  ? socketio(socket, { timeout: 15000 })
+  : restClient.axios(axios);
 const storage = new CookieStorage();
 
 const feathersClient = feathers()

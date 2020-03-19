@@ -37,45 +37,81 @@
             color="primary"
             @click.stop="fetchCases"
             class="mb-7 ml-4 py-1"
-            >SEARCH</v-btn
-          >
+          >SEARCH</v-btn>
         </v-toolbar>
       </template>
 
-      <template v-slot:item.disabled="{ item }">
-        <v-icon small :color="item.disabled ? 'red' : 'green'">{{
-          item.disabled ? "mdi-alert-circle" : "mdi-checkbox-marked-circle"
-        }}</v-icon>
-      </template>
       <template v-slot:item.status="{ item }">
         <v-chip
           :color="getColor(item.status)"
           small
           dark
           class="caption label pt-1 pb-1"
-          >{{ getStatus(item.status) }}</v-chip
-        >
+        >{{ getStatus(item.status) }}</v-chip>
       </template>
       <template v-slot:item.action="{ item }">
-        <v-menu bottom left>
-          <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
-
-          <v-list>
-            <v-list-item
-              v-for="(menu, i) in getMenuItems(item)"
-              :key="i"
-              @click.stop="menuClicked(menu, item)"
-            >
-              <v-list-item-title>{{ menu.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-btn
+          v-if="user && (item.added_by === user.id || user.role>=-5)"
+          icon
+          @click="editItem(item)"
+        >
+          <v-icon small>mdi-pencil</v-icon>
+        </v-btn>
       </template>
     </v-data-table>
+    <v-dialog width="640" v-model="dialog">
+      <v-card class="pa-4">
+        <v-card-title>Edit Case Status - {{editedItem.first_name}} {{editedItem.last_name}}</v-card-title>
+        <v-alert
+          color="error"
+          border="left"
+          elevation="2"
+          outlined
+          dismissable
+          v-model="error"
+        >{{error}}</v-alert>
+        <v-form ref="editForm">
+          <v-col>
+            <v-select
+              :rules="nameRules"
+              :items="status_amharic"
+              label="Patient Status"
+              v-model="temp_status"
+            />
+
+            <v-menu
+              ref="status_date_menu"
+              v-model="datepicker_status"
+              :close-on-content-click="false"
+              :return-value.sync="date_status"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="date_status"
+                  label="Date for the status"
+                  prepend-icon="mdi-calendar-check"
+                  readonly
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="date_status" no-title scrollable>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="datepicker_status = false">Cancel</v-btn>
+                <v-btn text color="primary" @click="$refs.status_date_menu.save(date_status)">OK</v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-row>
+            <v-spacer />
+            <v-btn @click="dialog=false" small class="ma-4">CANCEL</v-btn>
+            <v-btn @click="saveForm" color="primary" small class="ma-4">SAVE</v-btn>
+          </v-row>
+        </v-form>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -94,6 +130,38 @@ export default {
   //   props: { userRole: Number },
   data() {
     return {
+      status_amharic: [
+        "ማግለያ የገባ",
+        "ቫይረሱ የተገኘበት",
+        "ህክምና የጀመረ",
+        "በጠና የታመመ (ICU)",
+        "ያገገመ",
+        "ህይወቱ ያለፈ"
+      ],
+      status: [
+        "quarantined",
+        "confirmed",
+        "hospitalized",
+        "hospitalized_icu",
+        "recovered",
+        "dead"
+      ],
+      error: false,
+      dialog: false,
+      nameRules: [v => !!v || "This is required"],
+
+      status_date_fields: [
+        "quarantine_time",
+        "detection_time",
+        "hospitaliztion_time",
+        "hospitaliztion_icu_time",
+        "recovery_time",
+        "death_time"
+      ],
+      temp_status: false,
+      datepicker: false,
+      datepicker_status: false,
+      date_status: new Date().toISOString().substr(0, 10),
       menu_items: [
         { title: "Edit" }
         // { title: "Disable" },
@@ -135,7 +203,8 @@ export default {
         { text: "Region", value: "region" },
         { text: "Nationality", value: "nationality" },
         { text: "status", value: "status", align: "center" },
-        { text: "Actions", value: "action", sortable: false }
+        { text: "Hospital", value: "hospitalizedAt", align: "center" },
+        { text: "Edit", value: "action", sortable: false }
       ],
       // cases: [],
 
@@ -151,13 +220,52 @@ export default {
         mustSort: false,
         search: "",
         searchFeild: ["nationality", "region", "description", "email"]
-      }
+      },
+      editedItem: false
     };
   },
 
   methods: {
-    ...mapActions("cases", { patch: "patch", fetchFromServer: "find" }),
+    ...mapActions("cases", { patchCase: "patch", fetchFromServer: "find" }),
 
+    async saveForm() {
+      if (!this.$refs.editForm.validate()) {
+        return;
+      }
+
+      if (!this.user) {
+        this.error = "Unautherized! You must be logged in first!";
+        this.$toast.error("Unautherized! You must be logged in first!");
+        return;
+      }
+
+      // we are editing existion case
+      this.loading = true;
+      const data = {};
+
+      const statusIndex = this.status_amharic.indexOf(this.temp_status);
+      data.status = this.status[statusIndex];
+
+      if (this.status_date_fields[statusIndex]) {
+        data[this.status_date_fields[statusIndex]] = Date.parse(
+          this.date_status
+        );
+      }
+      data.added_by = this.user.id;
+
+      await this.patchCase([this.editedItem.id, data, {}])
+        .then(res => {
+          this.loading = false;
+          this.dialog = false;
+          this.$toast.show("Successfully Edited");
+        })
+        .catch(err => {
+          this.loading = false;
+          console.log(err);
+          this.$toast.error("Cannot save ... \n" + err.msg);
+          this.error = true;
+        });
+    },
     getMenuItems(item) {
       return item && !item.disabled
         ? this.menu_items
@@ -197,7 +305,12 @@ export default {
     },
 
     editItem(item) {
-      // this.editedIndex = this.cases.indexOf(item);
+      const index = this.status.indexOf(item.status);
+      if (index >= 0 && index < this.status_amharic.length) {
+        this.temp_status = this.status_amharic[index];
+      } else {
+        this.temp_status = "";
+      }
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
@@ -298,9 +411,7 @@ export default {
       }
     },
     user() {
-      return this.$store.state.auth.payload
-        ? this.$store.state.auth.payload.users || {}
-        : null;
+      return this.$store.state.auth.user;
     },
     skipAmount() {
       return (this.tableProps.page - 1) * this.tableProps.perPage;

@@ -1,43 +1,51 @@
 <template>
   <v-container align-center>
-    <v-row
-      ><v-col class="my-0"
-        ><h4>DASHBOARD</h4>
-        <h6>COVID19 LIVE STATUS - ETHIOPIA</h6></v-col
-      >
-      <v-spacer /><v-progress-circular v-if="loading" /><v-btn @click="getStats"
-        >REFRESH</v-btn
-      ></v-row
-    >
+    <v-row>
+      <v-col class="my-0">
+        <h4>DASHBOARD</h4>
+        <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
+      </v-col>
+      <v-spacer />
+      <v-alert dark color="warning">THIS IS A DEMO!! IT IS NOT REAL DATA</v-alert>
+      <v-spacer />
+      <v-progress-circular indeterminate color="primary" v-if="loading" class="my-auto mx-2" />
+      <v-btn rounded small color="primary" class="my-auto" @click="getStats">REFRESH</v-btn>
+    </v-row>
     <v-divider class="mt-0" />
     <v-row>
-      <v-col
-        v-for="(item, index) in getLiveStats"
-        :key="index"
-        xs="6"
-        sm="10"
-        md="3"
-        lg="2"
-      >
-        <v-card height="90px" elevation="1" class="pb-1 my-0">
-          <v-card-title>
-            <h1>{{ item }}</h1>
-          </v-card-title>
-          <v-card-subtitle>{{ getCat(index) }}</v-card-subtitle>
+      <!-- <v-col v-for="(item, index) in getLiveStats" :key="index" xs="6" sm="4" md="4" lg="2">
+        <v-card tile hover class="pb-1 my-0 align-content-center">
+          <v-row class="mx-auto my-auto align-center">
+              <span class="ml-2 pt-1 display-1">{{ item }}</span>
+            <span class="caption mx-2">{{ getCat(index) }}</span>
+          </v-row>
         </v-card>
+      </v-col>-->
+      <v-col v-for="(item, index) in getLiveStats" :key="index" xs="6" sm="4" md="4" lg="2">
+        <MiniStatistics
+          :subTitle="getCat(index)"
+          :title="`${item}`"
+          :color="getColorForCase(index)"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="4" lg="4">
-        <TotalRadar :chartdata="getLiveTotalConfirmed" />
+        <TotalDoghnut :chartdata="getLiveTotal" />
       </v-col>
+
       <v-col cols="12" xs="12" sm="6" md="8" lg="8">
         <DailyCasesLineChart :chartdata="getDailyLiveStats" />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" xs="12" sm="6" md="4" lg="4">
-        <TotalDoghnut :chartdata="getLiveTotal" />
+        <TotalRadar :chartdata="getLiveTotalConfirmed" />
       </v-col>
       <v-col cols="12" xs="12" sm="6" md="8" lg="8">
         <MonthlyCasesLineChart :chartdata="getMonthlyLiveStats" />
@@ -49,8 +57,10 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 
-import DailyCasesBarChart from "~/components/DailyCasesBarChart";
+// import DailyCasesBarChart from "~/components/DailyCasesBarChart";
+import MiniStatistics from "~/components/MiniStatistics";
 import DailyCasesLineChart from "~/components/DailyCasesLineChart";
+import HourlyCasesLineChart from "~/components/HourlyCasesLineChart";
 import MonthlyCasesLineChart from "~/components/MonthlyCasesLineChart";
 import TotalDoghnut from "~/components/TotalDonut";
 import TotalRadar from "~/components/TotalSummaryRadarChart";
@@ -60,8 +70,9 @@ import VuetifyLogo from "~/components/VuetifyLogo.vue";
 
 export default {
   components: {
-    DailyCasesBarChart,
+    HourlyCasesLineChart,
     MonthlyCasesLineChart,
+    MiniStatistics,
     TotalRadar,
     DailyCasesLineChart,
     TotalDoghnut,
@@ -79,6 +90,14 @@ export default {
         "በጠና የታመሙ",
         "ያገገሙ",
         "በሞት የተለዩ"
+      ],
+      status: [
+        "quarantined",
+        "confirmed",
+        "hospitalized",
+        "hospitalized_icu",
+        "recovered",
+        "dead"
       ]
     };
   },
@@ -109,6 +128,47 @@ export default {
       }
       return 0;
     },
+    getHourlyLiveStats() {
+      const all = this.findStatStore({ query: {} });
+      if (all && all.data && all.data.length > 0) {
+        const daily = all.data[0].today;
+
+        // const currentMonth = nonths[daily.month];
+
+        const xaxis = { categories: daily.labels };
+
+        const series = [
+          {
+            name: "ማግለያ የገቡ",
+            data: daily.quarantined.data
+          },
+          {
+            name: "ቫይረሱ የተገኘባቸው",
+            data: daily.confirmed.data
+          },
+          {
+            name: "ህክምና የገቡ",
+            data: daily.hospitalized.data
+          },
+          {
+            name: "በጠና የታመሙ",
+            data: daily.hospitalized_icu.data
+          },
+          {
+            name: "ያገገሙ",
+            data: daily.recovered.data
+          },
+          {
+            name: "በሞት የተለዩ",
+            data: daily.dead.data
+          }
+        ];
+
+        const d = { series, xaxis };
+        return d;
+      }
+      return {};
+    },
 
     getDailyLiveStats() {
       const all = this.findStatStore({ query: {} });
@@ -134,8 +194,20 @@ export default {
 
         const series = [
           {
+            name: "ማግለያ የገቡ",
+            data: daily.quarantined.data
+          },
+          {
             name: "ቫይረሱ የተገኘባቸው",
             data: daily.confirmed.data
+          },
+          {
+            name: "ህክምና የገቡ",
+            data: daily.hospitalized.data
+          },
+          {
+            name: "በጠና የታመሙ",
+            data: daily.hospitalized_icu.data
           },
           {
             name: "ያገገሙ",
@@ -175,8 +247,20 @@ export default {
 
         const series = [
           {
+            name: "ማግለያ የገቡ",
+            data: daily.quarantined.data
+          },
+          {
             name: "ቫይረሱ የተገኘባቸው",
             data: daily.confirmed.data
+          },
+          {
+            name: "ህክምና የገቡ",
+            data: daily.hospitalized.data
+          },
+          {
+            name: "በጠና የታመሙ",
+            data: daily.hospitalized_icu.data
           },
           {
             name: "ያገገሙ",
@@ -199,6 +283,7 @@ export default {
 
         // const currentMonth = nonths[daily.month];
 
+        this.case_names_eng = dt.labels;
         const series = [...dt.data];
         series.splice(0, 1);
         return { series };
@@ -210,16 +295,7 @@ export default {
       if (all && all.data && all.data.length > 0) {
         const dt = all.data[0].total;
 
-        // const currentMonth = nonths[daily.month];
-
         const series = [];
-        // series.push(st.data[dt.labels.indexOf("confirmed")]);
-        // series.push(
-        //   st.data[dt.labels.indexOf("hospitalized")] +
-        //     st.data[dt.labels.indexOf("hospitalized_icu")]
-        // );
-        // series.push(st.data[dt.labels.indexOf("recovered")]);
-        // series.push(st.data[dt.labels.indexOf("dead")]);
 
         console.log(dt.data);
         series.push(dt.data[2]);
@@ -246,6 +322,16 @@ export default {
     },
     getCat: function(index) {
       return this.labels[index];
+    },
+    getColorForCase: function(index) {
+      const status = this.status[index];
+      if (status === "quarantined") return "blue";
+      else if (status === "confirmed") return "red";
+      else if (status === "hospitalized") return "orange";
+      else if (status === "hospitalized_icu") return "brown";
+      else if (status === "recovered") return "green";
+      else if (status === "dead") return "black";
+      else return "grey";
     }
   },
   created() {

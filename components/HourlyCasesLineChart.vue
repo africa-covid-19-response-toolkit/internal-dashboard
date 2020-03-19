@@ -1,8 +1,6 @@
 <template>
   <v-card hover tile>
-    <v-card-title>{{ chart_title }}</v-card-title>
-
-    <apexchart width="100%" height="240" type="area" :options="getChartOptions" :series="getSeries"></apexchart>
+    <apexchart width="100%" height="160" type="area" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -20,8 +18,11 @@ export default {
   },
   data: function() {
     return {
-      chart_title: `ዬየቀን መረጃ  - ${new Date().toDateString()}`,
+      chart_title: `የየስዓቱ መረጃ  - ${new Date().toDateString()}`,
       chartOptions: {
+        animations: {
+          enabled: false
+        },
         theme: {
           mode: this.$vuetify.theme.dark ? "dark" : "light",
           palette: "palette1",
@@ -32,6 +33,24 @@ export default {
             shadeIntensity: 0.55
           }
         },
+        title: {
+          text: `የየስዓቱ መረጃ  - ${new Date().toDateString()}`,
+          align: "left",
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize: "14px",
+            fontWeight: "bold",
+            fontFamily: undefined,
+            color: "#263238"
+          }
+        },
+
+        grid: {
+          show: false
+        },
         dataLabels: {
           enabled: false
         },
@@ -39,9 +58,9 @@ export default {
           width: 2,
           curve: "smooth"
         },
-        xaxis: this.xaxis,
-        animations: {
-          enabled: false
+
+        fill: {
+          type: "gradient"
         },
         dataLabels: {
           enabled: true,
@@ -82,7 +101,27 @@ export default {
       if (this.chartdata && this.chartdata.xaxis) {
         return {
           ...this.chartOptions,
-          xaxis: this.chartdata.xaxis,
+          xaxis: {
+            min: 1,
+            max: 24,
+
+            labels: {
+              show: false,
+              yoffset: 10
+            },
+            type: "time",
+            axisBorder: {
+              show: false
+            }
+          },
+          yaxis: {
+            labels: {
+              show: false
+            },
+            axisBorder: {
+              show: false
+            }
+          },
           theme: {
             mode: this.$vuetify.theme.dark ? "dark" : "light",
             palette: "palette6"
@@ -96,10 +135,8 @@ export default {
       this.$vuetify.theme.dark ? "dark" : "light";
     },
     getSeries() {
-      return this.chartdata
+      return this.chartdata && this.chartdata.series
         ? this.chartdata.series
-          ? this.chartdata.series
-          : []
         : [];
     }
   },

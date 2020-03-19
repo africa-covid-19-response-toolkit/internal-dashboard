@@ -1,5 +1,5 @@
 <template>
-  <v-card hover elevation="1">
+  <v-card hover tile>
     <v-card-title>{{ name }}</v-card-title>
     <apexchart
       ref="donut"
@@ -42,6 +42,9 @@ export default {
         },
         theme: {
           palette: "palette6"
+        },
+        animations: {
+          enabled: false
         },
         labels: [
           "ማግለያ የገቡ",
