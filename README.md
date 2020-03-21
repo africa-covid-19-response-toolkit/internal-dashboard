@@ -26,3 +26,8 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
+
+
+##License
+GPLv3 
+https://www.gnu.org/licenses/gpl-3.0.en.html
