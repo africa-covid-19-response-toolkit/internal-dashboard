@@ -341,7 +341,13 @@ export default {
     },
     requestLocation() {
       this.locationRequesting = true;
-      navigator.geolocation.getCurrentPosition(this.onLocationReady);
+      navigator.geolocation.getCurrentPosition(
+        this.onLocationReady,
+        function error(msg) {
+          alert("Please enable your GPS position feature.");
+        },
+        { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true }
+      );
     },
     onLocationReady(location) {
       this.locationRequesting = false;

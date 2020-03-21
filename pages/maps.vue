@@ -2,9 +2,15 @@
   <v-layout id="map-wrap" style="height: 100vh">
     <client-only>
       <l-map :zoom="6" :center="[8.997062, 38.769894]">
-        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-
-        <l-marker v-for="(item,index) in markers" :key="index" :lat-lng="item"></l-marker>
+        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+        <l-marker
+          v-for="(item, index) in getFromStore"
+          :key="index"
+          :lat-lng="item.latlng"
+          @add="$nextTick(() => $event.target.openPopup())"
+        >
+          <l-popup :content="item.info"></l-popup>
+        </l-marker>
       </l-map>
     </client-only>
   </v-layout>
@@ -30,36 +36,40 @@ export default {
   },
 
   methods: {
-    ...mapActions("cases", { fetchCases: "find" }),
-    fetchCaseServer() {
-      this.loading = true;
-      this.fetchCases({ query: {} })
-        .then(res => {
-          this.loading = false;
-          this.markers = [];
-          res.data.forEach(item => {
-            if (item.lat && item.lng) {
-              this.markers.push([item.lat, item.lng, item.status]);
-            }
-          });
-        })
-        .catch(err => {
-          this.loading = false;
-        });
-    }
+    ...mapActions("cases", { fetchCases: "find" })
   },
   computed: {
     ...mapGetters("cases", { getCasesStore: "find" }),
     getFromStore() {
       const d = this.getCasesStore({ query: {} });
       console.log(d);
-      return d.data.filter(item => {
-        return item && item.lat != null && item.lng != null;
+      const markers = [];
+      const markersWithInfo = {};
+
+      d.data.forEach(item => {
+        if (item.lat != null && item.lng != null) {
+          const latlng = [item.lat, item.lng];
+          const info = `${item.first_name} ${item.last_name}</br> status:${item.status}`;
+          markers.push({ latlng, info });
+        }
       });
+
+      return markers;
     }
   },
   mounted() {
-    this.fetchCaseServer();
+    this.fetchCases({
+      query: {
+        $select: ["lat", "lng", "status", "id", "first_name", "last_name"]
+      }
+    })
+      .then(res => {
+        this.loading = false;
+      })
+      .catch(err => {
+        this.loading = false;
+        console.log(err);
+      });
   }
 };
 </script>

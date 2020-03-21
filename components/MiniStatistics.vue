@@ -1,16 +1,14 @@
 <template>
-  <v-card tile hover :color="color">
+  <v-card tile hover height="54" :color="color">
     <v-card-text class="pa-0">
-      <v-container class="pa-0">
-        <div class="layout row ma-0">
-          <div class="sm4 xs4 flex text-sm-center py-3 white--text" :class="color">
-            <div class="headline">{{ title }}</div>
-          </div>
-          <div class="sm8 xs8 flex text-sm-center py-3 white--text">
-            <div class="caption">{{ subTitle }}</div>
-          </div>
-        </div>
-      </v-container>
+      <div class="layout row ma-0">
+        <div
+          style="text-align:center; height=100%;"
+          :class="color"
+          class="sm4 xs4 flex text-sm-center white--text display-1 my-auto"
+        >{{ title }}</div>
+        <div class="sm8 caption xs8 flex text-sm-center py-3 white--text">{{ subTitle }}</div>
+      </div>
     </v-card-text>
   </v-card>
 </template>

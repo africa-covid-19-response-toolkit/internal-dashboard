@@ -21,6 +21,7 @@
     "@nuxtjs/toast": "^3.3.0",
     "@vue/composition-api": "^0.4.0",
     "apexcharts": "^3.16.1",
+    "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "cookie-storage": "^6.0.0",
     "echarts": "^4.6.0",
@@ -37,9 +38,10 @@
     "vue2-leaflet": "^2.5.2"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.0.0",
+    "@fortawesome/fontawesome-free": "^5.12.1",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
+    "@nuxtjs/vuetify": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.1.0",
     "eslint-plugin-nuxt": ">=0.4.2"

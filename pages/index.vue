@@ -6,8 +6,7 @@
         <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
       </v-col>
       <v-spacer />
-      <v-alert dark color="warning">THIS IS A DEMO!! IT IS NOT REAL DATA</v-alert>
-      <v-spacer />
+
       <v-progress-circular indeterminate color="primary" v-if="loading" class="my-auto mx-2" />
       <v-btn rounded small color="primary" class="my-auto" @click="getStats">REFRESH</v-btn>
     </v-row>
@@ -21,7 +20,7 @@
           </v-row>
         </v-card>
       </v-col>-->
-      <v-col v-for="(item, index) in getLiveStats" :key="index" xs="6" sm="6" md="3" lg="2">
+      <v-col v-for="(item, index) in getLiveStats" :key="index" xs="6" sm="4" md="3" lg="2">
         <v-lazy>
           <MiniStatistics
             :subTitle="getCat(index)"
@@ -316,7 +315,7 @@ export default {
         series.push(dt.data[6]);
         return { series };
       }
-      return {};
+      return { series: [0, 0, 0, 0, 0, 0] };
     }
   },
 

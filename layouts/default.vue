@@ -69,7 +69,10 @@
       <v-toolbar-title v-text="title" />
       <span class="overline mx-1 mt-4">ALPHA</span>
       <v-spacer />
-
+      <v-alert dark dense color="red" type="warning" border="left">
+        THIS IS A DEMO!! IT IS NOT REAL DATA
+        <br />to test the system: login username:1234567890 password:password
+      </v-alert>
       <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
       <v-btn text v-else @click="signout">LOG OUT</v-btn>
@@ -82,7 +85,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="px-auto">
       <v-container>
         <v-fade-transition>
           <nuxt />
@@ -108,7 +111,10 @@
       </v-dialog>
     </v-content>
     <v-footer small app>
-      <span class="overline">&copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems</span>
+      <span class="overline">
+        &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn
+        Systems
+      </span>
     </v-footer>
   </v-app>
 </template>
