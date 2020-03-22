@@ -34,6 +34,8 @@
     "vue-apexcharts": "^1.5.2",
     "vue-chartjs": "^3.5.0",
     "vue-echarts": "^5.0.0-beta.0",
+    "vue-google-autocomplete": "^1.1.0",
+    "vue-place-autocomplete": "^0.5.3",
     "vue2-leaflet": "^2.5.2"
   },
   "devDependencies": {

@@ -7,7 +7,12 @@ import {
 } from "../plugins/feathers-client";
 import Vuex from "vuex";
 import Vue from "vue";
+import VueGoogleAutocomplete from 'vue-google-autocomplete';
+import VuePlaceAutocomplete from 'vue-place-autocomplete';
+
 Vue.use(Vuex);
+Vue.use(VueGoogleAutocomplete);
+Vue.use(VuePlaceAutocomplete);
 
 const requireModule = require.context(
   // The path where the service modules live
