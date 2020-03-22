@@ -2,7 +2,7 @@
   "name": "TackleCovid19",
   "version": "1.0.0",
   "description": "Tackle Covid19",
-  "author": "Yohannes Ejigu",
+  "author": "Ethiopia COVID-19 Response Task Force Community Dev Team",
   "private": true,
   "scripts": {
     "dev": "nuxt",

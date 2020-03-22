@@ -108,7 +108,7 @@
       </v-dialog>
     </v-content>
     <v-footer small app>
-      <span class="overline">&copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems</span>
+      <span class="overline">&copy; {{ new Date().getFullYear() }}, Ethiopia COVID-19 Response Task Force Community</span>
     </v-footer>
   </v-app>
 </template>
