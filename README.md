@@ -2,6 +2,9 @@
 
 Covid19 outbreack status monitoring and case tracking front end
 
+
+# How to contribute 
+As this is time critical project, contributor are advise on working the unfinished parts, and creat better flexible ui elements.
 # demo
 
 http://covid.fynsystems.com
@@ -26,3 +29,8 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
+
+
+## License
+GPLv3 
+https://www.gnu.org/licenses/gpl-3.0.en.html
