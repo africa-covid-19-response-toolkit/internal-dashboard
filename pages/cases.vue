@@ -5,12 +5,13 @@
     <v-divider class="mt-4" />
     <v-data-table
       :headers="getHeaders"
-      :items="cases.data"
+      :items="cases"
       :loading="loading"
       :options.sync="tableProps"
       :loading-text="loadingText"
       :server-items-length="server_items_length"
       @click:row="rowClicked"
+      @update:page="fetchCases"
       calculate-widths
       no-results-text="No data"
       class="elevation-1 ma-0"
@@ -44,7 +45,7 @@
       <template v-slot:item.status="{ item }">
         <v-chip
           :color="getColor(item.status)"
-          ssmall
+          small
           dark
           class="caption label pt-1 pb-1"
         >{{ getStatus(item.status) }}</v-chip>
@@ -124,7 +125,7 @@
         </span>
 
         <v-timeline dense clipped>
-          <v-timeline-item class large color="info">
+          <v-timeline-item class large :color="getColor(selectedRow.status)">
             <v-layout column>
               <v-row>
                 <span class="subtitle-2">አሁን ያለበት ሁኔታ</span>
@@ -161,7 +162,7 @@
             :key="index"
             small
             class="my-0"
-            color="error"
+            color="grey"
           >
             <v-layout column>
               <span class="subtitle-2">{{ item }}</span>
@@ -279,7 +280,7 @@ export default {
         { text: "Hospital", value: "hospitalizedAt", align: "center" }
         // { text: "Edit", value: "action", sortable: false }
       ],
-      // cases: [],
+      cases: [],
 
       tableProps: {
         lastSearched: null,
@@ -366,12 +367,12 @@ export default {
     },
     fetchCases: async function() {
       this.loading = true;
-
       this.fetchFromServer({
         query: this.currentQuery
       })
         .then(res => {
           this.loading = false;
+          this.cases = res.data;
           this.server_items_length = res.total;
         })
         .catch(err => {
@@ -429,12 +430,12 @@ export default {
   },
   computed: {
     ...mapGetters("cases", { casesFromStore: "find" }),
-    cases() {
-      delete this.currentQuery.$or;
-      return this.casesFromStore({
-        query: this.currentQuery
-      });
-    },
+    // cases() {
+    //   delete this.currentQuery.$or;
+    //   return this.casesFromStore({
+    //     query: this.currentQuery
+    //   });
+    // },
 
     currentQuery() {
       // const { users } = this.$FeathersVuex.api;

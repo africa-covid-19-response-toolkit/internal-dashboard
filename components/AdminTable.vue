@@ -4,12 +4,13 @@
     <v-divider class="mt-4" />
     <v-data-table
       :headers="getHeaders"
-      :items="staffs.data"
+      :items="staffs"
       :loading="loading"
       :options.sync="tableProps"
       :loading-text="loadingText"
       :server-items-length="server_items_length"
       calculate-widths
+      @update:page="fetchFromServer"
       no-results-text="No data"
       class="elevation-1 ma-0"
       ref="table"
@@ -161,7 +162,7 @@ export default {
         { text: "status", value: "status", align: "center" },
         { text: "Actions", value: "action", sortable: false }
       ],
-
+      staffs: [],
       tableProps: {
         lastSearched: null,
         page: 1,
@@ -222,6 +223,7 @@ export default {
         .then(res => {
           this.loading = false;
           this.server_items_length = res.total;
+          this.staffs = res.data;
         })
         .catch(err => {
           this.loading = false;
@@ -339,13 +341,13 @@ export default {
   },
   computed: {
     ...mapGetters("admins", { StaffsFromStore: "find" }),
-    staffs() {
-      // delete this.currentQuery().$or;
-      // console.log(this.currentQuery());
-      return this.StaffsFromStore({
-        query: this.currentQuery
-      });
-    },
+    // staffs() {
+    //   // delete this.currentQuery().$or;
+    //   // console.log(this.currentQuery());
+    //   return this.StaffsFromStore({
+    //     query: this.currentQuery
+    //   });
+    // },
 
     getEditingItem() {
       return this.editedItem;

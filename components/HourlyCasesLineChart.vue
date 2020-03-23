@@ -1,6 +1,6 @@
 <template>
   <v-card hover tile>
-    <apexchart width="100%" height="160" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
+    <apexchart width="100%" height="200" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -25,13 +25,17 @@ export default {
         },
         theme: {
           mode: this.$vuetify.theme.dark ? "dark" : "light",
-          palette: "palette1",
+          palette: "palette8",
           monochrome: {
             enabled: false,
             color: "#255aee",
             shadeTo: "light",
             shadeIntensity: 0.55
           }
+        },
+        chart: {
+          type: "line"
+          // stacked: true
         },
         title: {
           text: `የየስዓቱ መረጃ  - ${new Date().toDateString()}`,
@@ -51,19 +55,19 @@ export default {
         grid: {
           show: false
         },
-        dataLabels: {
-          enabled: false
-        },
         stroke: {
-          width: 2,
+          width: 3,
           curve: "smooth"
         },
-
-        fill: {
-          type: "gradient"
+        yaxis: {
+          min: 0
         },
+
+        // fill: {
+        //   type: "gradient"
+        // },
         dataLabels: {
-          enabled: true,
+          enabled: false,
 
           style: {
             fontSize: "10px",
@@ -73,23 +77,13 @@ export default {
           },
           background: {
             enabled: true,
-
             borderRadius: 10,
             borderWidth: 0.4,
             borderColor: "#999",
             opacity: 0.9
           }
         },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              dataLabels: {
-                enabled: false
-              }
-            }
-          }
-        ],
+
         legend: { position: "top", align: "left", horizontalAlign: "left" }
       },
       series: []
