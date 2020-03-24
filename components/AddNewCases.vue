@@ -144,7 +144,7 @@
           <v-progress-linear indeterminate v-if="locationRequesting"/>
         </v-row>
         <v-row>
-          <v-col xs="12" sm="6" md="4" lg="4">
+         <!-- <v-col xs="12" sm="6" md="4" lg="4">
             <label for="geoMapLocation">Lookup (optional)</label>
             <br>
             <vue-google-autocomplete
@@ -153,7 +153,7 @@
               :country="['ETH']"
               v-on:placechanged="getAddressData">
             </vue-google-autocomplete>
-          </v-col>
+          </v-col>-->
           <v-col xs="12" sm="6" md="4" lg="4">
             <v-text-field :rules="nameRules" type="number" label="Latitude" v-model="formdata.lat"/>
           </v-col>
