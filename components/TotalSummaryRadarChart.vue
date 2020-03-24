@@ -1,5 +1,5 @@
 <template>
-  <v-card hover tile>
+  <v-card elevation="0" hover tile>
     <v-card-title>{{ name }}</v-card-title>
 
     <apexchart
@@ -30,6 +30,7 @@ export default {
         theme: {
           palette: "palette6"
         },
+        colors : ['#f26666', '#f2a81d', '#50bfa0', '#122a40'],
         animations: {
           enabled: false
         },

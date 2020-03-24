@@ -1,5 +1,5 @@
 <template>
-  <v-container align-center>
+  <v-container fluid align-center>
     <v-row>
       <AddNewCases />
     </v-row>
