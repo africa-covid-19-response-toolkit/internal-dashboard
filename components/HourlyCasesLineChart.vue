@@ -1,6 +1,6 @@
 <template>
-  <v-card hover tile>
-    <apexchart width="100%" height="200" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
+  <v-card elevation="0" hover tile>
+    <apexchart width="100%" height="260" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -25,7 +25,6 @@ export default {
         },
         theme: {
           mode: this.$vuetify.theme.dark ? "dark" : "light",
-          palette: "palette8",
           monochrome: {
             enabled: false,
             color: "#255aee",
@@ -33,30 +32,37 @@ export default {
             shadeIntensity: 0.55
           }
         },
+        colors : ['#499ebf', '#f26666', '#f2a81d', '#484c7f', '#50bfa0', '#122a40'],
         chart: {
-          type: "line"
-          // stacked: true
+          type: "line",
+          stacked: false
+        },
+        grid: {
+          row: {
+            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+            opacity: 0.5
+          }
         },
         title: {
           text: `የየስዓቱ መረጃ  - ${new Date().toDateString()}`,
           align: "left",
           margin: 10,
           offsetX: 0,
-          offsetY: 0,
+          offsetY: -0,
           floating: false,
           style: {
-            fontSize: "14px",
-            fontWeight: "bold",
+            fontSize: "24px",
+            fontWeight: "normal",
             fontFamily: undefined,
             color: "#263238"
           }
         },
 
         grid: {
-          show: false
+          show: true
         },
         stroke: {
-          width: 3,
+          width: 2,
           curve: "smooth"
         },
         yaxis: {
@@ -107,7 +113,7 @@ export default {
           },
           yaxis: {
             labels: {
-              show: false
+              show: true
             },
             axisBorder: {
               show: false

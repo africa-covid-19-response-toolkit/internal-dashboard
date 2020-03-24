@@ -1,11 +1,13 @@
 <template>
-  <v-card dark tile min-width="100" hover height="72" :color="color">
+  <v-card elevation="0" light tile min-width="100" hover height="120" :style="{ borderColor: color}">
+
     <v-layout row class="py-0 my-0">
       <div
         flat
         dark
         tile
-        style="text-align:center; height=100%;"
+        style="font-weight: 900; text-align:center; height=100%;"
+        :style="{ color: color}"
         class="sm4 xs4 flex text-sm-center display-1 my-auto mx-auto"
       >{{ title }}</div>
 
@@ -15,7 +17,7 @@
       >{{ subTitle }}</div>
     </v-layout>
     <v-spacer />
-    <apexchart width="100%" height="20" type="bar" :options="chartOptions" :series="getSeries"></apexchart>
+    <apexchart width="100%" height="40" type="bar" :options="chartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -42,7 +44,7 @@ export default {
           enabled: false
         },
         theme: {
-          // mode: "dark",
+          // mode: "light",
           palette: "palette1",
           monochrome: {
             enabled: false,
@@ -57,19 +59,19 @@ export default {
         },
 
         chart: {
-          type: "area",
+          type: "line",
           sparkline: {
             enabled: true
           },
           background: "transparent"
         },
-        colors: ["#ffffff", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
+        colors: ["#000000", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
 
         stroke: {
-          width: 2
+          width: 1
         },
         fill: {
-          opacity: 0.3
+          opacity: 1
         },
         xaxis: { min: 0, max: 31 },
         yaxis: {
@@ -86,3 +88,8 @@ export default {
   mounted() {}
 };
 </script>
+<style>
+.v-card {
+  border-top: 10px solid;
+}
+</style>

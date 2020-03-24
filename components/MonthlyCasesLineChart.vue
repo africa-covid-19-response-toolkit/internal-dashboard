@@ -1,5 +1,5 @@
 <template>
-  <v-card hover tile>
+  <v-card elevation="0" hover tile>
     <v-card-title>{{ chart_title }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
@@ -25,17 +25,7 @@ export default {
         animations: {
           enabled: false
         },
-        theme: {
-          mode: "light",
-          palette: "palette1",
-          monochrome: {
-            enabled: false,
-            color: "#255aee",
-            shadeTo: "light",
-            shadeIntensity: 0.65
-          }
-        },
-
+        colors : ['#499ebf', '#f26666', '#f2a81d', '#484c7f', '#50bfa0', '#122a40'],
         xaxis: {
           categories: [
             "Jan",
@@ -54,7 +44,7 @@ export default {
         },
 
         stroke: {
-          width: 3,
+          width: 2,
           curve: "smooth"
         },
         grid: {
@@ -73,7 +63,6 @@ export default {
           },
           background: {
             enabled: true,
-
             borderRadius: 10,
             borderWidth: 0.4,
             borderColor: "#999",

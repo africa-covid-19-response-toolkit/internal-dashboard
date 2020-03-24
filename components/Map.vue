@@ -1,7 +1,7 @@
 <template>
   <v-container id="map-wrap" :style="mapstyle">
     <client-only>
-      <l-map :zoom="6" :center="[8.997062, 38.769894]" class="elevation-0">
+      <l-map :zoom="6" :center="[8.997062, 38.769894]" class="elevation-0" style="z-index: 0">
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
         <l-geo-json v-if="geojson" :options="geojsonOptions" :geojson="geojson"></l-geo-json>
         <!-- <l-circle-marker
@@ -46,7 +46,7 @@ Icon.Default.mergeOptions({
 });
 export default {
   props: {
-    mapstyle: { type: String, default: "height: 660px" }
+    mapstyle: { type: String, default: "min-height: 660px; height: 100%; padding: 0;  " }
   },
   data() {
     return {

@@ -3,21 +3,20 @@
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant&&!smallScreen"
-      floating
-      dark
-      color="primary"
+      clipped
+      light
+      color="#e2e2e2"
       mini-variant-width="54"
       :expand-on-hover="!smallScreen && expandOnHover"
       app
-      class="elevation-2"
     >
       <v-layout tag="v-list" column>
         <v-list>
-          <v-container v-if="admin">
+          <v-container fluid v-if="admin">
             <v-list-item md="auto">
               <v-avatar
-                class="center mx-auto my-1 elevation-1"
-                color="rgba(255,255,255,0.5)"
+                class="center mx-auto my-1 elevation-0"
+                color="rgba(255,255,255,0)"
                 :size="avatarSize"
               >
                 <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
@@ -36,25 +35,8 @@
                 <v-icon>mdi-menu-down</v-icon>
               </v-list-item-action>
             </v-list-item>
-            <v-list-item>
-              <v-btn v-if="admin" rounded small @click="signout">LOG OUT</v-btn>
-              <v-chip
-                v-if="!smallScreen"
-                small
-                color="transparent"
-                icon
-                class="mx-auto"
-                @click.stop="
-            miniVariant = !miniVariant;
-            expandOnHover = !expandOnHover;
-          "
-              >
-                <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
-              </v-chip>
-            </v-list-item>
           </v-container>
 
-          <v-divider class="mx-2"></v-divider>
           <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" dense router exact>
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -67,19 +49,15 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-app-bar elevation="8" dark color="primary" hide-on-scroll app>
+    <v-app-bar elevation="8" light color="primary" hide-on-scroll clipped-left app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="title" />
       <span class="overline mx-1 mt-4">ALPHA3</span>
       <v-spacer />
-      <v-alert dark dense color="red" type="warning" border="left">
-        WARNING THIS IS FALSE DATA! FOR TESTING ONLY
-        <br />to test the system: login username:1234567890 password:password
-      </v-alert>
       <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
-      <!-- <v-btn text v-else @click="signout">LOG OUT</v-btn> -->
+      <v-btn text v-else @click="signout">LOG OUT</v-btn>
 
       <v-btn icon @click="fullscreen">
         <v-icon>{{ fullscreenIcon }}</v-icon>
@@ -90,7 +68,7 @@
     </v-app-bar>
 
     <v-content class="px-auto">
-      <v-container>
+      <v-container fluid>
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>

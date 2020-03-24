@@ -1,5 +1,5 @@
 <template>
-  <v-card hover tile>
+  <v-card elevation="0" hover tile>
     <v-card-title>{{ name }}</v-card-title>
     <apexchart
       ref="donut"
@@ -40,9 +40,7 @@ export default {
             return opts.w.globals.series[opts.seriesIndex];
           }
         },
-        theme: {
-          palette: "palette6"
-        },
+        colors : ['#499ebf', '#f26666', '#f2a81d', '#484c7f', '#50bfa0', '#122a40'],
         animations: {
           enabled: false
         },
