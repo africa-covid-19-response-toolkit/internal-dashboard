@@ -2,7 +2,7 @@
   <v-app :style="bgStyle">
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant&&!smallScreen"
+      :mini-variant="miniVariant && !smallScreen"
       clipped
       light
       color="#e2e2e2"
@@ -12,7 +12,14 @@
     >
       <v-layout tag="v-list" column>
         <v-list>
-          <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" dense router exact>
+          <v-list-item
+            v-for="(item, i) in navItems"
+            :key="i"
+            :to="item.to"
+            dense
+            router
+            exact
+          >
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -24,15 +31,23 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-app-bar elevation="8" light color="primary" hide-on-scroll clipped-left app>
+    <v-app-bar
+      elevation="8"
+      light
+      color="primary"
+      hide-on-scroll
+      clipped-left
+      app
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+
       <v-img
         class="mx-2"
         src="/logo.png"
         max-height="60"
         max-width="190"
       ></v-img>
-      <span class="overline mx-0 mt-6">ALPHA3</span>
+      <span class="overline mx-0 mt-6">BETA1</span>
       <v-spacer />
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
       <v-menu v-else>
@@ -52,19 +67,17 @@
         </template>
         <v-list>
           <v-list-item link two-line to="/admins/profile">
-              <v-list-item-content>
-                <v-list-item-title class="subtitle">
-                  {{ admin.first_name }} {{ admin.last_name }}
-                </v-list-item-title>
-                <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>
-            </v-list-item>
-          <v-list-item
-            @click="signout"
-          >
+            <v-list-item-content>
+              <v-list-item-title class="subtitle">
+                {{ admin.first_name }} {{ admin.last_name }}
+              </v-list-item-title>
+              <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-menu-down</v-icon>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item @click="signout">
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -84,8 +97,7 @@
     </v-content>
     <v-footer small app>
       <span class="overline">
-        &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn
-        Systems
+        &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems
       </span>
     </v-footer>
     <v-speed-dial
@@ -99,33 +111,15 @@
       :transition="transition"
     >
       <template v-slot:activator>
-        <v-btn
-          v-model="fab"
-          color="secondary"
-          dark
-          fab
-          large
-        >
+        <v-btn v-model="fab" color="secondary" dark fab large>
           <v-icon v-if="fab">mdi-close</v-icon>
           <v-icon v-else>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <v-btn
-        fab
-        dark
-        small
-        color="green"
-        v-if="admin" to="/admins/add"
-      >
+      <v-btn fab dark small color="green" v-if="admin" to="/admins/add">
         <v-icon>mdi-account-plus-outline</v-icon>
       </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="indigo"
-        v-if="admin" to="/addcases"
-      >
+      <v-btn fab dark small color="indigo" v-if="admin" to="/addcases">
         <v-icon>mdi-briefcase-plus-outline</v-icon>
       </v-btn>
     </v-speed-dial>

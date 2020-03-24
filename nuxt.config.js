@@ -3,7 +3,7 @@ import colors from "vuetify/es5/util/colors";
 
 export default {
   env: {
-    API_URL: process.env.API_URL || "http://localhost:5535"
+    API_URL: process.env.API_URL || "http://localhost:9017"
   },
   mode: "spa",
   /*
