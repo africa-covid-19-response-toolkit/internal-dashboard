@@ -51,9 +51,13 @@
 
     <v-app-bar elevation="8" light color="primary" hide-on-scroll clipped-left app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-
-      <v-toolbar-title v-text="title" />
-      <span class="overline mx-1 mt-4">ALPHA3</span>
+      <v-img
+        class="mx-2"
+        src="/logo.png"
+        max-height="60"
+        max-width="190"
+      ></v-img>
+      <span class="overline mx-0 mt-6">ALPHA3</span>
       <v-spacer />
       <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
