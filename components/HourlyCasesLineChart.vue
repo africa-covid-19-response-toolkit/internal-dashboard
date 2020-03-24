@@ -1,6 +1,6 @@
 <template>
-  <v-card elevation="0" hover tile>
-    <apexchart width="100%" height="320" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
+  <v-card tile>
+    <apexchart width="100%" height="200" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -32,7 +32,14 @@ export default {
             shadeIntensity: 0.55
           }
         },
-        colors : ['#499ebf', '#f26666', '#f2a81d', '#484c7f', '#50bfa0', '#122a40'],
+        colors: [
+          "#499ebf",
+          "#f26666",
+          "#f2a81d",
+          "#484c7f",
+          "#50bfa0",
+          "#122a40"
+        ],
         chart: {
           type: "line",
           stacked: false
@@ -51,7 +58,7 @@ export default {
           offsetY: -0,
           floating: false,
           style: {
-            fontSize: "24px",
+            fontSize: "18px",
             fontWeight: "normal",
             fontFamily: undefined,
             color: "#263238"
@@ -103,7 +110,7 @@ export default {
           ...this.chartOptions,
           xaxis: {
             labels: {
-              show: true,
+              show: false,
               format: "hh"
             },
             type: "time",

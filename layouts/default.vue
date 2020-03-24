@@ -4,8 +4,6 @@
       v-model="drawer"
       :mini-variant="miniVariant && !smallScreen"
       clipped
-      light
-      color="#e2e2e2"
       mini-variant-width="54"
       :expand-on-hover="!smallScreen && expandOnHover"
       app
@@ -89,10 +87,16 @@
     </v-app-bar>
 
     <v-content class="px-auto">
-      <v-container fluid>
+      <v-container fluid class="px-8">
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>
+        <!-- <v-row app>
+          <span class="overline mx-auto">
+            &copy; {{ new Date().getFullYear() }}, MOH, MINT, ETHIOPIA COVID19 RESPONSE TEAM, Fyn
+            Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
+          </span>
+        </v-row> -->
       </v-container>
     </v-content>
     <v-footer small app>

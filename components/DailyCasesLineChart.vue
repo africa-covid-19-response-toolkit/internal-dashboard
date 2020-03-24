@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" hover tile>
+  <v-card tile>
     <v-card-title>{{ chart_title }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
@@ -22,7 +22,14 @@ export default {
     return {
       chart_title: `ዬየቀን መረጃ  - ${new Date().toDateString()}`,
       chartOptions: {
-        colors : ['#499ebf', '#f26666', '#f2a81d', '#484c7f', '#50bfa0', '#122a40'],
+        colors: [
+          "#499ebf",
+          "#f26666",
+          "#f2a81d",
+          "#484c7f",
+          "#50bfa0",
+          "#122a40"
+        ],
         dataLabels: {
           enabled: false
         },

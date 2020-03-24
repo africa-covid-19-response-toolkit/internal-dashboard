@@ -1,5 +1,5 @@
 <template>
-  <v-container style="height:100% vh;">
+  <v-container>
     <Map />
   </v-container>
 </template>
@@ -10,7 +10,7 @@ export default {
   components: { Map },
   data() {
     return {
-      mapStyle: "height: 100% vh"
+      mapStyle: "height: 100 vh"
     };
   }
 };

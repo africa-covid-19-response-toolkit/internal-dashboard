@@ -22,11 +22,10 @@
         </l-marker>
 
         <l-control position="topright">
-            <v-btn small rounded @click="fetchFromServer">
-              <v-icon>mdi-reload</v-icon>
-            </v-btn>
-            <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
-          </div>
+          <v-btn small rounded @click="fetchFromServer">
+            <v-icon>mdi-reload</v-icon>
+          </v-btn>
+          <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
         </l-control>
       </l-map>
     </client-only>
@@ -46,7 +45,10 @@ Icon.Default.mergeOptions({
 });
 export default {
   props: {
-    mapstyle: { type: String, default: "min-height: 660px; height: 100%; padding: 0;  " }
+    mapstyle: {
+      type: String,
+      default: "min-height: 660px; height: 100%; padding: 0;  "
+    }
   },
   data() {
     return {

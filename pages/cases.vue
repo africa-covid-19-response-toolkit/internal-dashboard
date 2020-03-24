@@ -2,7 +2,10 @@
   <v-container fluid>
     <h1>CASES</h1>
     <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
-    <v-btn class="mt-2" color="secondary" tile depressed to="/admins/add"><v-icon class="mr-2">mdi-briefcase-plus-outline</v-icon> ADD NEW CASE</v-btn>
+    <v-btn class="mt-2" color="secondary" tile depressed to="/admins/add"
+      ><v-icon class="mr-2">mdi-briefcase-plus-outline</v-icon> ADD NEW
+      CASE</v-btn
+    >
     <v-divider class="mt-4 mb-4" />
     <v-data-table
       :headers="getHeaders"
@@ -41,7 +44,8 @@
             color="secondary"
             @click.stop="fetchCases"
             class="mb-7 ml-4 py-1"
-          >SEARCH</v-btn>
+            >SEARCH</v-btn
+          >
         </v-toolbar>
       </template>
 
@@ -51,7 +55,8 @@
           small
           dark
           class="caption label pt-1 pb-1"
-        >{{ getStatus(item.status) }}</v-chip>
+          >{{ getStatus(item.status) }}</v-chip
+        >
       </template>
       <template v-slot:item.action="{ item }">
         <v-btn
@@ -76,7 +81,8 @@
           outlined
           dismissable
           v-model="error"
-        >{{ error }}</v-alert>
+          >{{ error }}</v-alert
+        >
         <v-form ref="editForm">
           <v-col>
             <v-select
@@ -106,15 +112,24 @@
               </template>
               <v-date-picker v-model="date_status" no-title scrollable>
                 <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="datepicker_status = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.status_date_menu.save(date_status)">OK</v-btn>
+                <v-btn text color="primary" @click="datepicker_status = false"
+                  >Cancel</v-btn
+                >
+                <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.status_date_menu.save(date_status)"
+                  >OK</v-btn
+                >
               </v-date-picker>
             </v-menu>
           </v-col>
           <v-row>
             <v-spacer />
             <v-btn @click="dialog = false" small class="ma-4">CANCEL</v-btn>
-            <v-btn @click="saveForm" color="primary" small class="ma-4">SAVE</v-btn>
+            <v-btn @click="saveForm" color="primary" small class="ma-4"
+              >SAVE</v-btn
+            >
           </v-row>
         </v-form>
       </v-card>
@@ -133,7 +148,10 @@
               <v-row>
                 <span class="subtitle-2">አሁን ያለበት ሁኔታ</span>
                 <v-btn
-                  v-if="user && (selectedRow.added_by === user.id || user.role >= -5)"
+                  v-if="
+                    user &&
+                      (selectedRow.added_by === user.id || user.role >= -5)
+                  "
                   rounded
                   outlined
                   small
@@ -143,7 +161,9 @@
                   <v-icon small>mdi-pencil</v-icon>UPDATE
                 </v-btn>
               </v-row>
-              <span class="caption">{{ status_amharic[status.indexOf(selectedRow.status)] }}</span>
+              <span class="caption">{{
+                status_amharic[status.indexOf(selectedRow.status)]
+              }}</span>
             </v-layout>
           </v-timeline-item>
 
@@ -153,9 +173,9 @@
 
               <span class="caption">
                 {{
-                selectedRow.symptom_onset
-                ? new Date(selectedRow.symptom_onset).toDateString()
-                : "----"
+                  selectedRow.symptom_onset
+                    ? new Date(selectedRow.symptom_onset).toDateString()
+                    : "----"
                 }}
               </span>
             </v-layout>
@@ -171,11 +191,11 @@
               <span class="subtitle-2">{{ item }}</span>
               <span class="caption">
                 {{
-                selectedRow[status_date_fields[index]]
-                ? new Date(
-                selectedRow[status_date_fields[index]]
-                ).toDateString()
-                : "----"
+                  selectedRow[status_date_fields[index]]
+                    ? new Date(
+                        selectedRow[status_date_fields[index]]
+                      ).toDateString()
+                    : "----"
                 }}
               </span>
             </v-layout>
@@ -183,7 +203,9 @@
         </v-timeline>
         <v-row>
           <v-spacer />
-          <v-btn text color="primary" @click="timelineDialog = false">CLOSE</v-btn>
+          <v-btn text color="primary" @click="timelineDialog = false"
+            >CLOSE</v-btn
+          >
         </v-row>
       </v-card>
     </v-dialog>

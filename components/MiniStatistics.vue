@@ -1,21 +1,31 @@
 <template>
-  <v-card elevation="0" dark tile min-width="100" height="120" :color="color" :style="{ borderColor: color}">
+  <v-card dark tile min-width="100" hover height="100" :color="color">
     <v-layout row class="py-0 my-0">
       <div
         flat
         dark
         tile
-        style="background: #ffffff; font-weight: 900; font-size: 48px; text-align:center; height=100%; box-shadow: 5px 5px 0 rgba(0,0,0,0.2); padding: 10px;"
-        :style="{ color: color}"
+        style="background: #ffffff; font-weight: 900; font-size: 48px; text-align:center; height=100%; box-shadow: 5px 5px 0 rgba(0,0,0,0.1); padding: 10px;"
+        :style="{ color: color }"
         class="sm4 xs4 flex text-sm-center display-1 my-auto mx-auto"
-      >{{ title }}</div>
+      >
+        {{ title }}
+      </div>
       <div
         style="text-align:center; height=100%;"
         class="sm8 caption xs8 flex text-sm-center my-auto"
-      >{{ subTitle }}</div>
+      >
+        {{ subTitle }}
+      </div>
     </v-layout>
     <v-spacer />
-    <apexchart width="100%" height="40" type="bar" :options="chartOptions" :series="getSeries"></apexchart>
+    <apexchart
+      width="100%"
+      height="28"
+      type="bar"
+      :options="chartOptions"
+      :series="getSeries"
+    ></apexchart>
   </v-card>
 </template>
 
