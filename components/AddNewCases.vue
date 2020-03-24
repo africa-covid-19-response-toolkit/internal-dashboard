@@ -382,6 +382,6 @@
 <style>
   #geoMapLocation {
     width: 100%;
-    border: 1px solid #2328af;
+    border: 1px solid #afa11a;
   }
 </style>
