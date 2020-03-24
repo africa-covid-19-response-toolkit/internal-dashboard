@@ -19,7 +19,7 @@
           }}
         </v-alert>
 
-        <v-form>
+        <v-form ref="loginForm">
           <v-row class="mt-6">
             <v-text-field
               outlined
@@ -40,6 +40,7 @@
               rounded
               prepend-inner-icon="mdi-lock"
               name="password"
+              type="password"
               id="password"
               v-model="password"
               label="password"
@@ -49,7 +50,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn @click.stop="login">Login</v-btn>
+        <v-btn @click="login">Login</v-btn>
       </v-card-actions>
     </v-card>
   </v-content>
@@ -72,6 +73,7 @@ export default {
     login() {
       this.error = null;
       this.loading = true;
+
       this.authenticate({
         user: this.username,
         password: this.password,

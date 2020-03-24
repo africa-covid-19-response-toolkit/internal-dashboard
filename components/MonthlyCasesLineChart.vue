@@ -2,7 +2,7 @@
   <v-card hover tile>
     <v-card-title>{{ chart_title }}</v-card-title>
 
-    <apexchart width="100%" height="240" type="area" :options="getChartOptions" :series="getSeries"></apexchart>
+    <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -54,11 +54,14 @@ export default {
         },
 
         stroke: {
-          width: 2,
+          width: 3,
           curve: "smooth"
         },
-        fill: {
-          type: "gradient"
+        grid: {
+          row: {
+            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+            opacity: 0.5
+          }
         },
         dataLabels: {
           enabled: true,

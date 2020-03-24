@@ -1,16 +1,17 @@
 <template>
-  <div>
+  <v-layout column fill-width>
     <h4>CASES</h4>
     <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
     <v-divider class="mt-4" />
     <v-data-table
       :headers="getHeaders"
-      :items="cases.data"
+      :items="cases"
       :loading="loading"
       :options.sync="tableProps"
       :loading-text="loadingText"
       :server-items-length="server_items_length"
-      fixed-header
+      @click:row="rowClicked"
+      @update:page="fetchCases"
       calculate-widths
       no-results-text="No data"
       class="elevation-1 ma-0"
@@ -22,8 +23,8 @@
             v-model="tableProps.search"
             prepend-inner-icon="mdi-magnify"
             rounded
-            filled
             dense
+            filled
             single-line
             clearable
             @click:clear="fetchCases"
@@ -51,7 +52,7 @@
       </template>
       <template v-slot:item.action="{ item }">
         <v-btn
-          v-if="user && (item.added_by === user.id || user.role>=-5)"
+          v-if="user && (item.added_by === user.id || user.role >= -5)"
           icon
           @click="editItem(item)"
         >
@@ -59,9 +60,12 @@
         </v-btn>
       </template>
     </v-data-table>
-    <v-dialog width="640" v-model="dialog">
-      <v-card class="pa-4">
-        <v-card-title>Edit Case Status - {{editedItem.first_name}} {{editedItem.last_name}}</v-card-title>
+    <v-dialog width="540" v-model="dialog">
+      <v-card class="pa-4" :loading="loading">
+        <v-card-title>
+          Edit Case Status - {{ editedItem.first_name }}
+          {{ editedItem.last_name }}
+        </v-card-title>
         <v-alert
           color="error"
           border="left"
@@ -69,7 +73,7 @@
           outlined
           dismissable
           v-model="error"
-        >{{error}}</v-alert>
+        >{{ error }}</v-alert>
         <v-form ref="editForm">
           <v-col>
             <v-select
@@ -106,13 +110,81 @@
           </v-col>
           <v-row>
             <v-spacer />
-            <v-btn @click="dialog=false" small class="ma-4">CANCEL</v-btn>
+            <v-btn @click="dialog = false" small class="ma-4">CANCEL</v-btn>
             <v-btn @click="saveForm" color="primary" small class="ma-4">SAVE</v-btn>
           </v-row>
         </v-form>
       </v-card>
     </v-dialog>
-  </div>
+
+    <v-dialog v-model="timelineDialog" width="500">
+      <v-card class="px-8 py-2" :loading="loading">
+        <span class="body-2">
+          Case timeline - {{ selectedRow.first_name }}
+          {{ selectedRow.last_name }}
+        </span>
+
+        <v-timeline dense clipped>
+          <v-timeline-item class large :color="getColor(selectedRow.status)">
+            <v-layout column>
+              <v-row>
+                <span class="subtitle-2">አሁን ያለበት ሁኔታ</span>
+                <v-btn
+                  v-if="user && (selectedRow.added_by === user.id || user.role >= -5)"
+                  rounded
+                  outlined
+                  small
+                  class="ml-2"
+                  @click="editItem(selectedRow)"
+                >
+                  <v-icon small>mdi-pencil</v-icon>UPDATE
+                </v-btn>
+              </v-row>
+              <span class="caption">{{ status_amharic[status.indexOf(selectedRow.status)] }}</span>
+            </v-layout>
+          </v-timeline-item>
+
+          <v-timeline-item class color="primary">
+            <v-layout column>
+              <span class="subtitle-2">Symptom Onset</span>
+
+              <span class="caption">
+                {{
+                selectedRow.symptom_onset
+                ? new Date(selectedRow.symptom_onset).toDateString()
+                : "----"
+                }}
+              </span>
+            </v-layout>
+          </v-timeline-item>
+          <v-timeline-item
+            v-for="(item, index) in status_amharic"
+            :key="index"
+            small
+            class="my-0"
+            color="grey"
+          >
+            <v-layout column>
+              <span class="subtitle-2">{{ item }}</span>
+              <span class="caption">
+                {{
+                selectedRow[status_date_fields[index]]
+                ? new Date(
+                selectedRow[status_date_fields[index]]
+                ).toDateString()
+                : "----"
+                }}
+              </span>
+            </v-layout>
+          </v-timeline-item>
+        </v-timeline>
+        <v-row>
+          <v-spacer />
+          <v-btn text color="primary" @click="timelineDialog = false">CLOSE</v-btn>
+        </v-row>
+      </v-card>
+    </v-dialog>
+  </v-layout>
 </template>
 
 <script>
@@ -130,6 +202,8 @@ export default {
   //   props: { userRole: Number },
   data() {
     return {
+      timelineDialog: false,
+      selectedRow: false,
       status_amharic: [
         "ማግለያ የገባ",
         "ቫይረሱ የተገኘበት",
@@ -203,10 +277,10 @@ export default {
         { text: "Region", value: "region" },
         { text: "Nationality", value: "nationality" },
         { text: "status", value: "status", align: "center" },
-        { text: "Hospital", value: "hospitalizedAt", align: "center" },
-        { text: "Edit", value: "action", sortable: false }
+        { text: "Hospital", value: "hospitalizedAt", align: "center" }
+        // { text: "Edit", value: "action", sortable: false }
       ],
-      // cases: [],
+      cases: [],
 
       tableProps: {
         lastSearched: null,
@@ -280,7 +354,10 @@ export default {
         this.fetchCases();
       }
     },
-
+    rowClicked(row) {
+      this.selectedRow = row;
+      this.timelineDialog = true;
+    },
     menuClicked(menu, item) {
       console.log(menu, item);
       this.currentItem = null;
@@ -290,12 +367,12 @@ export default {
     },
     fetchCases: async function() {
       this.loading = true;
-
       this.fetchFromServer({
         query: this.currentQuery
       })
         .then(res => {
           this.loading = false;
+          this.cases = res.data;
           this.server_items_length = res.total;
         })
         .catch(err => {
@@ -353,12 +430,12 @@ export default {
   },
   computed: {
     ...mapGetters("cases", { casesFromStore: "find" }),
-    cases() {
-      delete this.currentQuery.$or;
-      return this.casesFromStore({
-        query: this.currentQuery
-      });
-    },
+    // cases() {
+    //   delete this.currentQuery.$or;
+    //   return this.casesFromStore({
+    //     query: this.currentQuery
+    //   });
+    // },
 
     currentQuery() {
       // const { users } = this.$FeathersVuex.api;
@@ -407,6 +484,7 @@ export default {
       } else {
         const h = [...this.headers];
         h.splice(1, 2);
+        h.splice(h.length - 1, 1);
         return h;
       }
     },

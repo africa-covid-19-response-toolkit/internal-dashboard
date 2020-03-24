@@ -2,28 +2,16 @@
   <v-app :style="bgStyle">
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
+      :mini-variant="miniVariant&&!smallScreen"
       floating
       dark
       color="primary"
       mini-variant-width="54"
       :expand-on-hover="!smallScreen && expandOnHover"
       app
+      class="elevation-2"
     >
       <v-layout tag="v-list" column>
-        <v-chip
-          v-if="!miniVariant || expandOnHover"
-          small
-          color="transparent"
-          icon
-          class="mx-auto"
-          @click.stop="
-            miniVariant = !miniVariant;
-            expandOnHover = !expandOnHover;
-          "
-        >
-          <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
-        </v-chip>
         <v-list>
           <v-container v-if="admin">
             <v-list-item md="auto">
@@ -48,6 +36,22 @@
                 <v-icon>mdi-menu-down</v-icon>
               </v-list-item-action>
             </v-list-item>
+            <v-list-item>
+              <v-btn v-if="admin" rounded small @click="signout">LOG OUT</v-btn>
+              <v-chip
+                v-if="!smallScreen"
+                small
+                color="transparent"
+                icon
+                class="mx-auto"
+                @click.stop="
+            miniVariant = !miniVariant;
+            expandOnHover = !expandOnHover;
+          "
+              >
+                <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
+              </v-chip>
+            </v-list-item>
           </v-container>
 
           <v-divider class="mx-2"></v-divider>
@@ -63,16 +67,19 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-app-bar elevation="8" dark color="primary" app>
+    <v-app-bar elevation="8" dark color="primary" hide-on-scroll app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="title" />
-      <span class="overline mx-1 mt-4">ALPHA</span>
+      <span class="overline mx-1 mt-4">ALPHA3</span>
       <v-spacer />
-
+      <v-alert dark dense color="red" type="warning" border="left">
+        WARNING THIS IS FALSE DATA! FOR TESTING ONLY
+        <br />to test the system: login username:1234567890 password:password
+      </v-alert>
       <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
-      <v-btn text v-else @click="signout">LOG OUT</v-btn>
+      <!-- <v-btn text v-else @click="signout">LOG OUT</v-btn> -->
 
       <v-btn icon @click="fullscreen">
         <v-icon>{{ fullscreenIcon }}</v-icon>
@@ -82,33 +89,18 @@
       </v-btn>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="px-auto">
       <v-container>
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>
       </v-container>
-      <v-dialog
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
-        persistent
-        v-model="add_new_case"
-      >
-        <v-card tile>
-          <v-toolbar flat dark color="primary">
-            <v-btn icon dark @click="add_new_case = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title>New Case Form</v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-          <AddNewCases @successCallback="add_new_case = false" />
-        </v-card>
-      </v-dialog>
     </v-content>
     <v-footer small app>
-      <span class="overline">&copy; {{ new Date().getFullYear() }}, Ethiopia COVID-19 Response Task Force Community</span>
+      <span class="overline">
+        &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn
+        Systems
+      </span>
     </v-footer>
   </v-app>
 </template>

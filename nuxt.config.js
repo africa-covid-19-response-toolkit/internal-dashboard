@@ -61,9 +61,10 @@ export default {
    */
   modules: [
     "nuxt-client-init-module",
-    "@nuxtjs/pwa",
+    ["@nuxtjs/pwa", { Icon: false }],
     "@nuxtjs/toast",
-    "nuxt-leaflet"
+    "nuxt-leaflet",
+    "@nuxtjs/axios"
   ],
 
   toast: {
