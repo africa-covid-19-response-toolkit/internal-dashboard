@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="0" hover tile>
-    <apexchart width="100%" height="260" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
+    <apexchart width="100%" height="320" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 

@@ -2,7 +2,7 @@
   <v-container fluid align-center>
     <v-row>
       <v-col class="my-0">
-        <h4>DASHBOARD</h4>
+        <h1>DASHBOARD</h1>
         <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
       </v-col>
       <v-spacer />

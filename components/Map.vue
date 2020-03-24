@@ -2,7 +2,7 @@
   <v-container id="map-wrap" :style="mapstyle">
     <client-only>
       <l-map :zoom="6" :center="[8.997062, 38.769894]" class="elevation-0" style="z-index: 0">
-        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+        <l-tile-layer url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png" />
         <l-geo-json v-if="geojson" :options="geojsonOptions" :geojson="geojson"></l-geo-json>
         <!-- <l-circle-marker
           v-for="item in markers"
@@ -55,7 +55,7 @@ export default {
       geojson: false,
       geojsonOptions: {
         style: {
-          color: "#40dd00",
+          color: "#ffd443",
           weight: 2,
           opacity: 0.15
         }
