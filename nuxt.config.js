@@ -22,7 +22,7 @@ export default {
       }
     ],
     script: [{
-      src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAcOykGaG9sU6DJnGSGVG5uE3w1urCRA80&libraries=places"
+      src: "https://maps.googleapis.com/maps/api/js?key=<PLACE-HOLDER-FOR-G-KEY>&libraries=places"
   }],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
