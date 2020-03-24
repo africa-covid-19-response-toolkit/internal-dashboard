@@ -1,6 +1,6 @@
 <template>
   <v-layout column fill-width>
-    <h4>CASES</h4>
+    <h1>CASES</h1>
     <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
     <v-divider class="mt-4" />
     <v-data-table

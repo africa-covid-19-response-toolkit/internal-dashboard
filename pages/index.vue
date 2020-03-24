@@ -1,14 +1,14 @@
 <template>
-  <v-container align-center>
+  <v-container fluid align-center>
     <v-row>
       <v-col class="my-0">
-        <h4>DASHBOARD</h4>
+        <h1>DASHBOARD</h1>
         <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
       </v-col>
       <v-spacer />
 
       <v-progress-circular indeterminate color="primary" v-if="loading" class="my-auto mx-2" />
-      <v-btn rounded small color="primary" class="my-auto" @click="getStats">REFRESH</v-btn>
+      <v-btn rounded small color="secondary" class="my-auto" @click="getStats">REFRESH</v-btn>
     </v-row>
     <v-divider class="mt-0" />
     <v-row>
@@ -353,12 +353,12 @@ export default {
     },
     getColorForCase: function(index) {
       const status = this.status[index];
-      if (status === "quarantined") return "blue";
-      else if (status === "confirmed") return "red";
-      else if (status === "hospitalized") return "orange";
-      else if (status === "hospitalized_icu") return "brown";
-      else if (status === "recovered") return "green";
-      else if (status === "dead") return "black";
+      if (status === "quarantined") return "#499ebf";
+      else if (status === "confirmed") return "#f26666";
+      else if (status === "hospitalized") return "#f2a81d";
+      else if (status === "hospitalized_icu") return "#484c7f";
+      else if (status === "recovered") return "#50bfa0";
+      else if (status === "dead") return "#122a40";
       else return "grey";
     }
   },

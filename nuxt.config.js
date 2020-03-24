@@ -90,8 +90,8 @@ export default {
           success: colors.green.accent3
         },
         light: {
-          primary: colors.indigo.darken1,
-          secondary: "#ffc107",
+          primary: "#FFD443",
+          secondary: "#122a40",
           accent: "#ff9800",
           error: "#f44336",
           warning: "#ff5722",
