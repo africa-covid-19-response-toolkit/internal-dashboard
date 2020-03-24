@@ -1,12 +1,12 @@
 <template>
-  <v-card elevation="0" light tile min-width="100" hover height="120" :style="{ borderColor: color}">
+  <v-card elevation="0" dark tile min-width="100" hover height="120" :color="color" :style="{ borderColor: color}">
 
     <v-layout row class="py-0 my-0">
       <div
         flat
         dark
         tile
-        style="font-weight: 900; text-align:center; height=100%;"
+        style="background: #ffffff; font-weight: 900; font-size: 48px; text-align:center; height=100%; box-shadow: 5px 5px 0 rgba(0,0,0,0.2); padding: 10px;"
         :style="{ color: color}"
         class="sm4 xs4 flex text-sm-center display-1 my-auto mx-auto"
       >{{ title }}</div>
@@ -65,7 +65,7 @@ export default {
           },
           background: "transparent"
         },
-        colors: ["#000000", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
+        colors: ["#ffffff", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
 
         stroke: {
           width: 1
