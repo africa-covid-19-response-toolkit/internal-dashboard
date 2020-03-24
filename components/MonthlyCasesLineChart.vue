@@ -44,7 +44,7 @@ export default {
         },
 
         stroke: {
-          width: 3,
+          width: 2,
           curve: "smooth"
         },
         grid: {

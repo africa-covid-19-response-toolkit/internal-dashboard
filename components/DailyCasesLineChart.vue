@@ -27,7 +27,7 @@ export default {
           enabled: false
         },
         stroke: {
-          width: 3,
+          width: 2,
           curve: "smooth"
         },
         xaxis: this.xaxis,
