@@ -12,31 +12,6 @@
     >
       <v-layout tag="v-list" column>
         <v-list>
-          <v-container fluid v-if="admin">
-            <v-list-item md="auto">
-              <v-avatar
-                class="center mx-auto my-1 elevation-0"
-                color="rgba(255,255,255,0)"
-                :size="avatarSize"
-              >
-                <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
-                <v-icon large v-else>mdi-account</v-icon>
-              </v-avatar>
-            </v-list-item>
-            <v-list-item link two-line to="/admins/profile">
-              <v-list-item-content>
-                <v-list-item-title class="subtitle">
-                  {{ admin.first_name }}
-                  {{ admin.last_name }}
-                </v-list-item-title>
-                <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>
-            </v-list-item>
-          </v-container>
-
           <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" dense router exact>
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -59,15 +34,44 @@
       ></v-img>
       <span class="overline mx-0 mt-6">ALPHA3</span>
       <v-spacer />
-      <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
-      <v-btn text v-else @click="signout">LOG OUT</v-btn>
+      <v-menu v-else>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="secondary"
+            fab
+            small
+            outlined
+            elevation="0"
+            dark
+            v-on="on"
+          >
+            <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
+            <v-icon medium v-else>mdi-account-outline</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item link two-line to="/admins/profile">
+              <v-list-item-content>
+                <v-list-item-title class="subtitle">
+                  {{ admin.first_name }} {{ admin.last_name }}
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-icon>mdi-menu-down</v-icon>
+              </v-list-item-action>
+            </v-list-item>
+          <v-list-item
+            @click="signout"
+          >
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <v-btn icon @click="fullscreen">
         <v-icon>{{ fullscreenIcon }}</v-icon>
-      </v-btn>
-      <v-btn @click.stop="darkTheme" icon>
-        <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -84,6 +88,47 @@
         Systems
       </span>
     </v-footer>
+    <v-speed-dial
+      v-if="admin"
+      v-model="fab"
+      bottom
+      right
+      fixed
+      :direction="direction"
+      :open-on-hover="hover"
+      :transition="transition"
+    >
+      <template v-slot:activator>
+        <v-btn
+          v-model="fab"
+          color="secondary"
+          dark
+          fab
+          large
+        >
+          <v-icon v-if="fab">mdi-close</v-icon>
+          <v-icon v-else>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <v-btn
+        fab
+        dark
+        small
+        color="green"
+        v-if="admin" to="/admins/add"
+      >
+        <v-icon>mdi-account-plus-outline</v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        dark
+        small
+        color="indigo"
+        v-if="admin" to="/addcases"
+      >
+        <v-icon>mdi-briefcase-plus-outline</v-icon>
+      </v-btn>
+    </v-speed-dial>
   </v-app>
 </template>
 
@@ -111,7 +156,7 @@ export default {
           to: "/"
         },
         {
-          icon: "mdi-card-text",
+          icon: "mdi-briefcase-outline",
           title: "Cases",
           to: "/cases"
         },
@@ -122,7 +167,7 @@ export default {
         },
         {
           icon: "mdi-earth",
-          title: "World Data",
+          title: "Global Data",
           to: "/world"
         }
       ],
@@ -134,7 +179,7 @@ export default {
           to: "/"
         },
         {
-          icon: "mdi-card-text",
+          icon: "mdi-briefcase-outline",
           title: "Cases",
           to: "/cases"
         },
@@ -145,13 +190,8 @@ export default {
           to: "/bulksms"
         },
         {
-          icon: "mdi-account-plus",
-          title: "Add Staff",
-          to: "/admins/add"
-        },
-        {
           icon: "mdi-account-multiple",
-          title: "All Staffs",
+          title: "Users",
           to: "/admins/list"
         },
         {
@@ -161,7 +201,7 @@ export default {
         },
         {
           icon: "mdi-earth",
-          title: "World Data",
+          title: "Global Data",
           to: "/world"
         }
       ],

@@ -1,8 +1,8 @@
 <template>
-  <v-container align-center>
+  <v-container fluid align-center>
     <!-- <h4>ADD NEW ADMIN/STAFF</h4>
     <v-divider class="mt-4" />
-    <v-card elevation="1" class="pa-4">
+    <v-card elevation="0" class="pa-4">
       <v-form lazy-validation ref="form">
         <v-row>
           <v-col xs="12" sm="6" md="6" lg="5">

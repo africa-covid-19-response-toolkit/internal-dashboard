@@ -8,7 +8,7 @@
       <v-spacer />
 
       <v-progress-circular indeterminate color="primary" v-if="loading" class="my-auto mx-2" />
-      <v-btn rounded small color="secondary" class="my-auto" @click="getStats">REFRESH</v-btn>
+      <v-btn depressed rounded color="secondary" class="my-auto" @click="getStats"><v-icon>mdi-reload</v-icon>REFRESH</v-btn>
     </v-row>
     <v-divider class="mt-0" />
     <v-row>

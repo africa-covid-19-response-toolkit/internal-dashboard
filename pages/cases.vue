@@ -1,8 +1,9 @@
 <template>
-  <v-layout column fill-width>
+  <v-container fluid>
     <h1>CASES</h1>
     <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
-    <v-divider class="mt-4" />
+    <v-btn class="mt-2" color="secondary" tile depressed to="/admins/add"><v-icon class="mr-2">mdi-briefcase-plus-outline</v-icon> ADD NEW CASE</v-btn>
+    <v-divider class="mt-4 mb-4" />
     <v-data-table
       :headers="getHeaders"
       :items="cases"
@@ -16,6 +17,7 @@
       no-results-text="No data"
       class="elevation-1 ma-0"
       ref="table"
+      elevation="0"
     >
       <template v-slot:top>
         <v-toolbar flat class="pt-2">
@@ -23,19 +25,20 @@
             v-model="tableProps.search"
             prepend-inner-icon="mdi-magnify"
             rounded
+            color="secondary"
             dense
             filled
             single-line
             clearable
             @click:clear="fetchCases"
             @keydown="onSearchKeyDown"
-            hint="Search..."
+            hint="Search for cases..."
             class="my-8"
           ></v-text-field>
           <v-btn
-            small
             rounded
-            color="primary"
+            depressed
+            color="secondary"
             @click.stop="fetchCases"
             class="mb-7 ml-4 py-1"
           >SEARCH</v-btn>
@@ -184,7 +187,7 @@
         </v-row>
       </v-card>
     </v-dialog>
-  </v-layout>
+  </v-container>
 </template>
 
 <script>

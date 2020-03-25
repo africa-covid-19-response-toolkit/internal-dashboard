@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <AdminTable />
   </v-container>
 </template>

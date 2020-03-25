@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <h4>STAFFS and ADMINS</h4>
-    <v-divider class="mt-4" />
+  <v-container fluid>
+    <h1>USER MANAGEMENT</h1>
+    <h6>STAFF AND ADMIN USERS</h6>
+    <v-btn class="mt-2" color="secondary" tile depressed to="/admins/add"><v-icon class="mr-2">mdi-account-plus-outline</v-icon> ADD NEW USER</v-btn>
+    <v-divider class="mt-4 mb-4" />
     <v-data-table
       :headers="getHeaders"
       :items="staffs"
@@ -118,7 +120,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>
