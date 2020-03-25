@@ -22,10 +22,11 @@
         </l-marker>
 
         <l-control position="topright">
+          <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
+
           <v-btn small rounded @click="fetchFromServer">
             <v-icon>mdi-reload</v-icon>
           </v-btn>
-          <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
         </l-control>
       </l-map>
     </client-only>

@@ -1,5 +1,5 @@
 <template>
-  <v-content class="d-flex justify-md-space-around vertical-center">
+  <v-content class="flex justify-md-space-around vertical-center">
     <v-card
       max-width="480"
       width="380"
@@ -10,13 +10,19 @@
       xs="11"
       class="my-auto px-8 py-3"
     >
+      <v-img src="/logo.png"></v-img>
       <v-card-title>Covid19.ET</v-card-title>
       <v-card-subtitle>Log in</v-card-subtitle>
       <v-card-text>
-        <v-alert color="warn" dark dense dismissible class="caption" v-if="error">
-          {{
-          error
-          }}
+        <v-alert
+          color="warn"
+          dark
+          dense
+          dismissible
+          class="caption"
+          v-if="error"
+        >
+          {{ error }}
         </v-alert>
 
         <v-form ref="loginForm">
