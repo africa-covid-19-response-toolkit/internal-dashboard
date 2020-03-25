@@ -1,7 +1,7 @@
 <template>
-  <v-container align-center>
-    <h4>{{title}}</h4>
-    <v-divider class="mt-4" />
+  <v-container fluid align-center>
+    <h1>{{title}}</h1>
+    <v-divider class="mt-4 mb-4" />
     <v-card elevation="1" class="pa-4">
       <v-form lazy-validation ref="form">
         <v-row>
