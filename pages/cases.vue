@@ -2,9 +2,9 @@
   <v-container fluid>
     <h1>CASES</h1>
     <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
-    <v-btn class="mt-2" color="secondary" tile depressed to="/admins/add"
-      ><v-icon class="mr-2">mdi-briefcase-plus-outline</v-icon> ADD NEW
-      CASE</v-btn
+    <v-btn class="mt-2" color="secondary" tile depressed to="/addcases"
+      ><v-icon v-if="user" class="mr-2">mdi-briefcase-plus-outline</v-icon> ADD
+      NEW CASE</v-btn
     >
     <v-divider class="mt-4 mb-4" />
     <v-data-table
