@@ -89,6 +89,7 @@
       </span>
     </v-footer>
     <v-speed-dial
+      v-if="admin"
       v-model="fab"
       bottom
       right
