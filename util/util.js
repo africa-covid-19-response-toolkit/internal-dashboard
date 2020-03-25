@@ -27,8 +27,8 @@ const toggleFullScreen = () => {
   }
 };
 
-const apiHost = "http://api.covid19.et";
-// const apiHost = "https://capi.abren.tech";
+// const apiHost = "http://api.covid19.et";
+const apiHost = "https://capi.abren.tech";
 // const apiHost = "http://localhost:9017";
 
 export default {
