@@ -12,31 +12,6 @@
     >
       <v-layout tag="v-list" column>
         <v-list>
-          <v-container fluid v-if="admin">
-            <v-list-item md="auto">
-              <v-avatar
-                class="center mx-auto my-1 elevation-0"
-                color="rgba(255,255,255,0)"
-                :size="avatarSize"
-              >
-                <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
-                <v-icon large v-else>mdi-account</v-icon>
-              </v-avatar>
-            </v-list-item>
-            <v-list-item link two-line to="/admins/profile">
-              <v-list-item-content>
-                <v-list-item-title class="subtitle">
-                  {{ admin.first_name }}
-                  {{ admin.last_name }}
-                </v-list-item-title>
-                <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>
-            </v-list-item>
-          </v-container>
-
           <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" dense router exact>
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -61,13 +36,48 @@
       <v-spacer />
       <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
-      <v-btn text v-else @click="signout">LOG OUT</v-btn>
+      <v-menu v-else>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="secondary"
+            fab
+            outlined
+            elevation="0"
+            dark
+            v-on="on"
+          >
+            <v-avatar
+                class="center mx-auto my-1 elevation-0"
+                color="rgba(255,255,255,0)"
+                :size="avatarSize"
+              >
+                <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
+                <v-icon large v-else>mdi-account</v-icon>
+              </v-avatar>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item link two-line to="/admins/profile">
+              <v-list-item-content>
+                <v-list-item-title class="subtitle">
+                  {{ admin.first_name }} {{ admin.last_name }}
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-icon>mdi-menu-down</v-icon>
+              </v-list-item-action>
+            </v-list-item>
+          <v-list-item
+            @click="signout"
+          >
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <v-btn icon @click="fullscreen">
         <v-icon>{{ fullscreenIcon }}</v-icon>
-      </v-btn>
-      <v-btn @click.stop="darkTheme" icon>
-        <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </v-app-bar>
 

@@ -1,6 +1,5 @@
 <template>
-  <v-card elevation="0" dark tile min-width="100" hover height="120" :color="color" :style="{ borderColor: color}">
-
+  <v-card elevation="0" dark tile min-width="100" height="120" :color="color" :style="{ borderColor: color}">
     <v-layout row class="py-0 my-0">
       <div
         flat
@@ -10,7 +9,6 @@
         :style="{ color: color}"
         class="sm4 xs4 flex text-sm-center display-1 my-auto mx-auto"
       >{{ title }}</div>
-
       <div
         style="text-align:center; height=100%;"
         class="sm8 caption xs8 flex text-sm-center my-auto"
