@@ -28,10 +28,10 @@
       <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
       <span class="overline mx-0 mt-6">BETA1</span>
       <v-spacer />
-      <!-- <v-alert type="error">
-        Warning! This is false data! for testing only<br />
-        username:1234567890 password:password</v-alert
-      >-->
+      <v-alert type="error">
+        Warning! This is false data! for testing only
+        <br />username:1234567890 password:password
+      </v-alert>
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
       <v-menu v-else>
         <template v-slot:activator="{ on }">
