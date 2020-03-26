@@ -10,14 +10,7 @@
     >
       <v-layout tag="v-list" column>
         <v-list>
-          <v-list-item
-            v-for="(item, i) in navItems"
-            :key="i"
-            :to="item.to"
-            dense
-            router
-            exact
-          >
+          <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" dense router exact>
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -29,40 +22,20 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-app-bar
-      elevation="8"
-      light
-      color="primary"
-      hide-on-scroll
-      clipped-left
-      app
-    >
+    <v-app-bar elevation="8" light color="primary" hide-on-scroll clipped-left app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
-      <v-img
-        class="mx-2"
-        src="/logo.png"
-        max-height="60"
-        max-width="190"
-      ></v-img>
+      <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
       <span class="overline mx-0 mt-6">BETA1</span>
       <v-spacer />
-      <v-alert type="error">
+      <!-- <v-alert type="error">
         Warning! This is false data! for testing only<br />
         username:1234567890 password:password</v-alert
-      >
+      >-->
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
       <v-menu v-else>
         <template v-slot:activator="{ on }">
-          <v-btn
-            color="secondary"
-            fab
-            small
-            outlined
-            elevation="0"
-            dark
-            v-on="on"
-          >
+          <v-btn color="secondary" fab small outlined elevation="0" dark v-on="on">
             <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
             <v-icon medium v-else>mdi-account-outline</v-icon>
           </v-btn>
@@ -70,9 +43,7 @@
         <v-list>
           <v-list-item link two-line to="/admins/profile">
             <v-list-item-content>
-              <v-list-item-title class="subtitle">
-                {{ admin.first_name }} {{ admin.last_name }}
-              </v-list-item-title>
+              <v-list-item-title class="subtitle">{{ admin.first_name }} {{ admin.last_name }}</v-list-item-title>
               <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
@@ -100,13 +71,11 @@
             &copy; {{ new Date().getFullYear() }}, MOH, MINT, ETHIOPIA COVID19 RESPONSE TEAM, Fyn
             Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
           </span>
-        </v-row> -->
+        </v-row>-->
       </v-container>
     </v-content>
     <v-footer small app>
-      <span class="overline">
-        &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems
-      </span>
+      <span class="overline">&copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems</span>
     </v-footer>
     <v-speed-dial
       v-if="admin"
