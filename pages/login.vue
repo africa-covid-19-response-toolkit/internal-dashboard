@@ -64,6 +64,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { Auth } from 'aws-amplify';
 export default {
   layout: "login-layout",
   data() {
@@ -80,19 +81,32 @@ export default {
       this.error = null;
       this.loading = true;
 
-      this.authenticate({
-        user: this.username,
-        password: this.password,
-        strategy: "local"
-      })
-        .then(res => {
-          this.loading = false;
-          this.$router.push("/");
+      // AWS Cognito code
+      Auth.signIn(this.username, this.password)
+        .then((user) => {
+          console.log(user)
+          this.loading = false
+          this.$router.push("/")
         })
-        .catch(err => {
-          this.loading = false;
-          this.error = err;
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
         });
+
+      // Old auth code
+      // this.authenticate({
+      //   user: this.username,
+      //   password: this.password,
+      //   strategy: "local"
+      // })
+      //   .then(res => {
+      //     this.loading = false;
+      //     this.$router.push("/");
+      //   })
+      //   .catch(err => {
+      //     this.loading = false;
+      //     this.error = err;
+      //   });
     }
   }
 };
