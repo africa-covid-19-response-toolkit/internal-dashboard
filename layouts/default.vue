@@ -28,10 +28,10 @@
       <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
       <span class="overline mx-0 mt-6">BETA1</span>
       <v-spacer />
-      <v-alert type="error">
+      <!-- <v-alert type="error">
         Warning! This is false data! for testing only
         <br />username:1234567890 password:password
-      </v-alert>
+      </v-alert>-->
       <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
       <v-menu v-else>
         <template v-slot:activator="{ on }">
@@ -75,7 +75,10 @@
       </v-container>
     </v-content>
     <v-footer small app>
-      <span class="overline">&copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn Systems</span>
+      <span class="overline">
+        &copy; {{ new Date().getFullYear() }}, MOH, MINT, ETHIOPIA COVID19 RESPONSE TEAM, Fyn
+        Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
+      </span>
     </v-footer>
     <v-speed-dial
       v-if="admin"
