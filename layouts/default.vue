@@ -62,7 +62,7 @@
     </v-app-bar>
 
     <v-content class="px-auto">
-      <v-container fluid class="px-8">
+      <v-container fluid>
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>
