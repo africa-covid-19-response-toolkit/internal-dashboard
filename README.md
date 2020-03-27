@@ -1,6 +1,6 @@
 # TackleCovid19
 
-Covid19 outbreack status monitoring and case tracking for
+Covid19 outbreack status monitoring and case tracking.
 This Dashboard will be used by MOH for internal monitoring
 
 # How to contribute
