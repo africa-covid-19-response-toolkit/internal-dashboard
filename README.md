@@ -1,10 +1,12 @@
 # TackleCovid19
 
-Covid19 outbreack status monitoring and case tracking front end
+Covid19 outbreack status monitoring and case tracking for
+This Dashboard will be used by MOH for internal monitoring
 
+# How to contribute
 
-# How to contribute 
 As this is time critical project, contributor are advise on working the unfinished parts, and creat better flexible ui elements.
+
 # demo
 
 http://covid.fynsystems.com
@@ -30,7 +32,7 @@ $ npm run start
 $ npm run generate
 ```
 
-
 ## License
-GPLv3 
+
+GPLv3
 https://www.gnu.org/licenses/gpl-3.0.en.html
