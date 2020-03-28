@@ -5,7 +5,7 @@ This Dashboard will be used by MOH for internal monitoring
 
 # How to contribute
 
-As this is time critical project, contributor are advise on working the unfinished parts, and creat better flexible ui elements.
+As this is time critical project, contributors are advised on working the unfinished parts, and create better flexible ui elements.
 
 # demo
 
