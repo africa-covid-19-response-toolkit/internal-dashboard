@@ -5,7 +5,7 @@ This dashboard will be used by Ministry of health for internal logging and monit
 
 # How to contribute
 
-Here are the guidelines (CONTRIBUTING.md)
+Here are the guidelines (./CONTRIBUTING.md)
 
 # Demo
 
