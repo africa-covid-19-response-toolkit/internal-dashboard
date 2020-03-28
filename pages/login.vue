@@ -1,5 +1,6 @@
 <template>
-  <v-content class="flex justify-md-space-around vertical-center">
+  <amplify-authenticator></amplify-authenticator>
+  <!--<v-content class="flex justify-md-space-around vertical-center">
     <v-card
       max-width="480"
       width="380"
@@ -59,11 +60,15 @@
         <v-btn @click="login">Login</v-btn>
       </v-card-actions>
     </v-card>
-  </v-content>
+  </v-content>-->
+
+  
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import { components } from 'aws-amplify-vue'
+
 export default {
   layout: "login-layout",
   data() {
@@ -74,12 +79,16 @@ export default {
       error: false
     };
   },
+  components: {
+    ...components
+  },
   methods: {
     ...mapActions("auth", ["authenticate"]),
     login() {
       this.error = null;
       this.loading = true;
 
+      // TODOAB: handle failure
       this.authenticate({
         user: this.username,
         password: this.password,

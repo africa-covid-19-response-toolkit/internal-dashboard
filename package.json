@@ -21,6 +21,8 @@
     "@nuxtjs/toast": "^3.3.0",
     "@vue/composition-api": "^0.4.0",
     "apexcharts": "^3.16.1",
+    "aws-amplify": "^2.2.7",
+    "aws-amplify-vue": "^1.1.4",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "cookie-storage": "^6.0.0",

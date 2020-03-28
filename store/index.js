@@ -71,13 +71,17 @@ const auth = makeAuthPlugin({
         })
           .then(result => {
             // handle success like a boss
-            console.log("loged in");
+            console.log("logged in");
           })
           .catch(error => {
             // handle error like a boss
             console.log(error, "payload", payload);
           });
       }
+    },
+
+    authenticate({state, dispatch}, payload) {
+      // Talk to AWS
     }
   }
 });
