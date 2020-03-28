@@ -11,7 +11,7 @@
           <v-alert dark color="info" v-if="success" dismissible>{{success}}</v-alert>-->
           <v-flex xs2 row>
             <v-subheader>To</v-subheader>
-            <v-text-field v-model="recipient" label="Phone No. comma separated" />
+            <v-text-field :rules="phoneRules" v-model="recipient" label="Phone No. comma separated" />
           </v-flex>
           <v-flex xs12>
             <v-divider></v-divider>
@@ -44,7 +44,8 @@ export default {
       message: "",
       sending: false,
       error: false,
-      success: false
+      success: false,
+      phoneRules: [v => (!!v &&  /^[0-9.,+]+$/.test(v)) || "Valid Phone No. comma separated only"]
     };
   },
   methods: {
