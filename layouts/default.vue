@@ -26,13 +26,13 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
-      <span class="overline mx-0 mt-6">BETA1</span>
+      <span class="overline mx-0 mt-6">{{ $t("app.stage") }}</span>
       <v-spacer />
       <!-- <v-alert type="error">
         Warning! This is false data! for testing only
         <br />username:1234567890 password:password
       </v-alert>-->
-      <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
+      <v-btn text v-if="!admin" to="/login" router>{{ $t("login") }}</v-btn>
       <v-menu v-else>
         <template v-slot:activator="{ on }">
           <v-btn color="secondary" fab small outlined elevation="0" dark v-on="on">

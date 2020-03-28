@@ -19,8 +19,9 @@ export default {
     }
   },
   data: function() {
+   const titleDaily = this.$t('chart_titles.daily')
     return {
-      chart_title: `ዬየቀን መረጃ  - ${new Date().toDateString()}`,
+      chart_title: `${titleDaily} - ${new Date().toDateString()}`,
       chartOptions: {
         colors: [
           "#499ebf",

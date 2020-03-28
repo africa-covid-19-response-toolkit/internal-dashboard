@@ -19,8 +19,10 @@ export default {
     }
   },
   data: function() {
+
+   const titleMonthly= this.$t('chart_titles.monthly')
     return {
-      chart_title: `ወርሃዊ መረጃ - ${new Date().getFullYear()}`,
+      chart_title: `${titleMonthly} - ${new Date().getFullYear()}`,
       chartOptions: {
         animations: {
           enabled: false

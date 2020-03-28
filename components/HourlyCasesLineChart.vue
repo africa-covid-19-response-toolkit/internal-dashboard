@@ -1,6 +1,9 @@
 <template>
   <v-card tile>
-    <apexchart width="100%" height="200" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
+    <apexchart
+      width="100%"
+      height="200"
+      type="line" :options="{...getChartOptions }" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -17,8 +20,10 @@ export default {
     }
   },
   data: function() {
+    const titleHourly = this.$t('chart_titles.hourly')
+    console.log('titleHourly ', titleHourly)
     return {
-      chart_title: `የየስዓቱ መረጃ  - ${new Date().toDateString()}`,
+      chart_title: `${titleHourly} - ${new Date().toDateString()}`,
       chartOptions: {
         animations: {
           enabled: false
@@ -51,7 +56,7 @@ export default {
           }
         },
         title: {
-          text: `የየስዓቱ መረጃ  - ${new Date().toDateString()}`,
+          text: `${titleHourly} - ${new Date().toDateString()}`,
           align: "left",
           margin: 10,
           offsetX: 0,
@@ -132,8 +137,7 @@ export default {
           }
         };
       }
-
-      return this.chartOptions;
+      return {...this.chartOptions };
     },
     getTheme() {
       this.$vuetify.theme.dark ? "dark" : "light";

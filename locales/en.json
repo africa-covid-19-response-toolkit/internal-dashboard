@@ -1,0 +1,32 @@
+{
+  "app": {
+  	"stage": "BETA"
+  },
+  "titles": {
+   "dashboard": "Dashboard",
+   "live_status": "COVID19 LIVE STATUS - ETHIOPIA"
+  },
+  "login": "LOG IN",
+  "refresh": "REFRESH",
+  "covid_stages": {
+	"quarantined" : "Quarantined",
+	"confirmed": "Confirmed",
+	"hospitalized": "Hospitalized",
+	"hospitalized_icu": "Hospitalized (ICU)",
+	"recovered": "Recovered",
+	"dead": "Dead"
+  },
+  "calendar": {
+  	"days": "Days",
+  	"hour": "Hour",
+  	"month": "Month"
+  },
+  "chart_titles": {
+  	"monthly": "Monthly",
+  	"daily": "Daily",
+  	"hourly": "Hourly",
+  	"total": "Total",
+  	"confirmed": "Confirmed"
+  }
+
+}
