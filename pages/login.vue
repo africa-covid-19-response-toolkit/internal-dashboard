@@ -1,5 +1,5 @@
 <template>
-  <amplify-authenticator></amplify-authenticator>
+  <amplify-authenticator class="flex justify-md-space-around vertical-center"></amplify-authenticator>
   <!--<v-content class="flex justify-md-space-around vertical-center">
     <v-card
       max-width="480"
@@ -61,13 +61,11 @@
       </v-card-actions>
     </v-card>
   </v-content>-->
-
-  
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import { components } from 'aws-amplify-vue'
+import { components, AmplifyEventBus } from "aws-amplify-vue";
 
 export default {
   layout: "login-layout",
@@ -83,26 +81,15 @@ export default {
     ...components
   },
   methods: {
-    ...mapActions("auth", ["authenticate"]),
-    login() {
-      this.error = null;
-      this.loading = true;
-
-      // TODOAB: handle failure
-      this.authenticate({
-        user: this.username,
-        password: this.password,
-        strategy: "local"
-      })
-        .then(res => {
-          this.loading = false;
-          this.$router.push("/");
-        })
-        .catch(err => {
-          this.loading = false;
-          this.error = err;
-        });
-    }
+    // login() {}
+  },
+  created() {
+    AmplifyEventBus.$on("authState", info => {
+      this.$auth.onEvent(info);
+      console.log(
+        `Here is the auth event that was just emitted by an Amplify component: ${info}`
+      );
+    });
   }
 };
 </script>

@@ -40,10 +40,8 @@ export default {
   plugins: [
     // { src: "~/plugins/leaflet.js", ssr: false },
     { src: "~/plugins/apex.chart.js" },
-    { src: "~/plugins/feathers-vuex.js" },
-    { src: "~/plugins/feathers-client.js" },
-    { src: "~/plugins/authInit.js", ssr: false },
-    { src: "~/plugins/amplify.js", ssr: false }
+    { src: "~/plugins/amplify.js", ssr: false },
+    { src: "~/plugins/amplify.auth.js", ssr: false }
   ],
 
   /*
@@ -58,7 +56,7 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    "nuxt-client-init-module",
+    // "nuxt-client-init-module",
     ["@nuxtjs/pwa", { Icon: false }],
     "@nuxtjs/toast",
     "nuxt-leaflet",
@@ -111,7 +109,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
-    transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
+    extend(config, ctx) {}
+    // transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
   }
 };

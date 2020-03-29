@@ -12,10 +12,6 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@feathersjs/authentication-client": "^4.5.2",
-    "@feathersjs/feathers": "^4.5.2",
-    "@feathersjs/rest-client": "^4.5.2",
-    "@feathersjs/socketio-client": "^4.5.2",
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@nuxtjs/toast": "^3.3.0",
@@ -25,7 +21,6 @@
     "aws-amplify-vue": "^1.1.4",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
-    "cookie-storage": "^6.0.0",
     "echarts": "^4.6.0",
     "feathers-hooks-common": "^5.0.2",
     "feathers-vuex": "^3.7.0",
