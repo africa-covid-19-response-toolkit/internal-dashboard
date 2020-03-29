@@ -116,12 +116,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("stats", { findStatStore: "getAllStats" }),
+    // ...mapGetters("stats", { findStatStore: "getAllStats" }),
 
-    // findStatStore() {
-    //   console.log(this.$store);
-    //   return this.$store.getters.stats.allstats;
-    // },
+    findStatStore() {
+      return this.$store.state.stats.allstats;
+    },
     getHourlyLiveStats() {
       const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
