@@ -1,6 +1,6 @@
 {
   "app": {
-  	"stage": "ቤታ"
+  	"stage": "ቤታ ፩"
   },
   "titles": {
    "dashboard": "ዳሽቦርድ",
@@ -27,6 +27,16 @@
     "hourly": "የየስዓቱ መረጃ",
   	"total": "አጠቃላይ ቻርት",
   	"confirmed": "ቫይረሱ የተገኘባቸው"
+  },
+  "menu": {
+  	"dashboard": "ዳሽቦርድ",
+  	"cases": "ጉዳዮች",
+  	"map": "ካርታ",
+  	"global_data": "አጠቃላይ መረጃ",
+  	"languages": "ቋንቋ"
+  },
+  "lang": {
+  	"amharic": "አማርኛ",
+  	"english": "እንግሊዝኛ"
   }
-
 }

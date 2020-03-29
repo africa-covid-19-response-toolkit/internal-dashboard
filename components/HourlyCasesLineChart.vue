@@ -1,5 +1,6 @@
 <template>
   <v-card tile>
+    <v-card-title>{{ `${$t('chart_titles.hourly')} - ${new Date().toDateString()}` }}</v-card-title>
     <apexchart
       width="100%"
       height="200"
@@ -20,10 +21,7 @@ export default {
     }
   },
   data: function() {
-    const titleHourly = this.$t('chart_titles.hourly')
-    console.log('titleHourly ', titleHourly)
     return {
-      chart_title: `${titleHourly} - ${new Date().toDateString()}`,
       chartOptions: {
         animations: {
           enabled: false
@@ -56,7 +54,6 @@ export default {
           }
         },
         title: {
-          text: `${titleHourly} - ${new Date().toDateString()}`,
           align: "left",
           margin: 10,
           offsetX: 0,
@@ -110,6 +107,7 @@ export default {
 
   computed: {
     getChartOptions() {
+        console.log('getChartOptions')
       if (this.chartdata && this.chartdata.xaxis) {
         return {
           ...this.chartOptions,

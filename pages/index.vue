@@ -98,12 +98,12 @@ export default {
     return {
       loading: false,
       labels: [
-        this.$t('covid_stages.quarantined'),
-        this.$t('covid_stages.confirmed'),
-        this.$t('covid_stages.hospitalized'),
-        this.$t('covid_stages.hospitalized_icu'),
-        this.$t('covid_stages.recovered'),
-        this.$t('covid_stages.dead')
+        'covid_stages.quarantined',
+        'covid_stages.confirmed',
+        'covid_stages.hospitalized',
+        'covid_stages.hospitalized_icu',
+        'covid_stages.recovered',
+        'covid_stages.dead'
       ],
       status: [
         "quarantined",
@@ -120,8 +120,8 @@ export default {
     ...mapGetters("stats", { findStatStore: "find" }),
 
     getHourlyLiveStats() {
+        console.log('hourly')
       const all = this.findStatStore({ query: {} });
-      console.log('h')
       if (all && all.data && all.data.length > 0) {
         const daily = all.data[0].today;
 
@@ -347,16 +347,13 @@ export default {
       await this.findStats({ query: {} })
         .then(r => {
           this.loading = false;
-		  let lang = this.$store.state.locale
-		  lang = lang === 'am' ? 'en' : 'am'
-		  this.$store.commit('SET_LANG', lang)
         })
         .catch(err => {
           this.loading = false;
         });
     },
     getCat: function(index) {
-      return this.labels[index];
+      return this.$t(this.labels[index]);
     },
     getColorForCase: function(index) {
       const status = this.status[index];

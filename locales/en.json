@@ -1,9 +1,9 @@
 {
   "app": {
-  	"stage": "BETA"
+  	"stage": "BETA 1"
   },
   "titles": {
-   "dashboard": "Dashboard",
+   "dashboard": "DASHBOARD",
    "live_status": "COVID19 LIVE STATUS - ETHIOPIA"
   },
   "login": "LOG IN",
@@ -27,6 +27,16 @@
   	"hourly": "Hourly",
   	"total": "Total",
   	"confirmed": "Confirmed"
+  },
+  "menu": {
+  	"dashboard": "Dashboard",
+  	"cases": "Cases",
+  	"map": "Map",
+  	"global_data": "Global Data",
+  	"languages": "Languages"
+  },
+  "lang": {
+  	"amharic": "Amharic",
+  	"english": "English"
   }
-
 }

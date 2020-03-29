@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="0" hover tile>
-    <v-card-title>{{ name }}</v-card-title>
+    <v-card-title>{{ $t('chart_titles.confirmed') }}</v-card-title>
 
     <apexchart
       ref="radialBar"
@@ -25,7 +25,6 @@ export default {
   },
   data: function() {
     return {
-      name: this.$t('chart_titles.confirmed'),
       chartOptions: {
         theme: {
           palette: "palette6"

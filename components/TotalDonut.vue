@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="0" hover tile>
-    <v-card-title>{{ name }}</v-card-title>
+    <v-card-title>{{ $t('chart_titles.total') }}</v-card-title>
     <apexchart
       ref="donut"
       width="100%"
@@ -25,7 +25,6 @@ export default {
   },
   data: function() {
     return {
-      name: this.$t('chart_titles.total'),
       labels: [
         this.$t('covid_stages.quarantined'),
         this.$t('covid_stages.confirmed'),

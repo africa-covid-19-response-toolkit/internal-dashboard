@@ -15,10 +15,31 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title" />
+              <v-list-item-title v-text="$t(item.titleKey)" />
             </v-list-item-content>
           </v-list-item>
         </v-list>
+
+        <v-list-group
+          no-action
+          sub-group
+          value="true"
+          dense
+        >
+         <template v-slot:activator>
+          <v-list-item>
+            <v-list-item-title >{{ $t("menu.languages")}}</v-list-item-title>
+          </v-list-item>
+          </template>
+          <v-list-item v-for="(lang, i) in languages" :key="i" dense @click="setLang(lang.value)" >
+            <v-list-item-action @click="setLang(lang.value)" />
+              <v-icon>{{ "mdi-earth" }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="$t(lang.titleKey)" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-layout>
     </v-navigation-drawer>
 
@@ -126,26 +147,35 @@ export default {
       public: [
         {
           icon: "mdi-apps",
-          title: "Dashboard",
+          titleKey: 'menu.dashboard',
           to: "/"
         },
         {
           icon: "mdi-briefcase-outline",
-          title: "Cases",
+          titleKey: 'menu.cases',
           to: "/cases"
         },
         {
           icon: "mdi-map",
-          title: "Map",
+          titleKey: 'menu.map',
           to: "/maps"
         },
         {
           icon: "mdi-earth",
-          title: "Global Data",
+          titleKey: 'menu.global_data',
           to: "/world"
         }
       ],
-
+     languages: [
+        {
+          titleKey: 'lang.amharic',
+          value: "am"
+        },
+        {
+          titleKey: 'lang.english',
+          value: "en"
+        }
+     ],
       adminsNav: [
         {
           icon: "mdi-apps",
@@ -202,6 +232,9 @@ export default {
     fullscreen() {
       this.isFullscreen = Util.toggleFullScreen();
     },
+    setLang(lang) {
+      this.$store.commit('SET_LANG', lang)
+    },
     deleteAllCookies() {
       var cookies = document.cookie.split(";");
 
@@ -236,6 +269,7 @@ export default {
       const bgColor = this.$vuetify.theme.dark ? "#333840" : "#efefef";
       return `background-color:${bgColor}`;
     }
+
   }
 };
 </script>
