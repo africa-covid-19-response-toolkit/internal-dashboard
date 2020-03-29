@@ -20,26 +20,21 @@
           </v-list-item>
         </v-list>
 
-        <v-list-group
-          no-action
-          sub-group
-          value="true"
-          dense
-        >
-         <template v-slot:activator>
-          <v-list-item>
-            <v-list-item-title >{{ $t("menu.languages")}}</v-list-item-title>
-          </v-list-item>
+        <!-- <v-list-group no-action sub-group value="true" dense>
+          <template v-slot:activator>
+            <v-list-item>
+              <v-list-item-title>{{ $t("menu.languages")}}</v-list-item-title>
+            </v-list-item>
           </template>
-          <v-list-item v-for="(lang, i) in languages" :key="i" dense @click="setLang(lang.value)" >
-            <v-list-item-action @click="setLang(lang.value)" />
+          <v-list-item v-for="(lang, i) in languages" :key="i" dense @click="setLang(lang.value)">
+            <v-list-item-action @click="setLang(lang.value)">
               <v-icon>{{ "mdi-earth" }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title v-text="$t(lang.titleKey)" />
             </v-list-item-content>
           </v-list-item>
-        </v-list-group>
+        </v-list-group>-->
       </v-layout>
     </v-navigation-drawer>
 
@@ -53,6 +48,24 @@
         Warning! This is false data! for testing only
         <br />username:1234567890 password:password
       </v-alert>-->
+
+      <v-menu>
+        <template v-slot:activator="{ on }">
+          <v-btn color="secondary" icon v-on="on">
+            <v-icon>mdi-translate</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="(lang, i) in languages" :key="i" dense @click="setLang(lang.value)">
+            <v-list-item-content>
+              <v-list-item-title v-text="$t(lang.titleKey)" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-btn icon @click="fullscreen">
+        <v-icon>{{ fullscreenIcon }}</v-icon>
+      </v-btn>
       <v-btn text v-if="!admin" to="/login" router>{{ $t("login") }}</v-btn>
       <v-menu v-else>
         <template v-slot:activator="{ on }">
@@ -76,10 +89,6 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
-      <v-btn icon @click="fullscreen">
-        <v-icon>{{ fullscreenIcon }}</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-content class="px-auto">
@@ -139,58 +148,58 @@ export default {
       public: [
         {
           icon: "mdi-apps",
-          titleKey: 'menu.dashboard',
+          titleKey: "menu.dashboard",
           to: "/"
         },
         {
           icon: "mdi-map",
-          titleKey: 'menu.map',
+          titleKey: "menu.map",
           to: "/maps"
         },
         {
           icon: "mdi-earth",
-          titleKey: 'menu.global_data',
+          titleKey: "menu.global_data",
           to: "/world"
         }
       ],
       adminsNav: [
         {
           icon: "mdi-apps",
-          titleKey: 'menu.dashboard',
+          titleKey: "menu.dashboard",
           to: "/"
         },
 
         {
           icon: "mdi-cellphone-message",
-          titleKey: 'menu.bulk_sms',
+          titleKey: "menu.bulk_sms",
           to: "/bulksms"
         },
         {
           icon: "mdi-account-multiple",
-          titleKey: 'menu.users',
+          titleKey: "menu.users",
           to: "/admins/list"
         },
         {
           icon: "mdi-map",
-          titleKey: 'menu.map',
+          titleKey: "menu.map",
           to: "/maps"
         },
         {
           icon: "mdi-earth",
-          titleKey: 'menu.global_data',
+          titleKey: "menu.global_data",
           to: "/world"
         }
       ],
-     languages: [
+      languages: [
         {
-          titleKey: 'lang.amharic',
+          titleKey: "lang.amharic",
           value: "am"
         },
         {
-          titleKey: 'lang.english',
+          titleKey: "lang.english",
           value: "en"
         }
-     ],
+      ],
       miniVariant: true,
       title: "COVID19.ET"
     };
@@ -215,7 +224,7 @@ export default {
       this.isFullscreen = Util.toggleFullScreen();
     },
     setLang(lang) {
-      this.$store.commit('SET_LANG', lang)
+      this.$store.commit("SET_LANG", lang);
     },
     deleteAllCookies() {
       var cookies = document.cookie.split(";");
@@ -251,7 +260,6 @@ export default {
       const bgColor = this.$vuetify.theme.dark ? "#333840" : "#efefef";
       return `background-color:${bgColor}`;
     }
-
   }
 };
 </script>
