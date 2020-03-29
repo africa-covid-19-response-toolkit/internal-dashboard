@@ -33,7 +33,9 @@
   	"cases": "ጉዳዮች",
   	"map": "ካርታ",
   	"global_data": "አጠቃላይ መረጃ",
-  	"languages": "ቋንቋ"
+  	"languages": "ቋንቋ",
+  	"bulk_sms": "ጀምላ ኤስኤምኤስ",
+    "users": "ተጠቃሚዎች"
   },
   "lang": {
   	"amharic": "አማርኛ",

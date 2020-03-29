@@ -116,12 +116,13 @@ export default {
     };
   },
   computed: {
-    ...mapState("stats", { isLoading: "isFindPending" }),
-    ...mapGetters("stats", { findStatStore: "find" }),
+    // ...mapGetters("stats", { findStatStore: "getAllStats" }),
 
+    findStatStore() {
+      return this.$store.state.stats.allstats;
+    },
     getHourlyLiveStats() {
-        console.log('hourly')
-      const all = this.findStatStore({ query: {} });
+      const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
         const daily = all.data[0].today;
 
@@ -171,7 +172,7 @@ export default {
     },
 
     getDailyLiveStats() {
-      const all = this.findStatStore({ query: {} });
+      const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
         const daily = all.data[0].daily;
         const months = [
@@ -231,7 +232,7 @@ export default {
     },
 
     getMonthlyLiveStats() {
-      const all = this.findStatStore({ query: {} });
+      const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
         const daily = all.data[0].monthly;
         const months = [
@@ -290,7 +291,7 @@ export default {
     },
 
     getLiveTotalDonut() {
-      const all = this.findStatStore({ query: {} });
+      const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
         const dt = all.data[0].total;
 
@@ -306,7 +307,7 @@ export default {
       return { series: [0, 0, 0, 0, 0, 0] };
     },
     getLiveTotal() {
-      const all = this.findStatStore({ query: {} });
+      const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
         const dt = all.data[0].total;
 
@@ -323,7 +324,7 @@ export default {
       return { series: [0, 0, 0, 0, 0, 0] };
     },
     getLiveTotalConfirmed() {
-      const all = this.findStatStore({ query: {} });
+      const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
         const dt = all.data[0].total;
 
@@ -341,16 +342,16 @@ export default {
   },
 
   methods: {
-    ...mapActions("stats", { findStats: "find" }),
+    ...mapActions("stats", { loadStats: "loadStats" }),
     async getStats() {
       this.loading = true;
-      await this.findStats({ query: {} })
-        .then(r => {
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-        });
+      try {
+        await this.loadStats();
+        this.loading = false;
+      } catch (err) {
+        console.log(err);
+        this.loading = false;
+      }
     },
     getCat: function(index) {
       return this.$t(this.labels[index]);
@@ -366,7 +367,7 @@ export default {
       else return "grey";
     }
   },
-  created() {
+  async mounted() {
     this.getStats();
   }
 };

@@ -1,13 +1,13 @@
 # TackleCovid19
 
-Covid19 outbreack status monitoring and case tracking.
-This Dashboard will be used by MOH for internal monitoring
+Covid19 outbreak status monitoring and case tracking.
+This dashboard will be used by Ministry of health for internal logging and monitoring.
 
 # How to contribute
 
-As this is time critical project, contributor are advise on working the unfinished parts, and creat better flexible ui elements.
+[Here are the guidelines](CONTRIBUTING.md)
 
-# demo
+# Demo
 
 http://covid.fynsystems.com
 

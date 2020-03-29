@@ -68,16 +68,11 @@ export default {
   },
 
   methods: {
-    ...mapActions("cases", { fetchCases: "find" }),
-
     fetchFromServer() {
       this.loading = true;
-      this.fetchCases({
-        query: {
-          $select: ["lat", "lng", "status", "id", "first_name", "last_name"],
-          $limit: 10000
-        }
-      })
+      //TODO url here for map data
+      this.$axios
+        .get("")
         .then(res => {
           this.loading = false;
           const markers = [];
@@ -116,26 +111,7 @@ export default {
       else return "grey";
     }
   },
-  computed: {
-    ...mapGetters("cases", { getCasesStore: "find" }),
-    getFromStore() {
-      const d = this.getCasesStore({ query: {} });
-      console.log(d);
-      const markers = [];
-      const markersWithInfo = {};
 
-      d.data.forEach(item => {
-        if (item.lat && item.lng) {
-          const latlng = markers.push({
-            latlng: L.latLng(item.lat, item.lng),
-            info: `${item.first_name} ${item.last_name}</br> status: ${item.status}`
-          });
-        }
-      });
-
-      return markers;
-    }
-  },
   mounted() {
     this.fetchFromServer();
     this.fetchRegionGeoJson();

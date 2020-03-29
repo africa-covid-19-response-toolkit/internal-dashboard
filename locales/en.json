@@ -33,7 +33,9 @@
   	"cases": "Cases",
   	"map": "Map",
   	"global_data": "Global Data",
-  	"languages": "Languages"
+  	"languages": "Languages",
+  	"bulk_sms": "Bluk SMS",
+  	"users": "Users"
   },
   "lang": {
   	"amharic": "Amharic",
