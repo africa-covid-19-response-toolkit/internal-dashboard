@@ -27,7 +27,7 @@
           </v-col>
 
           <v-col xs="12" sm="6" md="4" lg="4">
-            <v-text-field label="Email" v-model="formdata.email" />
+            <v-text-field label="Email" :rules="emailRules" v-model="formdata.email" />
           </v-col>
         </v-row>
         <v-row>
@@ -141,6 +141,9 @@ export default {
       date: new Date().toISOString().substr(0, 10),
       date_status: new Date().toISOString().substr(0, 10),
       nameRules: [v => !!v || "This is required"],
+      emailRules: [
+        v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      ],
       formdata: this.case
     };
   },
