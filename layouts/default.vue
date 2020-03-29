@@ -41,17 +41,17 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item link two-line to="/admins/profile">
+          <v-list-item link two-line>
             <v-list-item-content>
-              <v-list-item-title class="subtitle">{{ admin.first_name }} {{ admin.last_name }}</v-list-item-title>
-              <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
+              <v-list-item-title>{{ admin.username }}</v-list-item-title>
+              <v-list-item-subtitle class="subtitle">{{ admin.first_name }} {{ admin.last_name }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-icon>mdi-menu-down</v-icon>
             </v-list-item-action>
           </v-list-item>
           <v-list-item @click="signout">
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title>LOG OUT</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -80,18 +80,9 @@
         Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
       </span>
     </v-footer>
-    <v-speed-dial
-      v-if="admin"
-      v-model="fab"
-      bottom
-      right
-      fixed
-      :direction="direction"
-      :open-on-hover="hover"
-      :transition="transition"
-    >
+    <v-speed-dial v-if="admin" v-model="fab" bottom right fixed :open-on-hover="expandOnHover">
       <template v-slot:activator>
-        <v-btn v-model="fab" color="secondary" dark fab large>
+        <v-btn v-model="fab" color="secondary" dark fab>
           <v-icon v-if="fab">mdi-close</v-icon>
           <v-icon v-else>mdi-plus</v-icon>
         </v-btn>
@@ -99,9 +90,9 @@
       <v-btn fab dark small color="green" v-if="admin" to="/admins/add">
         <v-icon>mdi-account-plus-outline</v-icon>
       </v-btn>
-      <v-btn fab dark small color="indigo" v-if="admin" to="/addcases">
+      <!-- <v-btn fab dark small color="indigo" v-if="admin" to="/addcases">
         <v-icon>mdi-briefcase-plus-outline</v-icon>
-      </v-btn>
+      </v-btn>-->
     </v-speed-dial>
   </v-app>
 </template>
@@ -123,17 +114,14 @@ export default {
       color: "primary",
       btn_color: "#5778ff",
       isFullscreen: false,
+      fab: false,
       public: [
         {
           icon: "mdi-apps",
           title: "Dashboard",
           to: "/"
         },
-        {
-          icon: "mdi-briefcase-outline",
-          title: "Cases",
-          to: "/cases"
-        },
+
         {
           icon: "mdi-map",
           title: "Map",
@@ -151,11 +139,6 @@ export default {
           icon: "mdi-apps",
           title: "Dashboard",
           to: "/"
-        },
-        {
-          icon: "mdi-briefcase-outline",
-          title: "Cases",
-          to: "/cases"
         },
 
         {
@@ -218,7 +201,7 @@ export default {
       return this.admin ? this.adminsNav : this.public;
     },
     admin() {
-      return this.$store.state.auth.user;
+      return this.$auth.user;
     },
     fullscreenIcon() {
       return this.isFullscreen ? "mdi-fullscreen-exit" : "mdi-fullscreen";
