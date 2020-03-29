@@ -41,7 +41,7 @@ export default {
     // { src: "~/plugins/leaflet.js", ssr: false },
     { src: "~/plugins/apex.chart.js" },
     { src: "~/plugins/amplify.js", ssr: false },
-    { src: "~/plugins/amplify.auth.js", ssr: false }
+    { src: "~/plugins/amplify.auth.js", mode: "client" }
   ],
 
   /*

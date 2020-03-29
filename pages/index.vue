@@ -366,7 +366,7 @@ export default {
       else return "grey";
     }
   },
-  created() {
+  async created() {
     this.getStats();
   }
 };

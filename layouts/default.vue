@@ -80,18 +80,9 @@
         Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
       </span>
     </v-footer>
-    <v-speed-dial
-      v-if="admin"
-      v-model="fab"
-      bottom
-      right
-      fixed
-      :direction="direction"
-      :open-on-hover="hover"
-      :transition="transition"
-    >
+    <v-speed-dial v-if="admin" v-model="fab" bottom right fixed :open-on-hover="expandOnHover">
       <template v-slot:activator>
-        <v-btn v-model="fab" color="secondary" dark fab large>
+        <v-btn v-model="fab" color="secondary" dark fab>
           <v-icon v-if="fab">mdi-close</v-icon>
           <v-icon v-else>mdi-plus</v-icon>
         </v-btn>
@@ -123,6 +114,7 @@ export default {
       color: "primary",
       btn_color: "#5778ff",
       isFullscreen: false,
+      fab: false,
       public: [
         {
           icon: "mdi-apps",

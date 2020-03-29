@@ -83,9 +83,21 @@ export default {
   methods: {
     // login() {}
   },
+  mounted() {
+    if (this.$store.state.auth.user) {
+      //already logged in so we redirect to home page
+      this.$router.push("/");
+    }
+  },
   created() {
     AmplifyEventBus.$on("authState", info => {
-      this.$auth.onEvent(info);
+      if (info === "signedIn") {
+        this.store.dispatch("auth/load");
+        this.$router.push("/");
+      } else if (info === "signedOut") {
+        this.$router.push("/login");
+      }
+
       console.log(
         `Here is the auth event that was just emitted by an Amplify component: ${info}`
       );
