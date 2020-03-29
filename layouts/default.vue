@@ -51,7 +51,7 @@
             </v-list-item-action>
           </v-list-item>
           <v-list-item @click="signout">
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title>LOG OUT</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
