@@ -7,6 +7,12 @@ This dashboard will be used by Ministry of health for internal logging and monit
 
 [Here are the guidelines](CONTRIBUTING.md)
 
+
+# Breaking Changes as of March 29, 2020
+-> authentication is through AWS Cognito
+-> previous demo credentials[below]  doesn't work any more
+-> cases list and management removed, since the data collection and aggregation is done through other projects
+
 # Demo
 
 http://covid.fynsystems.com
