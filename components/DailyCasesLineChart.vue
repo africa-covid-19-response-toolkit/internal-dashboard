@@ -1,6 +1,6 @@
 <template>
   <v-card tile>
-    <v-card-title>{{ chart_title }}</v-card-title>
+    <v-card-title>{{ `${$t('chart_titles.daily')} - ${new Date().toDateString()}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
@@ -20,7 +20,6 @@ export default {
   },
   data: function() {
     return {
-      chart_title: `ዬየቀን መረጃ  - ${new Date().toDateString()}`,
       chartOptions: {
         colors: [
           "#499ebf",

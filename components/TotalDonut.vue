@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="0" hover tile>
-    <v-card-title>{{ name }}</v-card-title>
+    <v-card-title>{{ $t('chart_titles.total') }}</v-card-title>
     <apexchart
       ref="donut"
       width="100%"
@@ -25,14 +25,13 @@ export default {
   },
   data: function() {
     return {
-      name: "አጠቃላይ ቻርት",
       labels: [
-        "ማግለያ የገቡ",
-        "የተገኘባቸው",
-        "ወደ ህክምና የገቡ",
-        "በጥና የታመሙ",
-        "ያገገሙ",
-        "በሞት የተለዩ"
+        this.$t('covid_stages.quarantined'),
+        this.$t('covid_stages.confirmed'),
+        this.$t('covid_stages.hospitalized'),
+        this.$t('covid_stages.hospitalized_icu'),
+        this.$t('covid_stages.recovered'),
+        this.$t('covid_stages.dead')
       ],
       chartOptions: {
         dataLabels: {
@@ -45,12 +44,12 @@ export default {
           enabled: false
         },
         labels: [
-          "ማግለያ የገቡ",
-          "የተገኘባቸው",
-          "ወደ ህክምና የገቡ",
-          "በጥና የታመሙ",
-          "ያገገሙ",
-          "በሞት የተለዩ"
+          this.$t('covid_stages.quarantined'),
+          this.$t('covid_stages.confirmed'),
+          this.$t('covid_stages.hospitalized'),
+          this.$t('covid_stages.hospitalized_icu'),
+          this.$t('covid_stages.recovered'),
+          this.$t('covid_stages.dead')
         ],
         plotOptions: {
           pie: {
@@ -89,7 +88,7 @@ export default {
                 total: {
                   show: true,
                   showAlways: false,
-                  label: "ሁሉም",
+                  label: this.$t('chart_titles.total'),
                   fontSize: "14px",
                   fontFamily: "Helvetica, Arial, sans-serif",
                   fontWeight: 600,

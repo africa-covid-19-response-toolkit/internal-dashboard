@@ -15,10 +15,31 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title" />
+              <v-list-item-title v-text="$t(item.titleKey)" />
             </v-list-item-content>
           </v-list-item>
         </v-list>
+
+        <v-list-group
+          no-action
+          sub-group
+          value="true"
+          dense
+        >
+         <template v-slot:activator>
+          <v-list-item>
+            <v-list-item-title >{{ $t("menu.languages")}}</v-list-item-title>
+          </v-list-item>
+          </template>
+          <v-list-item v-for="(lang, i) in languages" :key="i" dense @click="setLang(lang.value)" >
+            <v-list-item-action @click="setLang(lang.value)" />
+              <v-icon>{{ "mdi-earth" }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="$t(lang.titleKey)" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-layout>
     </v-navigation-drawer>
 
@@ -26,13 +47,13 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
-      <span class="overline mx-0 mt-6">BETA1</span>
+      <span class="overline mx-0 mt-6">{{ $t("app.stage") }}</span>
       <v-spacer />
       <!-- <v-alert type="error">
         Warning! This is false data! for testing only
         <br />username:1234567890 password:password
       </v-alert>-->
-      <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
+      <v-btn text v-if="!admin" to="/login" router>{{ $t("login") }}</v-btn>
       <v-menu v-else>
         <template v-slot:activator="{ on }">
           <v-btn color="secondary" fab small outlined elevation="0" dark v-on="on">
@@ -118,50 +139,58 @@ export default {
       public: [
         {
           icon: "mdi-apps",
-          title: "Dashboard",
+          titleKey: 'menu.dashboard',
           to: "/"
         },
-
         {
           icon: "mdi-map",
-          title: "Map",
+          titleKey: 'menu.map',
           to: "/maps"
         },
         {
           icon: "mdi-earth",
-          title: "Global Data",
+          titleKey: 'menu.global_data',
           to: "/world"
         }
       ],
-
       adminsNav: [
         {
           icon: "mdi-apps",
-          title: "Dashboard",
+          titleKey: 'menu.dashboard',
           to: "/"
         },
 
         {
           icon: "mdi-cellphone-message",
-          title: "Bulk SMS",
+          titleKey: 'menu.bulk_sms',
           to: "/bulksms"
         },
         {
           icon: "mdi-account-multiple",
-          title: "Users",
+          titleKey: 'menu.users',
           to: "/admins/list"
         },
         {
           icon: "mdi-map",
-          title: "Map",
+          titleKey: 'menu.map',
           to: "/maps"
         },
         {
           icon: "mdi-earth",
-          title: "Global Data",
+          titleKey: 'menu.global_data',
           to: "/world"
         }
       ],
+     languages: [
+        {
+          titleKey: 'lang.amharic',
+          value: "am"
+        },
+        {
+          titleKey: 'lang.english',
+          value: "en"
+        }
+     ],
       miniVariant: true,
       title: "COVID19.ET"
     };
@@ -184,6 +213,9 @@ export default {
     },
     fullscreen() {
       this.isFullscreen = Util.toggleFullScreen();
+    },
+    setLang(lang) {
+      this.$store.commit('SET_LANG', lang)
     },
     deleteAllCookies() {
       var cookies = document.cookie.split(";");
@@ -219,6 +251,7 @@ export default {
       const bgColor = this.$vuetify.theme.dark ? "#333840" : "#efefef";
       return `background-color:${bgColor}`;
     }
+
   }
 };
 </script>

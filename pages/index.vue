@@ -2,15 +2,13 @@
   <v-container fluid align-center>
     <v-row>
       <v-col class="my-0">
-        <h1>DASHBOARD</h1>
-        <h6>COVID19 LIVE STATUS - ETHIOPIA</h6>
+        <h1>{{ $t("titles.dashboard") }}</h1>
+        <h6>{{ $t("titles.live_status") }}</h6>
       </v-col>
       <v-spacer />
 
       <v-progress-circular indeterminate color="primary" v-if="loading" class="my-auto mx-2" />
-      <v-btn depressed rounded color="secondary" class="my-auto" @click="getStats">
-        <v-icon>mdi-reload</v-icon>REFRESH
-      </v-btn>
+      <v-btn depressed rounded color="secondary" class="my-auto" @click="getStats"><v-icon>mdi-reload</v-icon>{{ $t("refresh") }}</v-btn>
     </v-row>
     <v-divider class="mt-0" />
     <v-row>
@@ -48,7 +46,7 @@
     <v-row>
       <v-col cols="12">
         <v-lazy>
-          <DailyCasesLineChart :chartdata="getDailyLiveStats" />
+         <DailyCasesLineChart :chartdata="getDailyLiveStats" />
         </v-lazy>
       </v-col>
     </v-row>
@@ -95,15 +93,17 @@ export default {
     Map
   },
   data() {
+
+   const quarantined = this.$t('covid_stages.quarantined')
     return {
       loading: false,
       labels: [
-        "ማግለያ የገቡ",
-        "የተገኘባቸው",
-        "ወደ ህክምና የገቡ",
-        "በጠና የታመሙ",
-        "ያገገሙ",
-        "በሞት የተለዩ"
+        'covid_stages.quarantined',
+        'covid_stages.confirmed',
+        'covid_stages.hospitalized',
+        'covid_stages.hospitalized_icu',
+        'covid_stages.recovered',
+        'covid_stages.dead'
       ],
       status: [
         "quarantined",
@@ -133,34 +133,34 @@ export default {
             min: 0,
             max: 24,
             title: {
-              text: "Hour"
+              text: this.$t('calendar.hour')
             }
           }
         };
 
         const series = [
           {
-            name: "ማግለያ የገቡ",
+            name: this.$t('covid_stages.quarantined'),
             data: daily.quarantined.data
           },
           {
-            name: "ቫይረሱ የተገኘባቸው",
+            name: this.$t('covid_stages.confirmed'),
             data: daily.confirmed.data
           },
           {
-            name: "ህክምና የገቡ",
+            name: this.$t('covid_stages.hospitalized'),
             data: daily.hospitalized.data
           },
           {
-            name: "በጠና የታመሙ",
+            name: this.$t('covid_stages.hospitalized_icu'),
             data: daily.hospitalized_icu.data
           },
           {
-            name: "ያገገሙ",
+            name: this.$t('covid_stages.recovered'),
             data: daily.recovered.data
           },
           {
-            name: "በሞት የተለዩ",
+            name: this.$t('covid_stages.dead'),
             data: daily.dead.data
           }
         ];
@@ -194,33 +194,33 @@ export default {
         const xaxis = {
           categories: daily.confirmed.labels,
           title: {
-            text: "days"
+            text: this.$t('calendar.days'),
           }
         };
 
         const series = [
           {
-            name: "ማግለያ የገቡ",
+            name: this.$t('covid_stages.quarantined'),
             data: daily.quarantined.data
           },
           {
-            name: "ቫይረሱ የተገኘባቸው",
+            name: this.$t('covid_stages.confirmed'),
             data: daily.confirmed.data
           },
           {
-            name: "ህክምና የገቡ",
+            name: this.$t('covid_stages.hospitalized'),
             data: daily.hospitalized.data
           },
           {
-            name: "በጠና የታመሙ",
+            name: this.$t('covid_stages.hospitalized_icu'),
             data: daily.hospitalized_icu.data
           },
           {
-            name: "ያገገሙ",
+            name: this.$t('covid_stages.recovered'),
             data: daily.recovered.data
           },
           {
-            name: "በሞት የተለዩ",
+            name: this.$t('covid_stages.dead'),
             data: daily.dead.data
           }
         ];
@@ -253,27 +253,27 @@ export default {
 
         const series = [
           {
-            name: "ማግለያ የገቡ",
+            name: this.$t('covid_stages.quarantined'),
             data: daily.quarantined.data
           },
           {
-            name: "ቫይረሱ የተገኘባቸው",
+            name: this.$t('covid_stages.confirmed'),
             data: daily.confirmed.data
           },
           {
-            name: "ህክምና የገቡ",
+            name: this.$t('covid_stages.hospitalized'),
             data: daily.hospitalized.data
           },
           {
-            name: "በጠና የታመሙ",
+            name: this.$t('covid_stages.hospitalized_icu'),
             data: daily.hospitalized_icu.data
           },
           {
-            name: "ያገገሙ",
+            name: this.$t('covid_stages.recovered'),
             data: daily.recovered.data
           },
           {
-            name: "በሞት የተለዩ",
+            name: this.$t('covid_stages.dead'),
             data: daily.dead.data
           }
         ];
@@ -282,7 +282,7 @@ export default {
           xaxis: {
             categories: months,
             title: {
-              text: "Month"
+              text: this.$t('calendar.month')
             }
           }
         };
@@ -296,7 +296,7 @@ export default {
         const dt = all.data[0].total;
 
         // const currentMonth = nonths[daily.month];
-
+        console.log('labels ', dt.labels) 
         this.case_names_eng = dt.labels;
         const series = [...dt.data];
         series.splice(0, 1);
@@ -318,6 +318,7 @@ export default {
         series.splice(0, 1);
         //allconfirmed
         series[1] = dt.allconfirmed;
+        console.log('series ', series)
         return { series };
       }
       return { series: [0, 0, 0, 0, 0, 0] };
@@ -353,7 +354,7 @@ export default {
       }
     },
     getCat: function(index) {
-      return this.labels[index];
+      return this.$t(this.labels[index]);
     },
     getColorForCase: function(index) {
       const status = this.status[index];

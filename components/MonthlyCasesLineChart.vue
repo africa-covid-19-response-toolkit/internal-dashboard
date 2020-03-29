@@ -1,6 +1,6 @@
 <template>
   <v-card tile>
-    <v-card-title>{{ chart_title }}</v-card-title>
+    <v-card-title>{{ `${$t('chart_titles.monthly')} - ${new Date().toDateString()}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
@@ -19,8 +19,8 @@ export default {
     }
   },
   data: function() {
+
     return {
-      chart_title: `ወርሃዊ መረጃ - ${new Date().getFullYear()}`,
       chartOptions: {
         animations: {
           enabled: false
