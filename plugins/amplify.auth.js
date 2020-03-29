@@ -29,7 +29,7 @@ class AuthService {
 
 export default async ({ store }) => {
   const authService = new AuthService(store);
-  Vue.prototype.$auth = authService;
   Vue.$auth = authService;
+  Vue.prototype.$auth = authService;
   await store.dispatch("auth/load");
 };

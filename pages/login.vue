@@ -92,7 +92,7 @@ export default {
   created() {
     AmplifyEventBus.$on("authState", info => {
       if (info === "signedIn") {
-        this.store.dispatch("auth/load");
+        this.$store.dispatch("auth/load");
         this.$router.push("/");
       } else if (info === "signedOut") {
         this.$router.push("/login");

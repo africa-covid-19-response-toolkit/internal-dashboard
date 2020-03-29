@@ -41,10 +41,10 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item link two-line to="/admins/profile">
+          <v-list-item link two-line>
             <v-list-item-content>
-              <v-list-item-title class="subtitle">{{ admin.first_name }} {{ admin.last_name }}</v-list-item-title>
-              <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
+              <v-list-item-title>{{ admin.username }}</v-list-item-title>
+              <v-list-item-subtitle class="subtitle">{{ admin.first_name }} {{ admin.last_name }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <v-icon>mdi-menu-down</v-icon>
@@ -90,9 +90,9 @@
       <v-btn fab dark small color="green" v-if="admin" to="/admins/add">
         <v-icon>mdi-account-plus-outline</v-icon>
       </v-btn>
-      <v-btn fab dark small color="indigo" v-if="admin" to="/addcases">
+      <!-- <v-btn fab dark small color="indigo" v-if="admin" to="/addcases">
         <v-icon>mdi-briefcase-plus-outline</v-icon>
-      </v-btn>
+      </v-btn>-->
     </v-speed-dial>
   </v-app>
 </template>
