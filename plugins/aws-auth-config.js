@@ -2,10 +2,12 @@
 export default {
     region: 'us-east-2',
     // url: 'https://ethiopia-covid19.auth.us-east-2.amazoncognito.com/oauth2/token',
-    userPoolId: 'us-east-2_AGCA6XBTP',
-    userPoolWebClientId: '654eeg4trcap5e105vvtk322ob',
+    // userPoolId: 'us-east-2_AGCA6XBTP',
+    userPoolId: 'us-east-1_mYsZ1O6Bg',
+    // userPoolWebClientId: '654eeg4trcap5e105vvtk322ob',
+    userPoolWebClientId: '15i8c6ghc65gjn7cbqbob5a4ie',
     identityPoolId: 'us-east-2:e2338de4-6c26-464d-a1f8-bea30907b715',
-    authenticationFlowType: 'USER_PASSWORD_AUTH'
+    // authenticationFlowType: 'USER_PASSWORD_AUTH'
 }
 
 const ref = {
