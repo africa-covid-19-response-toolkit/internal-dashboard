@@ -32,7 +32,7 @@
         Warning! This is false data! for testing only
         <br />username:1234567890 password:password
       </v-alert>-->
-      <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
+      <v-btn text v-if="!$auth.isAuthenticated" to="/login" router>LOG IN</v-btn>
       <v-menu v-else>
         <template v-slot:activator="{ on }">
           <v-btn color="secondary" fab small outlined elevation="0" dark v-on="on">
