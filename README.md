@@ -9,9 +9,11 @@ This dashboard will be used by Ministry of health for internal logging and monit
 
 
 # Breaking Changes as of March 29, 2020
--> authentication is through AWS Cognito
--> previous demo credentials[below]  doesn't work any more
--> cases list and management removed, since the data collection and aggregation is done through other projects
+1. Authentication is through AWS Cognito
+
+2. previous demo credentials[below]  doesn't work any more
+
+3. cases list and management removed, since the data collection and aggregation is done through other projects
 
 # Demo
 
