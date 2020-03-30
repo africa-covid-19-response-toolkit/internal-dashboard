@@ -156,11 +156,6 @@ export default {
           titleKey: "menu.map",
           to: "/maps"
         },
-        {
-          icon: "mdi-earth",
-          titleKey: "menu.global_data",
-          to: "/world"
-        }
       ],
       adminsNav: [
         {
@@ -168,26 +163,10 @@ export default {
           titleKey: "menu.dashboard",
           to: "/"
         },
-
-        {
-          icon: "mdi-cellphone-message",
-          titleKey: "menu.bulk_sms",
-          to: "/bulksms"
-        },
-        {
-          icon: "mdi-account-multiple",
-          titleKey: "menu.users",
-          to: "/admins/list"
-        },
         {
           icon: "mdi-map",
           titleKey: "menu.map",
           to: "/maps"
-        },
-        {
-          icon: "mdi-earth",
-          titleKey: "menu.global_data",
-          to: "/world"
         }
       ],
       languages: [
