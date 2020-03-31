@@ -18,8 +18,8 @@
             :title="getCat(index)"
             :primaryValue="item[0]"
             :secondaryValue="item[1]"
-            :primaryLabel="suffixesMap[index][0]"
-            :secondaryLabel="suffixesMap[index][1]"
+            :primaryLabel="$t(suffixesMap[index][0])"
+            :secondaryLabel="$t(suffixesMap[index][1])"
           />
         </v-lazy>
       </v-col>
@@ -104,10 +104,13 @@ export default {
       ],
       status: ["confirmed", "hospitalized", "recovered", "quarantined"],
       suffixesMap: {
-        0: ["Cases", "Deaths"],
-        1: ["Stable", "Critical"],
-        2: ["Patients"],
-        3: ["Patients"]
+        0: ["covid_stages.confirmed", "covid_stages.dead"],
+        1: [
+          "covid_stages.hospitalized_stable",
+          "covid_stages.hospitalized_critical"
+        ],
+        2: ["covid_stages.recovered"],
+        3: ["covid_stages.quarantined"]
       }
     };
   },
