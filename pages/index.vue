@@ -12,13 +12,14 @@
     </v-row>
     <v-divider class="mt-0" />
     <v-row>
-      <v-col v-for="(item, index) in getLiveTotal.series" :key="index" xs="6" sm="4" md="3" lg="2">
+      <v-col v-for="(item, index) in getTotalStats.series" :key="index" xs="4">
         <v-lazy>
           <MiniStatistics
-            :subTitle="getCat(index)"
-            :title="`${item}`"
-            :chart="getDailyLiveStats.series[index]"
-            :color="getColorForCase(index)"
+            :title="getCat(index)"
+            :primaryValue="item[0]"
+            :secondaryValue="item[1]"
+            :primaryLabel="suffixesMap[index][0]"
+            :secondaryLabel="suffixesMap[index][1]"
           />
         </v-lazy>
       </v-col>
@@ -93,26 +94,21 @@ export default {
     Map
   },
   data() {
-
-   const quarantined = this.$t('covid_stages.quarantined')
     return {
       loading: false,
       labels: [
-        'covid_stages.quarantined',
-        'covid_stages.confirmed',
-        'covid_stages.hospitalized',
-        'covid_stages.hospitalized_icu',
-        'covid_stages.recovered',
-        'covid_stages.dead'
+        "covid_stages.confirmed",
+        "covid_stages.hospitalized",
+        "covid_stages.recovered",
+        "covid_stages.quarantined"
       ],
-      status: [
-        "quarantined",
-        "confirmed",
-        "hospitalized",
-        "hospitalized_icu",
-        "recovered",
-        "dead"
-      ]
+      status: ["confirmed", "hospitalized", "recovered", "quarantined"],
+      suffixesMap: {
+        0: ["Cases", "Deaths"],
+        1: ["Stable", "Critical"],
+        2: ["Patients"],
+        3: ["Patients"]
+      }
     };
   },
   computed: {
@@ -120,6 +116,9 @@ export default {
 
     findStatStore() {
       return this.$store.state.stats.allstats;
+    },
+    getTotalStats() {
+      return { series: [[26, 0], [19, 2], [2], [1]] };
     },
     getHourlyLiveStats() {
       const all = this.findStatStore;
