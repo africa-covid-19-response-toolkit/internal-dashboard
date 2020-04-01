@@ -1,41 +1,29 @@
 <template>
-  <v-card dark tile min-width="100" hover height="100" :color="color">
-    <v-layout row class="py-0 my-0">
-      <div
-        flat
-        dark
-        tile
-        style="background: #ffffff; font-weight: 900; font-size: 48px; text-align:center; height=100%; box-shadow: 5px 5px 0 rgba(0,0,0,0.1); padding: 10px;"
-        :style="{ color: color }"
-        class="sm4 xs4 flex text-sm-center display-1 my-auto mx-auto"
-      >
-        {{ title }}
+  <v-card tile elevation="1" min-width="100" hover height="100">
+    <v-layout column class="flex column mb-1 py-1 px-2 text-sm-center">
+      <div class="overline flex">{{title}}</div>
+      <div v-if="primaryLabel" class="black--text">
+        <span class="title">{{primaryValue || 0}}</span>
+        <span class="subtitle-1">{{primaryLabel}}</span>
       </div>
-      <div
-        style="text-align:center; height=100%;"
-        class="sm8 caption xs8 flex text-sm-center my-auto"
-      >
-        {{ subTitle }}
+      <div v-if="secondaryLabel" class="red--text">
+        <span class="title">{{secondaryValue || 0}}</span>
+        <span class="subtitle-1">{{secondaryLabel}}</span>
       </div>
     </v-layout>
-    <v-spacer />
-    <apexchart
-      width="100%"
-      height="28"
-      type="bar"
-      :options="chartOptions"
-      :series="getSeries"
-    ></apexchart>
   </v-card>
 </template>
+
 
 <script>
 export default {
   props: {
     icon: String,
     title: String,
-    subTitle: String,
-    color: String,
+    primaryValue: Number,
+    primaryLabel: String,
+    secondaryValue: Number,
+    secondaryLabel: String,
     chart: {
       type: Object,
       default: () => {

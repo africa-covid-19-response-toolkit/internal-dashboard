@@ -1,44 +1,46 @@
 {
   "app": {
-  	"stage": "BETA 1"
+    "stage": "BETA 1"
   },
   "titles": {
-   "dashboard": "DASHBOARD",
-   "live_status": "COVID19 LIVE STATUS - ETHIOPIA"
+    "dashboard": "DASHBOARD",
+    "live_status": "COVID19 LIVE STATUS - ETHIOPIA"
   },
   "login": "LOG IN",
   "refresh": "REFRESH",
   "covid_stages": {
-	"quarantined" : "Quarantined",
-	"confirmed": "Confirmed",
-	"hospitalized": "Hospitalized",
-	"hospitalized_icu": "Hospitalized (ICU)",
-	"recovered": "Recovered",
-	"dead": "Dead"
+    "quarantined": "Quarantined",
+    "confirmed": "Confirmed",
+    "hospitalized": "Hospitalized",
+    "hospitalized_icu": "Hospitalized (ICU)",
+    "hospitalized_stable": "Stable",
+    "hospitalized_critical": "Critical",
+    "recovered": "Recovered",
+    "dead": "Dead"
   },
   "calendar": {
-  	"days": "Days",
-  	"hour": "Hour",
-  	"month": "Month"
+    "days": "Days",
+    "hour": "Hour",
+    "month": "Month"
   },
   "chart_titles": {
-  	"monthly": "Monthly",
-  	"daily": "Daily",
-  	"hourly": "Hourly",
-  	"total": "Total",
-  	"confirmed": "Confirmed"
+    "monthly": "Monthly",
+    "daily": "Daily",
+    "hourly": "Hourly",
+    "total": "Total",
+    "confirmed": "Confirmed"
   },
   "menu": {
-  	"dashboard": "Dashboard",
-  	"cases": "Cases",
-  	"map": "Map",
-  	"global_data": "Global Data",
-  	"languages": "Languages",
-  	"bulk_sms": "Bulk SMS",
-  	"users": "Users"
+    "dashboard": "Dashboard",
+    "cases": "Cases",
+    "map": "Map",
+    "global_data": "Global Data",
+    "languages": "Languages",
+    "bulk_sms": "Bulk SMS",
+    "users": "Users"
   },
   "lang": {
-  	"amharic": "Amharic",
-  	"english": "English"
+    "amharic": "Amharic",
+    "english": "English"
   }
 }
