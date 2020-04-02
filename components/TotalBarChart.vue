@@ -1,11 +1,12 @@
+
 <template>
   <v-card flat class="pr-1">
     <v-card-title>{{ title }}</v-card-title>
     <apexchart type="bar" width="100%" height="300" :series="series" :options="chartOptions" />
   </v-card>
 </template>
-
 <script>
+
 export default {
   props: ["title", "series", "labels", "horizontal", "showDataLabel"],
   data() {
@@ -26,15 +27,7 @@ export default {
         xaxis: {
           categories: this.$props.labels
         },
-        tooltip: {
-          y: {
-            title: {
-              formatter() {
-                return "";
-              }
-            }
-          }
-        }
+       
       }
     };
   },

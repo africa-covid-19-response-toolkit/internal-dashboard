@@ -217,6 +217,7 @@ export default {
 
       return chartdata;
     },
+
     getHourlyLiveStats() {
       const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
