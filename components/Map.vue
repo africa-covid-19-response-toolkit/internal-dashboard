@@ -17,6 +17,8 @@
           :radius="getRaius(item)"
           :fillOpacity="getOpacity(item)"
         >
+          <l-tooltip :content="item.info"></l-tooltip>
+
           <l-popup :content="item.info"></l-popup>
         </l-circle-marker>
 
