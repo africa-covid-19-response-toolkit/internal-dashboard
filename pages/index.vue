@@ -53,7 +53,7 @@
         <v-lazy>
           <TotalBarChart
             class="mt-8"
-            :horizontal="true"
+            :horizontal="false"
             :showDataLabel="false"
             :title="$t('chart_titles.total_by_city')"
             :series="getTotalByRegionSeries.series"
