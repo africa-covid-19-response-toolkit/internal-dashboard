@@ -17,13 +17,7 @@ This dashboard will be used by Ministry of health for internal logging and monit
 
 4. The master branch of this repo will automatically be deployed to - http://ethiopia-covid19.com/   
 
-# Demo
 
-http://covid.fynsystems.com
-
-demo credentials
-username: 1234567890
-password: password
 
 ## Build Setup
 
