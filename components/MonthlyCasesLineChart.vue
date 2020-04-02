@@ -1,5 +1,5 @@
 <template>
-  <v-card tile>
+  <v-card>
     <v-card-title>{{ `${$t('chart_titles.monthly')} - ${new Date().toDateString()}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
@@ -19,7 +19,6 @@ export default {
     }
   },
   data: function() {
-
     return {
       chartOptions: {
         animations: {

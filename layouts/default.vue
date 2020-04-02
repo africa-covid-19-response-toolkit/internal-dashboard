@@ -42,7 +42,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
-      <span class="overline mx-0 mt-6">{{ $t("app.stage") }}</span>
+      <!-- <span class="overline mx-0 mt-6">{{ $t("app.stage") }}</span> -->
       <v-spacer />
       <!-- <v-alert type="error">
         Warning! This is false data! for testing only
@@ -155,7 +155,7 @@ export default {
           icon: "mdi-map",
           titleKey: "menu.map",
           to: "/maps"
-        },
+        }
       ],
       adminsNav: [
         {

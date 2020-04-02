@@ -1,8 +1,8 @@
 <template>
-  <v-card tile>
-    <v-card-title>{{ `${$t('chart_titles.daily')} - ${new Date().toDateString()}` }}</v-card-title>
+  <v-card flat>
+    <v-card-title>{{ title }}</v-card-title>
 
-    <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
+    <apexchart width="100%" height="340" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
 
@@ -11,6 +11,15 @@ import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   props: {
+    chartType: {
+      type: String,
+      default: "line"
+    },
+
+    title: {
+      type: String,
+      default: null
+    },
     chartdata: {
       type: Object,
       default: () => {
@@ -20,6 +29,9 @@ export default {
   },
   data: function() {
     return {
+      defaultTitle: `${this.$t(
+        "chart_titles.daily"
+      )} - ${new Date().toDateString()}`,
       chartOptions: {
         colors: [
           "#499ebf",
@@ -32,9 +44,14 @@ export default {
         dataLabels: {
           enabled: false
         },
+        series: this.chartdata,
+        chart: {
+          type: this.chartType,
+          stacked: true
+        },
         stroke: {
-          width: 2,
-          curve: "smooth"
+          width: 2.5
+          // curve: "smooth"
         },
         xaxis: this.xaxis,
         animations: {
@@ -47,7 +64,7 @@ export default {
           }
         },
         dataLabels: {
-          enabled: true,
+          enabled: false,
 
           style: {
             fontSize: "10px",
@@ -64,16 +81,16 @@ export default {
             opacity: 0.9
           }
         },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              dataLabels: {
-                enabled: false
-              }
-            }
-          }
-        ],
+        // responsive: [
+        //   {
+        //     breakpoint: 800,
+        //     options: {
+        //       dataLabels: {
+        //         enabled: false
+        //       }
+        //     }
+        //   }
+        // ],
         legend: { position: "top", align: "left", horizontalAlign: "left" }
       },
       series: []
@@ -99,14 +116,17 @@ export default {
       this.$vuetify.theme.dark ? "dark" : "light";
     },
     getSeries() {
-      return this.chartdata
+      return this.chartdata && this.chartdata.series
         ? this.chartdata.series
-          ? this.chartdata.series
-          : []
         : [];
     }
   },
-  methods: {}
+  methods: {},
+  mounted() {
+    if (!this.title) {
+      this.title = this.defaultTitle;
+    }
+  }
 };
 </script>
 

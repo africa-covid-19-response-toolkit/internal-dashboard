@@ -1,10 +1,13 @@
 <template>
-  <v-card tile>
+  <v-card>
     <v-card-title>{{ `${$t('chart_titles.hourly')} - ${new Date().toDateString()}` }}</v-card-title>
     <apexchart
       width="100%"
       height="200"
-      type="line" :options="{...getChartOptions }" :series="getSeries"></apexchart>
+      type="line"
+      :options="{...getChartOptions }"
+      :series="getSeries"
+    ></apexchart>
   </v-card>
 </template>
 
@@ -107,7 +110,7 @@ export default {
 
   computed: {
     getChartOptions() {
-        console.log('getChartOptions')
+      console.log("getChartOptions");
       if (this.chartdata && this.chartdata.xaxis) {
         return {
           ...this.chartOptions,
@@ -135,7 +138,7 @@ export default {
           }
         };
       }
-      return {...this.chartOptions };
+      return { ...this.chartOptions };
     },
     getTheme() {
       this.$vuetify.theme.dark ? "dark" : "light";

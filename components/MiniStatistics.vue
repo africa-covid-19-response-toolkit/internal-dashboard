@@ -1,15 +1,15 @@
 <template>
-  <v-card tile elevation="1" min-width="100" hover height="100">
-    <v-layout column class="flex column mb-1 py-1 px-2 text-sm-center">
-      <div class="overline flex">{{title}}</div>
-      <div v-if="primaryLabel" class="black--text">
-        <span class="title">{{primaryValue || 0}}</span>
-        <span class="subtitle-1">{{primaryLabel}}</span>
-      </div>
-      <div v-if="secondaryLabel" class="red--text">
-        <span class="title">{{secondaryValue || 0}}</span>
-        <span class="subtitle-1">{{secondaryLabel}}</span>
-      </div>
+  <v-card min-width="100" hover height="100">
+    <v-layout column class="flex column">
+      <div class="overline font-weight-bold flex ml-2">{{title}}</div>
+      <v-flex row class="black--text ml-2 mb-0">
+        <span class="display-1 font-weight-bold">{{primaryValue || 0}}</span>
+        <div v-if="secondaryLabel" class="red--text ml-2">
+          <span class="overline font-weight-medium">{{secondaryValue || 0}} {{secondaryLabel}}</span>
+          <!-- <span class="body-2">{{secondaryLabel}}</span> -->
+        </div>
+      </v-flex>
+      <apexchart width="100%" height="30" type="area" :options="chartOptions" :series="getSeries"></apexchart>
     </v-layout>
   </v-card>
 </template>
@@ -18,6 +18,7 @@
 <script>
 export default {
   props: {
+    color: String,
     icon: String,
     title: String,
     primaryValue: Number,
@@ -43,10 +44,10 @@ export default {
           // mode: "light",
           palette: "palette1",
           monochrome: {
-            enabled: false,
-            color: "#255aee",
+            enabled: true,
+            color: this.color,
             shadeTo: "light",
-            shadeIntensity: 0.55
+            shadeIntensity: 0.5
           }
         },
 
@@ -61,13 +62,14 @@ export default {
           },
           background: "transparent"
         },
-        colors: ["#ffffff", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
+        colors: ["secondary", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
 
         stroke: {
-          width: 1
+          width: 2,
+          opacity: 0.8
         },
         fill: {
-          opacity: 1
+          opacity: 0.5
         },
         xaxis: { min: 0, max: 31 },
         yaxis: {

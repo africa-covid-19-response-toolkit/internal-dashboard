@@ -21,6 +21,8 @@
             :title="getCat(index)"
             :primaryValue="item[0]"
             :secondaryValue="item[1]"
+            :chart="getLast30DayStats.series[index]"
+            :color="getColorForCase(index)"
             :primaryLabel="$t(suffixesMap[index][0])"
             :secondaryLabel="$t(suffixesMap[index][1])"
           />
@@ -48,7 +50,16 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" xs="12" sm="6" md="12" lg="6">
+        <v-lazy>
+          <DailyCasesLineChart
+            chartType="line"
+            title="Last 30 days"
+            :chartdata="getLast30DayStats"
+          />
+        </v-lazy>
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="12" lg="6">
         <v-lazy>
           <DailyCasesLineChart :chartdata="getDailyLiveStats" />
         </v-lazy>
@@ -315,6 +326,13 @@ export default {
         ];
         // const currentMonth = nonths[daily.month];
 
+        const xaxis = {
+          categories: daily.confirmed.labels,
+          title: {
+            text: this.$t("calendar.days")
+          }
+        };
+
         const series = [
           {
             name: this.$t("covid_stages.quarantined"),
@@ -341,34 +359,11 @@ export default {
             data: daily.dead.data
           }
         ];
-        return {
-          series,
-          xaxis: {
-            categories: months,
-            title: {
-              text: this.$t("calendar.month")
-            }
-          }
-        };
-      }
-      return {};
-    },
 
-    getLiveTotalDonut() {
-      const all = this.findStatStore;
-      if (all && all.data && all.data.length > 0) {
-        const dt = all.data[0].total;
-
-        // const currentMonth = nonths[daily.month];
-        console.log("labels ", dt.labels);
-        this.case_names_eng = dt.labels;
-        const series = [...dt.data];
-        series.splice(0, 1);
-        //allconfirmed
-        // series[1] = dt.allconfirmed;
-        return { series };
+        const d = { series, xaxis };
+        return d;
       }
-      return { series: [0, 0, 0, 0, 0, 0] };
+      return { series: [] };
     },
 
     getLiveTotal() {

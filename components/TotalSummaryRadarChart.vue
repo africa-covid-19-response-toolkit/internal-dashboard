@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" hover tile>
+  <v-card elevation="0">
     <v-card-title>{{ $t('chart_titles.confirmed') }}</v-card-title>
 
     <apexchart
@@ -29,7 +29,7 @@ export default {
         theme: {
           palette: "palette6"
         },
-        colors : ['#f26666', '#f2a81d', '#50bfa0', '#122a40'],
+        colors: ["#f26666", "#f2a81d", "#50bfa0", "#122a40"],
         animations: {
           enabled: false
         },
@@ -55,10 +55,10 @@ export default {
           }
         },
         labels: [
-          this.$t('covid_stages.confirmed'),
-          this.$t('covid_stages.hospitalized'),
-          this.$t('covid_stages.hospitalized_icu'),
-          this.$t('covid_stages.dead')
+          this.$t("covid_stages.confirmed"),
+          this.$t("covid_stages.hospitalized"),
+          this.$t("covid_stages.hospitalized_icu"),
+          this.$t("covid_stages.dead")
         ],
         legend: {
           show: true,

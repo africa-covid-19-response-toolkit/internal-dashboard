@@ -10,10 +10,10 @@
           :key="item.id"
           :lat-lng="item.latlng"
           :stroke="true"
-          weight="1"
-          color="#ef0000"
+          :weight="1"
+          color="#cf0000"
           :fill="true"
-          fillColor="#df0000"
+          fillColor="#cf0000"
           :radius="getRaius(item)"
           :fillOpacity="getOpacity(item)"
         >
@@ -211,7 +211,7 @@ export default {
       else return "grey";
     },
     getRaius(item) {
-      return Math.max(30.0 * (item.data.confirmed / this.largestCases), 10);
+      return Math.max(30.0 * (item.data.confirmed / this.largestCases), 5);
     },
     getOpacity(item) {
       return Math.min(
