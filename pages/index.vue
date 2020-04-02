@@ -365,6 +365,23 @@ export default {
       }
       return { series: [] };
     },
+    getLiveTotalDonut() {
+      const all = this.findStatStore;
+
+      if (all && all.data && all.data.length > 0) {
+        const dt = all.data[0].total;
+
+        // const currentMonth = nonths[daily.month];
+
+        this.case_names_eng = dt.labels;
+        const series = [...dt.data];
+        series.splice(0, 1);
+        //allconfirmed
+        // series[1] = dt.allconfirmed;
+        return { series };
+      }
+      return { series: [0, 0, 0, 0, 0, 0] };
+    },
 
     getLiveTotal() {
       const all = this.findStatStore;
