@@ -28,9 +28,7 @@
     "daily": "Daily",
     "hourly": "Hourly",
     "total": "Total",
-    "confirmed": "Confirmed",
-    "total_by_city": "Total cases by city",
-    "total_by_traveled_from": "Traveled from"
+    "confirmed": "Confirmed"
   },
   "menu": {
     "dashboard": "Dashboard",
