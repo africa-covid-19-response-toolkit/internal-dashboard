@@ -37,10 +37,23 @@
       </v-col>
       <v-col cols="12" xs="12" sm="6" md="4" lg="4">
         <v-lazy>
-          <TotalDoghnut :chartdata="getLiveTotalDonut" />
+          <TotalBarChart
+            horizontal="true"
+            showDataLabel="true"
+            :title="$t('chart_titles.total_by_city')"
+            :values="getTotalByTravelSeries.values"
+            :labels="getTotalByTravelSeries.labels"
+          />
         </v-lazy>
         <v-lazy>
-          <TotalRadar :chartdata="getLiveTotalConfirmed" class="mt-8" />
+          <TotalBarChart
+            class="mt-8"
+            horizontal="true"
+            showDataLabel="true"
+            :title="$t('chart_titles.total_by_traveled_from')"
+            :values="getTotalByRegionSeries.values"
+            :labels="getTotalByRegionSeries.labels"
+          />
         </v-lazy>
       </v-col>
     </v-row>
@@ -122,6 +135,29 @@ export default {
     },
     getTotalStats() {
       return { series: [[26, 0], [19, 2], [2], [1]] };
+    },
+    getTotalByTravelSeries() {
+      return {
+        values: [44, 55, 41, 64, 22, 43, 21, 38, 48, 39],
+        labels: [
+          "South Korea",
+          "Canada",
+          "United Kingdom",
+          "Netherlands",
+          "Italy",
+          "France",
+          "Japan",
+          "United States",
+          "China",
+          "India"
+        ]
+      };
+    },
+    getTotalByRegionSeries() {
+      return {
+        values: [25, 1],
+        labels: ["Addis Ababa", "Adama"]
+      };
     },
     getHourlyLiveStats() {
       const all = this.findStatStore;
