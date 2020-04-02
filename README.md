@@ -35,7 +35,6 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
-
 ## License
 
 GPLv3
