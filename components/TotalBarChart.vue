@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="1" hover tile class="pr-1">
+  <v-card flat class="pr-1">
     <v-card-title>{{ title }}</v-card-title>
     <apexchart type="bar" width="100%" height="300" :series="series" :options="chartOptions" />
   </v-card>
@@ -7,13 +7,15 @@
 
 <script>
 export default {
-  props: ["title", "values", "labels", "horizontal", "showDataLabel"],
+  props: ["title", "series", "labels", "horizontal", "showDataLabel"],
   data() {
     return {
       chartOptions: {
         plotOptions: {
           bar: {
-            horizontal: this.$props.horizontal
+            horizontal: this.$props.horizontal,
+            columnWidth: "55%",
+            endingShape: "rounded"
           }
         },
         title: { text: undefined, align: "center", floating: true },
@@ -33,12 +35,7 @@ export default {
             }
           }
         }
-      },
-      series: [
-        {
-          data: this.$props.values
-        }
-      ]
+      }
     };
   },
   mounted() {}

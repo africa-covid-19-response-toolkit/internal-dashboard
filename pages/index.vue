@@ -37,26 +37,26 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" xs="12" sm="6" md="8" lg="8">
+      <v-col cols="12" xs="12" sm="6" md="7" lg="7">
         <Map />
       </v-col>
-      <v-col cols="12" xs="12" sm="6" md="4" lg="4">
+      <v-col cols="12" xs="12" sm="6" md="5" lg="5">
         <v-lazy>
           <TotalBarChart
-            horizontal="true"
-            showDataLabel="true"
-            :title="$t('chart_titles.total_by_city')"
-            :values="getTotalByTravelSeries.values"
+            :horizontal="false"
+            :showDataLabel="false"
+            :title="$t('chart_titles.total_by_traveled_from')"
+            :series="getTotalByTravelSeries.series"
             :labels="getTotalByTravelSeries.labels"
           />
         </v-lazy>
         <v-lazy>
           <TotalBarChart
             class="mt-8"
-            horizontal="true"
-            showDataLabel="true"
-            :title="$t('chart_titles.total_by_traveled_from')"
-            :values="getTotalByRegionSeries.values"
+            :horizontal="true"
+            :showDataLabel="false"
+            :title="$t('chart_titles.total_by_city')"
+            :series="getTotalByRegionSeries.series"
             :labels="getTotalByRegionSeries.labels"
           />
         </v-lazy>
@@ -151,27 +151,71 @@ export default {
       return { series: [[26, 0], [19, 2], [2], [1]] };
     },
     getTotalByTravelSeries() {
-      return {
-        values: [44, 55, 41, 64, 22, 43, 21, 38, 48, 39],
+      const whatapigives = {
+        confirmed: [0, 0, 3, 0, 0, 25, 0, 0],
         labels: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
           "Japan",
-          "United States",
+          "Dubai",
+          "Italy",
+          "USA",
+          "Australia",
           "China",
-          "India"
+          "France",
+          "Korea"
         ]
       };
+
+      const chartdata = {
+        series: [
+          {
+            name: this.$t("covid_stages.confirmed"),
+            data: whatapigives.confirmed
+          }
+        ],
+        labels: whatapigives.labels
+      };
+
+      return chartdata;
     },
     getTotalByRegionSeries() {
-      return {
-        values: [25, 1],
-        labels: ["Addis Ababa", "Adama"]
+      const whatapigives = {
+        confirmed: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
+        recovored: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
+        dead: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
+        labels: [
+          "Tigray",
+          "Afar",
+          "Amhara",
+          "Benishangul",
+          "Oromiya",
+          "Gambela",
+          "SNNP",
+          "Somali",
+          "Addis Ababa",
+          "Harar",
+          "Dire Dawa"
+        ]
       };
+
+      const chartdata = {
+        series: [
+          {
+            name: this.$t("covid_stages.confirmed"),
+            data: whatapigives.confirmed
+          },
+          {
+            name: this.$t("covid_stages.recovered"),
+            data: whatapigives.recovored
+          },
+          {
+            name: this.$t("covid_stages.dead"),
+            data: whatapigives.dead
+          }
+        ],
+        labels: whatapigives.labels
+      };
+
+      return chartdata;
     },
     getHourlyLiveStats() {
       const all = this.findStatStore;
