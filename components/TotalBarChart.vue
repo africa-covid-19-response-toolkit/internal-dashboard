@@ -1,34 +1,46 @@
-<script>
-import { Bar } from "vue-chartjs";
+<template>
+  <v-card elevation="1" hover tile class="pr-1">
+    <v-card-title>{{ title }}</v-card-title>
+    <apexchart type="bar" width="100%" height="300" :series="series" :options="chartOptions" />
+  </v-card>
+</template>
 
+<script>
 export default {
-  extends: Bar,
-  data: () => ({
-    chartdata: {
-      labels: [
-        "January",
-        "February",
-        "January",
-        "February",
-        "January",
-        "February"
-      ],
-      datasets: [
+  props: ["title", "values", "labels", "horizontal", "showDataLabel"],
+  data() {
+    return {
+      chartOptions: {
+        plotOptions: {
+          bar: {
+            horizontal: this.$props.horizontal
+          }
+        },
+        title: { text: undefined, align: "center", floating: true },
+        dataLabels: {
+          enabled: this.$props.showDataLabel,
+          textAnchor: "middle"
+        },
+        xaxis: {
+          categories: this.$props.labels
+        },
+        tooltip: {
+          y: {
+            title: {
+              formatter() {
+                return "";
+              }
+            }
+          }
+        }
+      },
+      series: [
         {
-          label: "Data One",
-          backgroundColor: "#f87979",
-          data: [40, 20, 130, 5, 13, 73]
+          data: this.$props.values
         }
       ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
-    }
-  }),
-
-  mounted() {
-    this.renderChart(this.chartdata, this.options);
-  }
+    };
+  },
+  mounted() {}
 };
 </script>
