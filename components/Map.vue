@@ -5,22 +5,24 @@
         <!-- <l-tile-layer url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png" /> -->
         <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <l-geo-json v-if="geojson" :options="geojsonOptions" :geojson="geojson"></l-geo-json>
-        <!-- <l-circle-marker
+        <l-circle-marker
           v-for="item in markers"
           :key="item.id"
           :lat-lng="item.latlng"
           :stroke="true"
-          :color="item.color"
+          weight="1"
+          color="#ef0000"
           :fill="true"
-          :fillColor="item.color"
-          :fillOpacity="0.7"
+          fillColor="#df0000"
+          :radius="getRaius(item)"
+          :fillOpacity="getOpacity(item)"
         >
           <l-popup :content="item.info"></l-popup>
-        </l-circle-marker>-->
+        </l-circle-marker>
 
-        <l-marker v-for="item in markers" :key="item.id" :lat-lng="item.latlng">
+        <!-- <l-marker v-for="item in markers" :key="item.id" :lat-lng="item.latlng">
           <l-popup :content="item.info"></l-popup>
-        </l-marker>
+        </l-marker>-->
 
         <l-control position="topright">
           <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
@@ -54,6 +56,104 @@ export default {
   },
   data() {
     return {
+      largestCases: 1,
+      sampleData: {
+        Tigray: {
+          lat: 13.493334,
+          lng: 39.46907,
+          confirmed: 0,
+          hospitalized: 0,
+          critical: 0,
+          dead: 0
+        },
+        Afar: {
+          lat: 11.795548,
+          lng: 41.009302,
+
+          confirmed: 0,
+          hospitalized: 0,
+          critical: 0,
+          dead: 0
+        },
+        Amhara: {
+          lat: 11.597458,
+          lng: 37.386876,
+
+          confirmed: 3,
+          hospitalized: 3,
+          critical: 0,
+          dead: 0
+        },
+        Benishangul: {
+          lat: 10.062289,
+          lng: 34.545264,
+          confirmed: 0,
+          hospitalized: 0,
+          critical: 0,
+          dead: 0
+        },
+        Oromiya: {
+          lat: 8.540664,
+          lng: 39.268965,
+          confirmed: 2,
+          hospitalized: 2,
+          critical: 0,
+          dead: 0
+        },
+        Gambela: {
+          lat: 8.248474,
+          lng: 34.589961,
+
+          confirmed: 0,
+          hospitalized: 0,
+          critical: 0,
+          dead: 0
+        },
+        SNNP: {
+          lat: 7.051976,
+          lng: 38.495342,
+
+          confirmed: 0,
+          hospitalized: 0,
+          critical: 0,
+          dead: 0
+        },
+        Somali: {
+          lat: 9.352147,
+          lng: 42.79737,
+
+          confirmed: 0,
+          hospitalized: 0,
+          critical: 0,
+          dead: 0
+        },
+        "Addis Ababa": {
+          lat: 9.010117,
+          lng: 38.761353,
+
+          confirmed: 22,
+          hospitalized: 20,
+          critical: 2,
+          dead: 0
+        },
+        Harar: {
+          lat: 9.312948,
+          lng: 42.123789,
+          confirmed: 0,
+          hospitalized: 0,
+          critical: 0,
+          dead: 0
+        },
+        "Dire Dawa": {
+          lat: 9.600638,
+          lng: 41.855466,
+
+          confirmed: 1,
+          hospitalized: 1,
+          critical: 0,
+          dead: 0
+        }
+      },
       loading: false,
       markers: false,
       geojson: false,
@@ -69,29 +169,29 @@ export default {
 
   methods: {
     fetchFromServer() {
-      this.loading = true;
-      //TODO url here for map data
-      this.$axios
-        .get("")
-        .then(res => {
-          this.loading = false;
-          const markers = [];
-          res.data.forEach(item => {
-            if (item.lat && item.lng) {
-              markers.push({
-                id: item.id,
-                latlng: L.latLng(item.lat, item.lng),
-                info: `${item.first_name} ${item.last_name}</br> status: ${item.status}`,
-                color: this.getColor(item.status)
-              });
-            }
-            this.markers = markers;
-          });
-        })
-        .catch(err => {
-          this.loading = false;
-          console.log(err);
-        });
+      // this.loading = true;
+      // //TODO url here for map data
+      // this.$axios
+      //   .get("https://api.pmo.gov.et/v1/patients/?format=json&limit=0")
+      //   .then(res => {
+      //     this.loading = false;
+      //     const markers = [];
+      //     res.data.results.forEach(item => {
+      //       if (item.lat && item.lng) {
+      //         markers.push({
+      //           id: item.id,
+      //           latlng: L.latLng(item.lat, item.lng),
+      //           info: `${item}</br> status: ${item.status}`,
+      //           color: this.getColor(item.status)
+      //         });
+      //       }
+      //       this.markers = markers;
+      //     });
+      //   })
+      //   .catch(err => {
+      //     this.loading = false;
+      //     console.log(err);
+      //   });
     },
     async fetchRegionGeoJson() {
       this.loading = true;
@@ -109,7 +209,50 @@ export default {
       else if (status === "recovered") return "green";
       else if (status === "dead") return "black";
       else return "grey";
+    },
+    getRaius(item) {
+      return Math.max(30.0 * (item.data.confirmed / this.largestCases), 10);
+    },
+    getOpacity(item) {
+      return Math.min(
+        Math.max(item.data.confirmed / this.largestCases, 0.4),
+        0.8
+      );
+    },
+    showSampleData() {
+      const keys = Object.keys(this.sampleData);
+      const markers = [];
+      let largest = 1;
+      keys.forEach(key => {
+        const item = this.sampleData[key];
+        if (item.confirmed > largest) {
+          largest = item.confirmed;
+        }
+      });
+
+      this.largestCases = largest;
+
+      keys.forEach(key => {
+        const item = this.sampleData[key];
+        if (item.confirmed > 0) {
+          markers.push({
+            id: key,
+            data: item,
+            latlng: L.latLng(item.lat, item.lng),
+            info: `<span class="title">${key}</span><br/><span class="body-1">CONFIRMED   ${item.confirmed}</span><br/>
+            <span class="subtitle">HOSPITALIZED  ${item.hospitalized}</span><br/><span class="red--text subtitle">CRITICAL  ${item.critical}<br/>
+            DEAD  ${item.dead}</span>`,
+            color: this.getColor(item.status)
+          });
+        }
+
+        this.markers = markers;
+      });
     }
+  },
+
+  created() {
+    this.showSampleData();
   },
 
   mounted() {
