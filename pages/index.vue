@@ -500,6 +500,11 @@ export default {
 
   methods: {
     ...mapActions("stats", { loadStats: "loadStats" }),
+    ...mapActions("auth", { getApiToken: "getApiToken" }),
+    ...mapActions("communities", { 
+      getAllCommunities: "getAllCommunities", 
+      getCommunity: "getCommunity" 
+    }),
     async getStats() {
       this.loading = true;
       try {
@@ -526,6 +531,13 @@ export default {
   },
   async mounted() {
     this.getStats();
+    this.getApiToken().then(() => {
+      this.getAllCommunities().then(() => {
+        // set up community related panels
+        // get model by id
+        // let record = this.getCommunity( { id: { id: "INSERT_ID_HERE" } } )
+      })
+    })
   }
 };
 </script>
