@@ -6,6 +6,7 @@
   </v-card>
 </template>
 <script>
+
 export default {
   props: ["title", "series", "labels", "horizontal", "showDataLabel"],
   data() {
@@ -26,15 +27,7 @@ export default {
         xaxis: {
           categories: this.$props.labels
         },
-        tooltip: {
-          y: {
-            title: {
-              formatter() {
-                return "";
-              }
-            }
-          }
-        }
+       
       }
     };
   },
