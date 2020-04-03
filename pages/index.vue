@@ -7,8 +7,19 @@
       </v-col>
       <v-spacer />
 
-      <v-progress-circular indeterminate color="primary" v-if="loading" class="my-auto mx-2" />
-      <v-btn depressed rounded color="secondary" class="my-auto" @click="getStats">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+        v-if="loading"
+        class="my-auto mx-2"
+      />
+      <v-btn
+        depressed
+        rounded
+        color="secondary"
+        class="my-auto"
+        @click="getStats"
+      >
         <v-icon>mdi-reload</v-icon>
         {{ $t("refresh") }}
       </v-btn>
@@ -63,6 +74,16 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col cols="12">
+        <v-lazy>
+          <TimeSeriesChart
+            :title="$t('chart_titles.total_combined_cases')"
+            :chartdata="getCombinedTimeSeriesData"
+          />
+        </v-lazy>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="12" xs="12" sm="6" md="12" lg="6">
         <v-lazy>
           <DailyCasesLineChart
@@ -96,9 +117,11 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import { addDays, format } from "date-fns";
 
 // import DailyCasesBarChart from "~/components/DailyCasesBarChart";
 import MiniStatistics from "~/components/MiniStatistics";
+import TimeSeriesChart from "@/components/TimeSeriesChart";
 import DailyCasesLineChart from "~/components/DailyCasesLineChart";
 import HourlyCasesLineChart from "~/components/HourlyCasesLineChart";
 import MonthlyCasesLineChart from "~/components/MonthlyCasesLineChart";
@@ -114,6 +137,7 @@ export default {
     MonthlyCasesLineChart,
     MiniStatistics,
     TotalRadar,
+    TimeSeriesChart,
     DailyCasesLineChart,
     TotalDoghnut,
     TotalBarChart,
@@ -217,7 +241,63 @@ export default {
 
       return chartdata;
     },
+    getCombinedTimeSeriesData() {
+      const Deaths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2];
+      const ConfirmedCases = [0, 1, 1, 5, 5, 9, 9, 13, 17, 21, 21, 25];
+      const Recovered = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3];
+      const CasesTSData = {
+        Deaths,
+        ConfirmedCases,
+        Recovered
+      };
+      const startDate = new Date("2020-03-13T00:00:00.000Z");
+      const dates = ConfirmedCases.map(i =>
+        format(addDays(startDate, i), "dd MMM")
+      );
+      const maxY = Math.max(...ConfirmedCases);
+      const niceMax = maxY + 10 - (maxY % 10);
 
+      return {
+        yaxis: [
+          {
+            title: {
+              text: "Confirmed"
+            }
+          },
+          { show: false },
+          {
+            max: niceMax,
+            min: 0,
+            forceNiceScale: true,
+            opposite: true,
+            title: {
+              text: "Dead"
+            }
+          }
+        ],
+        stroke: {
+          width: [3, 3, 0]
+        },
+        labels: dates,
+        series: [
+          {
+            name: "Confirmed",
+            type: "line",
+            data: ConfirmedCases
+          },
+          {
+            name: "Recovered",
+            type: "line",
+            data: Recovered
+          },
+          {
+            name: "Dead",
+            type: "column",
+            data: Deaths
+          }
+        ]
+      };
+    },
     getHourlyLiveStats() {
       const all = this.findStatStore;
       if (all && all.data && all.data.length > 0) {
@@ -502,9 +582,9 @@ export default {
   methods: {
     ...mapActions("stats", { loadStats: "loadStats" }),
     ...mapActions("auth", { getApiToken: "getApiToken" }),
-    ...mapActions("communities", { 
-      getAllCommunities: "getAllCommunities", 
-      getCommunity: "getCommunity" 
+    ...mapActions("communities", {
+      getAllCommunities: "getAllCommunities",
+      getCommunity: "getCommunity"
     }),
     async getStats() {
       this.loading = true;
@@ -537,8 +617,8 @@ export default {
         // set up community related panels
         // get model by id
         // let record = this.getCommunity( { id: { id: "INSERT_ID_HERE" } } )
-      })
-    })
+      });
+    });
   }
 };
 </script>
