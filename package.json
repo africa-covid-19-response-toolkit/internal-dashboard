@@ -5,7 +5,7 @@
   "author": "Yohannes Ejigu",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --port 8000",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -28,6 +28,7 @@
     "nuxt": "^2.0.0",
     "nuxt-client-init-module": "^0.1.8",
     "nuxt-leaflet": "0.0.21",
+    "qs": "^6.9.3",
     "socket.io-client": "^2.3.0",
     "vue-apexcharts": "^1.5.2",
     "vue-chartjs": "^3.5.0",

@@ -1,14 +1,21 @@
 import { Auth } from "aws-amplify";
+import axios from "axios";
+import qs from "qs";
+
 export const state = () => ({
   // this is the default state
   isAuthenticated: false,
-  user: null
+  user: null,
+  apiToken: null,
 });
 
 export const mutations = {
   set(state, user) {
     state.isAuthenticated = !!user;
     state.user = user;
+  },
+  setApiToken(state, token) {
+    state.apiToken = token;
   }
 };
 
@@ -37,5 +44,33 @@ export const actions = {
   async logout({ commit }) {
     await Auth.signOut();
     commit("set", null);
+  },
+
+  async getApiToken({ commit }) {
+    let clientId = ''
+    let clientSecret = ''
+    const AUTHORIZATION_KEY = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+
+    let axiosConfig = {
+      method: 'post',
+      url: 'https://ethiopia-covid19.auth.us-east-2.amazoncognito.com/oauth2/token',
+      data: qs.stringify({
+        grant_type: 'client_credentials'
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        'Authorization': `Basic ${AUTHORIZATION_KEY}`,
+      }
+    }
+
+    await axios(axiosConfig)
+      .then(function (response) {
+        commit("setApiToken", response.data.access_token);
+      })
+      .catch(function (error) {
+        console.log(error);
+
+        commit("setApiToken", null);
+      });
   }
 };
