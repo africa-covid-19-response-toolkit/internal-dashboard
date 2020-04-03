@@ -105,7 +105,7 @@
               >{{ finalOutcomePercentage ? ` ${finalOutcomePercentage}% Deceased` : '' }}</span>
             </v-card-title>
             <PieChart :labels="[ 'Recovered', 'Deceased' ]" :datasets="getFinalOutcomeStats" />
-          </v-card>f
+          </v-card>
         </v-lazy>
       </v-col>
     </v-row>
@@ -434,7 +434,7 @@ export default {
       const whatapigives = {
         confirmed: [4, 3, 3, 6, 17, 25, 6, 11, 34, 4, 24],
         recovored: [2, 1, 3, 3, 6, 19, 0, 1, 22, 1, 3],
-        dead: [0, 0, 3, 1, 1, 4, 4, 1,1, 4, 14],
+        dead: [0, 0, 3, 1, 1, 4, 4, 1, 1, 4, 14],
         labels: [
           "Tigray",
           "Afar",
@@ -920,8 +920,8 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,400;0,600;0,700;0,800;0,900;1,100&family=Barlow:wght@100;300;400;500;600;700;800;900&display=swap");
 * {
-    font-family: 'Barlow Semi Condensed', sans-serif;
-    font-weight: 500;
+  font-family: "Barlow Semi Condensed", sans-serif;
+  font-weight: 500;
 }
 .index__pie_chart_percentage_label {
   color: red;
@@ -930,9 +930,8 @@ export default {
   line-height: 20px;
 }
 .v-card__title {
-  color: #6E8192;
+  color: #6e8192;
   font-weight: 600;
   font-size: 1.75rem;
 }
 </style>
-
