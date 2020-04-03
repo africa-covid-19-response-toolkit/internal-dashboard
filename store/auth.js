@@ -47,8 +47,8 @@ export const actions = {
   },
 
   async getApiToken({ commit }) {
-    let clientId = ''
-    let clientSecret = ''
+    let clientId = process.env.CLIENT_ID
+    let clientSecret = process.env.CLIENT_SECRET
     const AUTHORIZATION_KEY = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
 
     let axiosConfig = {
