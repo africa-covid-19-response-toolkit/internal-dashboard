@@ -13,6 +13,7 @@ export const mutations = {
 export const actions = {
   async getAllSurveillance({ commit, rootState }) {
 
+    let productionUrl = process.env.PRODUCTION_URL
     let headers = {
       headers: {
         'content-type': 'application/json',
@@ -20,7 +21,7 @@ export const actions = {
       }
     }
 
-    await axios.get('https://api.ethiopia-covid19.com/gateway/surveillance', headers)
+    await axios.get(`${productionUrl}/gateway/surveillance`, headers)
       .then(function (response) {
         commit("set", response.data.result);
       })

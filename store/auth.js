@@ -47,6 +47,8 @@ export const actions = {
   },
 
   async getApiToken({ commit }) {
+    
+    let authUrl = process.env.AUTH_URL
     let clientId = process.env.CLIENT_ID
     let clientSecret = process.env.CLIENT_SECRET
     const AUTHORIZATION_KEY = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
@@ -59,7 +61,7 @@ export const actions = {
       }
     }
 
-    await axios.post('https://ethiopia-covid19.auth.us-east-2.amazoncognito.com/oauth2/token', data, headers)
+    await axios.post(authUrl, data, headers)
       .then(function (response) {
         commit("setApiToken", response.data.access_token);
       })

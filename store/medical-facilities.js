@@ -13,6 +13,7 @@ export const mutations = {
 export const actions = {
   async getAllMedicalFacilities({ commit, rootState }) {
 
+    let productionUrl = process.env.PRODUCTION_URL
     let headers = {
       headers: {
         'content-type': 'application/json',
@@ -20,7 +21,7 @@ export const actions = {
       }
     }
 
-    await axios.get('https://api.ethiopia-covid19.com/gateway/medical-facilities', headers)
+    await axios.get(`${productionUrl}/gateway/medical-facilities`, headers)
       .then(function (response) {
         commit("set", response.data.result);
       })

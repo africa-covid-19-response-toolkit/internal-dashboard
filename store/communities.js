@@ -13,6 +13,7 @@ export const mutations = {
 export const actions = {
   async getAllCommunities({ commit, rootState }) {
 
+    let productionUrl = process.env.PRODUCTION_URL
     let headers = {
       headers: {
         'content-type': 'application/json',
@@ -20,7 +21,7 @@ export const actions = {
       }
     }
 
-    await axios.get('https://api.ethiopia-covid19.com/gateway/communities', headers)
+    await axios.get(`${productionUrl}/gateway/communities`, headers)
       .then(function (response) {
         commit("set", response.data.result);
       })
@@ -33,6 +34,7 @@ export const actions = {
 
   async getCommunity( { commit, rootState }, { id } ) {
     
+    let productionUrl = process.env.PRODUCTION_URL
     let headers = {
       headers: {
         'content-type': 'application/json',
@@ -40,7 +42,7 @@ export const actions = {
       }
     }
 
-    await axios.get(`https://api.ethiopia-covid19.com/gateway/communities/${id.id}`, headers)
+    await axios.get(`${productionUrl}/gateway/communities/${id.id}`, headers)
       .then(function (response) {
         return response.data
       })
