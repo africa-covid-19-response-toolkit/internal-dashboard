@@ -51,19 +51,15 @@ export const actions = {
     let clientSecret = process.env.CLIENT_SECRET
     const AUTHORIZATION_KEY = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
 
-    let axiosConfig = {
-      method: 'post',
-      url: 'https://ethiopia-covid19.auth.us-east-2.amazoncognito.com/oauth2/token',
-      data: qs.stringify({
-        grant_type: 'client_credentials'
-      }),
+    let data = qs.stringify({ grant_type: 'client_credentials' })
+    let headers = {
       headers: {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': `Basic ${AUTHORIZATION_KEY}`,
+        'Authorization': `Basic ${AUTHORIZATION_KEY}`
       }
     }
 
-    await axios(axiosConfig)
+    await axios.post('https://ethiopia-covid19.auth.us-east-2.amazoncognito.com/oauth2/token', data, headers)
       .then(function (response) {
         commit("setApiToken", response.data.access_token);
       })
