@@ -118,6 +118,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import { addDays, format } from "date-fns";
+import getEstimatedCases from "@/util/estimates";
 
 // import DailyCasesBarChart from "~/components/DailyCasesBarChart";
 import MiniStatistics from "~/components/MiniStatistics";
@@ -265,6 +266,7 @@ export default {
             }
           },
           { show: false },
+          { show: false },
           {
             max: niceMax,
             min: 0,
@@ -276,7 +278,8 @@ export default {
           }
         ],
         stroke: {
-          width: [3, 3, 0]
+          width: [3, 3, 3, 0],
+          dashArray: [0, 4, 0, 0]
         },
         labels: dates,
         series: [
@@ -284,6 +287,12 @@ export default {
             name: "Confirmed",
             type: "line",
             data: ConfirmedCases
+          },
+          {
+            name: "Estimated actual",
+            type: "line",
+            show: false,
+            data: getEstimatedCases(ConfirmedCases, Deaths)
           },
           {
             name: "Recovered",
