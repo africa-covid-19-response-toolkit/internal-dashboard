@@ -49,7 +49,6 @@
           />
         </v-lazy>
       </v-col>
-
       <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="pa-0">
         <v-lazy>
           <TotalBarChart
@@ -65,7 +64,25 @@
       </v-col>
     </v-row>
     <v-row class="px-0">
-      <v-col cols="12" xs="12" sm="12" md="12" lg="12" class="px-0">
+      <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-0">
+        <v-lazy>
+          <TotalBarChart
+            :title="$t('chart_titles.total_by_age_and_gender')"
+            :height="360"
+            :horizontal="true"
+            :stacked="true"
+            :showDataLabel="false"
+            :series="getTotalByAgeGenderSeries.series"
+            :labels="getTotalByAgeGenderSeries.labels"
+            :labelFormatter="getTotalByAgeGenderSeries.formatter"
+            :colors="getTotalByAgeGenderSeries.colors"
+            :grid="getTotalByAgeGenderSeries.grid"
+            :tooltip="getTotalByAgeGenderSeries.tooltip"
+            class="transparent"
+          />
+        </v-lazy>
+      </v-col>
+      <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-0">
         <v-lazy>
           <TotalBarChart
             :height="360"
@@ -81,7 +98,7 @@
     <v-row class="pa-0 my-n3">
       <v-col cols="12" xs="12" sm="6" md="6" class="pa-0 ma-0">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;" class="py-6 transparent">
+          <v-card elevation="0" hover tile style="height: 510px;" class="py-6 greyback transparent">
             <v-card-title class="justify-center">
               Hospitalization Status
               <span
@@ -97,7 +114,7 @@
       </v-col>
       <v-col cols="12" xs="12" sm="6" md="6" class="pa-0 ma-0">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;" class="py-6 greyback transparent">
+          <v-card elevation="0" hover tile style="height: 510px;" class="py-6 transparent">
             <v-card-title class="justify-center">
               Outcome Status
               <span
@@ -572,6 +589,137 @@ export default {
           }
         ]
       };
+    },
+    getTotalByAgeGenderSeries() {
+      const ageRanges = [
+        [0, 4],
+        [5, 14],
+        [15, 34],
+        [35, 44],
+        [45, 54],
+        [55, 64],
+        [65, 74],
+        [75, 84],
+        [85, 120]
+      ];
+      const getAgeRangeIndex = age => {
+        const range = ageRanges.filter(
+          item => age >= item[0] && age <= item[1]
+        )[0];
+        return ageRanges.indexOf(range);
+      };
+      const totalCases = pmoPatients.results.length;
+      const casesByAgeGender = pmoPatients.results.reduce((grouped, item) => {
+        const groupKey = item.gender + getAgeRangeIndex(item.age);
+        return {
+          ...grouped,
+          [groupKey]: (grouped[groupKey] || 0) + 1
+        };
+      }, {});
+      const getSeries = groupKey =>
+        ageRanges.map((range, index) => {
+          const multiplier = groupKey === "M" ? -1 : 1;
+          const caseCount = casesByAgeGender[groupKey + index] || 0;
+          return caseCount * multiplier;
+        });
+
+      return {
+        series: [
+          {
+            name: "Males",
+            data: getSeries("M")
+          },
+          {
+            name: "Females",
+            data: getSeries("F")
+          }
+        ],
+        labels: [
+          "85+",
+          "75-84",
+          "65-74",
+          "55-64",
+          "45-54",
+          "35-44",
+          "15-34",
+          "5-14",
+          "0-4"
+        ],
+        formatter: val => Math.abs(Math.round((100 * val) / totalCases)) + "%",
+        grid: {
+          xaxis: {
+            lines: {
+              show: false
+            }
+          }
+        },
+        colors: ["#008FFB", "#FF4560"],
+        tooltip: {
+          shared: false,
+          x: {
+            formatter: function(val) {
+              return val;
+            }
+          },
+          y: {
+            formatter: function(val) {
+              return `${Math.abs(val)} ( ${(
+                Math.abs(100 * val) / totalCases
+              ).toFixed(1)} % ) `;
+            }
+          }
+        }
+      };
+    },
+
+    getHourlyLiveStats() {
+      const all = this.findStatStore;
+      if (all && all.data && all.data.length > 0) {
+        const daily = all.data[0].today;
+
+        // const currentMonth = nonths[daily.month];
+
+        const xaxis = {
+          categories: {
+            min: 0,
+            max: 24,
+            title: {
+              text: this.$t("calendar.hour")
+            }
+          }
+        };
+
+        const series = [
+          {
+            name: this.$t("covid_stages.quarantined"),
+            data: daily.quarantined.data
+          },
+          {
+            name: this.$t("covid_stages.confirmed"),
+            data: daily.confirmed.data
+          },
+          {
+            name: this.$t("covid_stages.hospitalized"),
+            data: daily.hospitalized.data
+          },
+          {
+            name: this.$t("covid_stages.hospitalized_icu"),
+            data: daily.hospitalized_icu.data
+          },
+          {
+            name: this.$t("covid_stages.recovered"),
+            data: daily.recovered.data
+          },
+          {
+            name: this.$t("covid_stages.dead"),
+            data: daily.dead.data
+          }
+        ];
+
+        const d = { series, xaxis };
+        return d;
+      }
+      return {};
     },
 
     getDailyLiveStats() {
