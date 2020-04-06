@@ -48,13 +48,38 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col cols="4" xs="12" md="4">
+        <v-lazy>
+          <v-card elevation="0" hover tile style="height: 510px;">
+            <v-card-title>Hospitalization Status<span class="index__pie_chart_percentage_label">{{ hospitalizedPercentage ? ` ${hospitalizedPercentage}%` : '' }}</span></v-card-title>
+              <PieChart :labels="[ 'Non-hospitalized', 'Hospitalized' ]" :datasets="getHospitalizationStats" />
+          </v-card>    
+        </v-lazy>
+      </v-col>
+      <v-col cols="4" xs="12" md="4">
+        <v-lazy>
+          <v-card elevation="0" hover tile style="height: 510px;">
+            <v-card-title>ICU Status<span class="index__pie_chart_percentage_label">{{ icuPercentage ? ` ${icuPercentage}%` : '' }}</span></v-card-title>
+              <PieChart :labels="[ 'Non-ICU', 'ICU' ]" :datasets="getIcuStats" />
+          </v-card>    
+        </v-lazy>
+      </v-col>
+      <v-col cols="4" xs="12" md="4">
+        <v-lazy>
+          <v-card elevation="0" hover tile style="height: 510px;">
+            <v-card-title>Final Outcome Status<span class="index__pie_chart_percentage_label">{{ finalOutcomePercentage ? ` ${finalOutcomePercentage}%` : '' }}</span></v-card-title>
+              <PieChart :labels="[ 'Recovered', 'Deceased' ]" :datasets="getFinalOutcomeStats" />
+          </v-card>    
+        </v-lazy>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="12">
         <v-lazy>
           <DailyCasesLineChart :chartdata="getDailyLiveStats" />
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
       <!-- <v-col cols="12" xs="12" sm="6" md="4" lg="4">
         <v-lazy>
           <TotalRadar :chartdata="getLiveTotalConfirmed" />
@@ -82,7 +107,12 @@ import TotalDoghnut from "~/components/TotalDonut";
 import TotalRadar from "~/components/TotalSummaryRadarChart";
 import LineChart from "~/components/LineChart.vue";
 import TotalBarChart from "~/components/TotalBarChart.vue";
+import PieChart from "~/components/PieChart.vue";
 import Map from "@/components/Map";
+
+function roundValue(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
 
 export default {
   components: {
@@ -94,6 +124,7 @@ export default {
     TotalDoghnut,
     TotalBarChart,
     LineChart,
+    PieChart,
     Map
   },
   data() {
@@ -114,7 +145,10 @@ export default {
         ],
         2: ["covid_stages.recovered"],
         3: ["covid_stages.quarantined"]
-      }
+      },
+      hospitalizedPercentage: null,
+      icuPercentage: null,
+      finalOutcomePercentage: null,
     };
   },
   computed: {
@@ -174,6 +208,75 @@ export default {
         return d;
       }
       return {};
+    },
+
+    getHospitalizationStats() {
+      // let labels = [ "Unhospitalized", "Hospitilized" ]
+      const all = this.findStatStore;
+      if (all && all.data && all.data.length > 0) {
+        console.log("hospitalizedPercentage")
+        console.log(all.data[0].total.data)
+        let total = all.data[0].total.data[0]
+        let totalHospitalized = all.data[0].total.data[3]
+        let totalNonHospitalized = total - totalHospitalized
+
+        let dataset = [
+          {
+            backgroundColor: [
+              '#41B883',
+              '#E46651',
+            ],
+            data: [ totalNonHospitalized, totalHospitalized ]
+          }
+        ]
+
+        this.hospitalizedPercentage = roundValue(totalHospitalized / total, 3) * 100
+        return dataset
+      }
+    },
+
+    getIcuStats() {
+      const all = this.findStatStore;
+      if (all && all.data && all.data.length > 0) {
+        let totalIcu = all.data[0].total.data[4]
+        let totalNonIcu =  all.data[0].total.data[3] - all.data[0].total.data[4]
+        let total = totalIcu + totalNonIcu
+
+        let dataset = [
+          {
+            backgroundColor: [
+              '#41B883',
+              '#E46651',
+            ],
+            data: [ totalNonIcu, totalIcu ]
+          }
+        ]
+
+        this.icuPercentage = roundValue(totalIcu / total, 3) * 100
+        return dataset
+      }
+    },
+
+    getFinalOutcomeStats() {
+      const all = this.findStatStore;
+      if (all && all.data && all.data.length > 0) {
+        let totalRecovered = all.data[0].total.data[5]
+        let totalDeceased =  all.data[0].total.data[6]
+        let total =  totalDeceased + totalRecovered
+
+        let dataset = [
+          {
+            backgroundColor: [
+              '#41B883',
+              '#E46651',
+            ],
+            data: [ totalRecovered, totalDeceased ]
+          }
+        ]
+
+        this.finalOutcomePercentage = roundValue(totalDeceased / total, 3) * 100
+        return dataset
+      }
     },
 
     getDailyLiveStats() {
@@ -437,3 +540,11 @@ export default {
   }
 };
 </script>
+<style>
+.index__pie_chart_percentage_label {
+  color: red;
+  font-size: 16px;
+  padding-left: 10px;
+  line-height: 20px;
+}
+</style>
