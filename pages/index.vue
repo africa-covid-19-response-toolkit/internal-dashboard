@@ -41,13 +41,6 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <v-lazy>
-          <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
-        </v-lazy>
-      </v-col>
-    </v-row>
-    <v-row>
       <v-col cols="12" xs="12" sm="6" md="7" lg="7">
         <Map />
       </v-col>
@@ -80,6 +73,13 @@
             :title="$t('chart_titles.total_combined_cases')"
             :chartdata="getCombinedTimeSeriesData"
           />
+        </v-lazy>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-lazy>
+          <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
         </v-lazy>
       </v-col>
     </v-row>
