@@ -3,7 +3,8 @@ import colors from "vuetify/es5/util/colors";
 
 export default {
   env: {
-    API_URL: process.env.API_URL || "http://localhost:9017"
+    API_URL: process.env.API_URL || "http://localhost:9017",
+    GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
   },
   mode: "spa",
   /*
@@ -39,6 +40,7 @@ export default {
    */
   plugins: [
     // { src: "~/plugins/leaflet.js", ssr: false },
+    { src: "~/plugins/google-maps.js" },
     { src: "~/plugins/apex.chart.js" },
     { src: "~/plugins/i18n.js" },
     { src: "~/plugins/amplify.js", ssr: false },
@@ -110,7 +112,9 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {
+    },
+    transpile: [/^vue2-google-maps($|\/)/],
     // transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
   }
 };
