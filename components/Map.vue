@@ -1,159 +1,206 @@
 <template>
   <v-container id="map-wrap" :style="mapstyle">
-    <client-only>
-      <l-map :zoom="6" :center="[8.997062, 38.769894]" class="elevation-0" style="z-index: 0">
-        <!-- <l-tile-layer url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png" /> -->
-        <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <l-geo-json v-if="geojson" :options="geojsonOptions" :geojson="geojson"></l-geo-json>
-        <l-circle-marker
-          v-for="item in markers"
-          :key="item.id"
-          :lat-lng="item.latlng"
-          :stroke="true"
-          weight="1"
-          color="#ef0000"
-          :fill="true"
-          fillColor="#df0000"
-          :radius="getRaius(item)"
-          :fillOpacity="getOpacity(item)"
+    <v-row style="height: 100%;">
+      <v-col cols="12" xs="12" sm="12" md="12" lg="12">
+        <v-card elevation="0" hover tile style="height: 100%; border-top: 0px;">
+          <GmapMap
+          :center="{
+           lat: 8.96,
+           lng: 40.35
+          }"
+          :zoom="6.31"
+          map-type-id="terrain"
+          style="width: 100%; height: 100%;"
+          ref="frontPageMap"
         >
-          <l-popup :content="item.info"></l-popup>
-        </l-circle-marker>
-
-        <!-- <l-marker v-for="item in markers" :key="item.id" :lat-lng="item.latlng">
-          <l-popup :content="item.info"></l-popup>
-        </l-marker>-->
-
-        <l-control position="topright">
-          <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
-
-          <v-btn small rounded @click="fetchFromServer">
-            <v-icon>mdi-reload</v-icon>
-          </v-btn>
-        </l-control>
-      </l-map>
-    </client-only>
+          <GmapInfoWindow
+            v-if="showingInfoWindow"
+            @closeclick="showingInfoWindow=false"
+            :options="{
+                        pixelOffset: {
+                            width: 0,
+                            height: 0
+                        }
+                    }"
+            :position="infoWindowPosition"
+          >
+            <v-row>
+              <v-col xs="12">
+                <h2 class="map__region_name">{{ infoWindowDetails.name }}</h2>
+                <p class="map__region_total_cases">Total Cases: <span class="status_classes">{{ infoWindowDetails.totalCases }}</span></p>
+              </v-col>
+            </v-row>
+        </GmapInfoWindow>
+        </GmapMap>
+      </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { marker } from "leaflet";
-import { Icon } from "leaflet";
+import axios from 'axios'
+import _forEach from 'lodash/forEach'
+import _map from 'lodash/map'
+import _find from 'lodash/find'
+import _filter from 'lodash/filter'
+import {gmapApi} from 'vue2-google-maps'
+import administrativeZoneDataAll from '../resources/ethiopia_administrative_zones_full.json'
 
-delete Icon.Default.prototype._getIconUrl;
-Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png")
-});
+const POLYGON_COLORS = [
+  "#228b22",
+  "#ff8000",
+  "#ff0000"
+]
+
+function roundValue(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
+function polygonColor(count) {
+  if (count === 0) {
+    return POLYGON_COLORS[0]
+  }
+
+  if (count < 1 && count > 0) {
+    return POLYGON_COLORS[1]
+  }
+
+  if (count > 1) {
+    return POLYGON_COLORS[2]
+  }
+}
+
+function transformDataForGoogleMaps(latLongData) {
+  return { lat: parseFloat(roundValue(latLongData[1], 3)) ? parseFloat(roundValue(latLongData[1], 3)) : 0, lng: parseFloat(roundValue(latLongData[0], 3)) ? parseFloat(roundValue(latLongData[0], 3)) : 0 }
+}
+
+function createNewRegionRecord(data) {
+  return {
+    adminRegion3Id: data.properties.ID_3,
+    name: data.properties.NAME_3,
+    totalCases: 0,
+    totalRecovered: 0,
+    totalHospitalized: 0,
+    totalIsolated: 0,
+    totalDeceased: 0,
+    firstCase: null,
+  }
+}
+
 export default {
   props: {
     mapstyle: {
       type: String,
-      default: "min-height: 660px; height: 100%; padding: 0;  "
+      default: "min-height: 660px; height: 100%; padding: 0;"
     }
   },
+
   data() {
     return {
+      map: undefined,
+      administrativeZoneDataAll: administrativeZoneDataAll,
+      regionSelected: false,
+      showingInfoWindow: false,
+      infoWindowPosition: null,
+      infoWindowDetails: null,
+      currentRegion: null,
+      regionRecords: [],
+      regionOverlayRecords: [],
       largestCases: 1,
-      sampleData: {
-        Tigray: {
-          lat: 13.493334,
-          lng: 39.46907,
-          confirmed: 0,
-          hospitalized: 0,
-          critical: 0,
-          dead: 0
+      sampleData: [
+        { 
+            name: "Enderta",
+            lat: 13.493334,
+            lng: 39.46907,
+            confirmed: 0,
+            hospitalized: 0,
+            critical: 0,
+            dead: 0
         },
-        Afar: {
-          lat: 11.795548,
-          lng: 41.009302,
-
-          confirmed: 0,
-          hospitalized: 0,
-          critical: 0,
-          dead: 0
+        { 
+            name: "Enderta",
+            lat: 13.49452,
+            lng: 39.46907,
+            confirmed: 0,
+            hospitalized: 0,
+            critical: 0,
+            dead: 0
         },
-        Amhara: {
-          lat: 11.597458,
-          lng: 37.386876,
-
-          confirmed: 3,
-          hospitalized: 3,
-          critical: 0,
-          dead: 0
+        { 
+            name: "Gambela",
+            lat: 8.248474,
+            lng: 34.589961,
+            confirmed: 0,
+            hospitalized: 0,
+            critical: 0,
+            dead: 0
         },
-        Benishangul: {
-          lat: 10.062289,
-          lng: 34.545264,
-          confirmed: 0,
-          hospitalized: 0,
-          critical: 0,
-          dead: 0
+        { 
+            name: "Amaro",
+            lat: 7.051976,
+            lng: 38.495342,
+            confirmed: 0,
+            hospitalized: 0,
+            critical: 0,
+            dead: 0
         },
-        Oromiya: {
-          lat: 8.540664,
-          lng: 39.268965,
-          confirmed: 2,
-          hospitalized: 2,
-          critical: 0,
-          dead: 0
+        { 
+            name: "Somali",
+            lat: 9.352147,
+            lng: 42.79737,
+            confirmed: 0,
+            hospitalized: 0,
+            critical: 0,
+            dead: 0
         },
-        Gambela: {
-          lat: 8.248474,
-          lng: 34.589961,
-
-          confirmed: 0,
-          hospitalized: 0,
-          critical: 0,
-          dead: 0
+        { 
+            name: "WEREDA 01",
+            lat: 9.010117,
+            lng: 38.761353,
+            confirmed: 22,
+            hospitalized: 20,
+            critical: 2,
+            dead: 0
         },
-        SNNP: {
-          lat: 7.051976,
-          lng: 38.495342,
-
-          confirmed: 0,
-          hospitalized: 0,
-          critical: 0,
-          dead: 0
+        { 
+            name: "Harar/Hundene",
+            lat: 9.312948,
+            lng: 42.123789,
+            confirmed: 0,
+            hospitalized: 0,
+            critical: 0,
+            dead: 0
         },
-        Somali: {
-          lat: 9.352147,
-          lng: 42.79737,
-
-          confirmed: 0,
-          hospitalized: 0,
-          critical: 0,
-          dead: 0
+        { 
+            name: "Dire Dawa",
+            lat: 9.600638,
+            lng: 41.855466,
+            confirmed: 1,
+            hospitalized: 1,
+            critical: 0,
+            dead: 0
         },
-        "Addis Ababa": {
-          lat: 9.010117,
-          lng: 38.761353,
-
-          confirmed: 22,
-          hospitalized: 20,
-          critical: 2,
-          dead: 0
+        { 
+            name: "Afambo",
+            lat: 11.795548,
+            lng: 41.009302,
+            confirmed: 0,
+            hospitalized: 0,
+            critical: 0,
+            dead: 0
         },
-        Harar: {
-          lat: 9.312948,
-          lng: 42.123789,
-          confirmed: 0,
-          hospitalized: 0,
-          critical: 0,
-          dead: 0
+        { 
+            name: "Bati",
+            lat: 8.540664,
+            lng: 39.268965,
+            confirmed: 2,
+            hospitalized: 2,
+            critical: 0,
+            dead: 0
         },
-        "Dire Dawa": {
-          lat: 9.600638,
-          lng: 41.855466,
-
-          confirmed: 1,
-          hospitalized: 1,
-          critical: 0,
-          dead: 0
-        }
-      },
+      ],
       loading: false,
       markers: false,
       geojson: false,
@@ -167,103 +214,135 @@ export default {
     };
   },
 
+  computed: {
+      google: gmapApi,
+  },
+
   methods: {
+    getRegionRecords() {
+      this.regionRecords = []
+      this.regionOverlayRecords = _map(this.administrativeZoneDataAll[0].features, (data, index) => {
+        let regionRecord = createNewRegionRecord(data)
+        this.regionRecords.push(regionRecord)
+
+        const formattedCoordinates = _map(data.geometry.coordinates[0], (latLongData) => {
+          const coordinates = transformDataForGoogleMaps(latLongData)
+          return coordinates
+        })
+
+        return { adminRegion3Id: data.properties.ID_3, name: data.properties.NAME_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 2, strokeOpacity: 1.0, fillColor: POLYGON_COLORS[1], fillOpacity: 0.45 }
+    })
+    },
+    createPolygons() {
+      _forEach(this.regionOverlayRecords, (regionOverlayRecord) => {
+        let regionId = regionOverlayRecord.adminRegion3Id
+        let regionName = regionOverlayRecord.name
+
+        let regionRecordForOverlay = _find(this.regionRecords, { 'adminRegion3Id': regionId })
+        let matchingRecords = _filter(this.sampleData, { 'name': regionName })
+
+        const caseLevelColor = polygonColor(matchingRecords.length)
+
+        var polygon = new this.google.maps.Polygon({
+            paths: regionOverlayRecord.paths,
+            strokeColor: regionOverlayRecord.strokeColor,
+            strokeOpacity: regionOverlayRecord.strokeOpacity,
+            strokeWeight: regionOverlayRecord.strokeWeight,
+            fillColor: caseLevelColor,
+            fillOpacity: regionOverlayRecord.fillOpacity,
+        });
+
+        this.google.maps.event.addListener(polygon, 'mouseover', (e) => this.mouseOverPolygon(e, polygon, regionOverlayRecord));
+        this.google.maps.event.addListener(polygon, 'mouseout', (e) => this.mouseOutPolygon(e));
+        polygon.setMap(this.map)
+      })
+    },
+    mouseOverPolygon(e, polygon, regionOverlayRecord) {
+      console.log("mouseover")
+
+      var bounds = new google.maps.LatLngBounds();
+      polygon.getPath().forEach(function (path, index) {
+          bounds.extend(path);
+      });
+      let polygonCenter = bounds.getCenter()
+
+      let latLngData = {
+          lat: parseFloat(roundValue(polygonCenter.lat(), 3)),
+        lng: parseFloat(roundValue(polygonCenter.lng(), 3))
+      }
+      
+      let regionId = regionOverlayRecord.adminRegion3Id
+      let regionName = regionOverlayRecord.name
+      let regionRecordForOverlay = _find(this.regionRecords, { 'adminRegion3Id': regionId })
+      let matchingRecords = _filter(this.sampleData, { 'name': regionName })
+
+      this.infoWindowDetails = {
+        name: regionName,
+        totalCases: matchingRecords.length
+      }
+
+      console.log('polygon mouseover')
+      console.log(latLngData)
+
+      this.showingInfoWindow = true
+      this.infoWindowPosition = latLngData
+    },
+    mouseOutPolygon(e) {
+      this.showingInfoWindow = false
+      this.infoWindowDetails = null
+      this.infoWindowPosition = null
+    },
     fetchFromServer() {
-      // this.loading = true;
-      // //TODO url here for map data
+      this.loading = true;
+      //TODO url here for map data
       // this.$axios
       //   .get("https://api.pmo.gov.et/v1/patients/?format=json&limit=0")
       //   .then(res => {
       //     this.loading = false;
-      //     const markers = [];
-      //     res.data.results.forEach(item => {
-      //       if (item.lat && item.lng) {
-      //         markers.push({
-      //           id: item.id,
-      //           latlng: L.latLng(item.lat, item.lng),
-      //           info: `${item}</br> status: ${item.status}`,
-      //           color: this.getColor(item.status)
-      //         });
-      //       }
-      //       this.markers = markers;
-      //     });
+      //     // const markers = [];
+      //     // res.data.results.forEach(item => {
+      //     //   if (item.lat && item.lng) {
+      //     //     markers.push({
+      //     //       id: item.id,
+      //     //       latlng: L.latLng(item.lat, item.lng),
+      //     //       info: `${item}</br> status: ${item.status}`,
+      //     //       color: this.getColor(item.status)
+      //     //     });
+      //     //   }
+      //     //   this.markers = markers;
+      //     // });
       //   })
       //   .catch(err => {
       //     this.loading = false;
       //     console.log(err);
       //   });
     },
-    async fetchRegionGeoJson() {
-      this.loading = true;
-      const response = await fetch("/ET_Region.geojson");
-      const data = await response.json();
-      this.geojson = data;
-      this.loading = false;
-    },
-
-    getColor(status) {
-      if (status === "quarantined") return "blue";
-      else if (status === "confirmed") return "red";
-      else if (status === "hospitalized") return "orange";
-      else if (status === "hospitalized_icu") return "brown";
-      else if (status === "recovered") return "green";
-      else if (status === "dead") return "black";
-      else return "grey";
-    },
-    getRaius(item) {
-      return Math.max(30.0 * (item.data.confirmed / this.largestCases), 10);
-    },
-    getOpacity(item) {
-      return Math.min(
-        Math.max(item.data.confirmed / this.largestCases, 0.4),
-        0.8
-      );
-    },
-    showSampleData() {
-      const keys = Object.keys(this.sampleData);
-      const markers = [];
-      let largest = 1;
-      keys.forEach(key => {
-        const item = this.sampleData[key];
-        if (item.confirmed > largest) {
-          largest = item.confirmed;
-        }
-      });
-
-      this.largestCases = largest;
-
-      keys.forEach(key => {
-        const item = this.sampleData[key];
-        if (item.confirmed > 0) {
-          markers.push({
-            id: key,
-            data: item,
-            latlng: L.latLng(item.lat, item.lng),
-            info: `<span class="title">${key}</span><br/><span class="body-1">CONFIRMED   ${item.confirmed}</span><br/>
-            <span class="subtitle">HOSPITALIZED  ${item.hospitalized}</span><br/><span class="red--text subtitle">CRITICAL  ${item.critical}<br/>
-            DEAD  ${item.dead}</span>`,
-            color: this.getColor(item.status)
-          });
-        }
-
-        this.markers = markers;
-      });
-    }
   },
-
   created() {
-    this.showSampleData();
   },
-
   mounted() {
-    this.fetchFromServer();
-    this.fetchRegionGeoJson();
+    this.$refs.frontPageMap.$mapPromise.then((map) => {
+        this.map = map
+        this.getRegionRecords()
+        this.createPolygons()
+     });
+    // this.fetchFromServer();
   }
 };
 </script>
 
 <style scoped>
 /* Container holding the image and the text */
+
+.map__region_name {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.map__region_total_cases {
+  margin: 10px 0px 10px 0px;
+}
+
 .container {
   position: relative;
   text-align: center;

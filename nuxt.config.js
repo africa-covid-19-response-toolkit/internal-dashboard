@@ -4,7 +4,7 @@ import colors from "vuetify/es5/util/colors";
 export default {
   env: {
     API_URL: process.env.API_URL || "http://localhost:9017",
-    VUE_APP_GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
+    GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
   },
   mode: "spa",
   /*

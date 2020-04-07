@@ -25,15 +25,15 @@
 				>	
 					<v-row>
 						<v-col xs="12">
-						  <h2 class="map__hospital_name">{{ currentMedicalFacility.name }}</h2>
-						  <p class="map__hospital_status">Status: <span class="status_classes">{{ currentMedicalFacility.status }}</span></p>
-			              <p class="map__hospital_available_beds">Available Beds: <span class="bed_classes">{{ currentMedicalFacility.available_beds }}</span></p>
-			              <p class="map__hospital_address_street">{{ currentMedicalFacility.street }}</p>
-			              <p class="map__hospital_address_city_state">{{ currentMedicalFacility.city }}, {{ currentMedicalFacility.admin_region_3 }}</p>
-			              <p class="map__hospital_hours">Hours: {{ currentMedicalFacility.opening_hours }}</p>
-			              <p class="map__hospital_phone">Phone: {{ currentMedicalFacility.contact_number }} </p>
-			              <p class="map__hospital_operator">Operator: {{ currentMedicalFacility.operator }}</p>
-			              <p class="map__hospital_operator_phone">Operator Phone: {{ currentMedicalFacility.operator_contact_number }}</p>
+						  <h2 class="maps__hospital_name">{{ currentMedicalFacility.name }}</h2>
+						  <p class="maps__hospital_status">Status: <span class="status_classes">{{ currentMedicalFacility.status }}</span></p>
+			              <p class="maps__hospital_available_beds">Available Beds: <span class="bed_classes">{{ currentMedicalFacility.available_beds }}</span></p>
+			              <p class="maps__hospital_address_street">{{ currentMedicalFacility.street }}</p>
+			              <p class="maps__hospital_address_city_state">{{ currentMedicalFacility.city }}, {{ currentMedicalFacility.admin_region_3 }}</p>
+			              <p class="maps__hospital_hours">Hours: {{ currentMedicalFacility.opening_hours }}</p>
+			              <p class="maps__hospital_phone">Phone: {{ currentMedicalFacility.contact_number }} </p>
+			              <p class="maps__hospital_operator">Operator: {{ currentMedicalFacility.operator }}</p>
+			              <p class="maps__hospital_operator_phone">Operator Phone: {{ currentMedicalFacility.operator_contact_number }}</p>
 						</v-col>
 					</v-row>
 					
@@ -194,8 +194,7 @@ export default {
 	  	// this.resetViews()
 	  	this.currentMedicalFacility = medicalFacilityRecord
 	  	this.currentMedicalFacilities = [ medicalFacilityRecord ]
-	  	console.log(this.currentMedicalFacility)
-	  	console.log(this.currentMedicalFacilities)
+	  	
 	  	this.headers = _map(this.currentMedicalFacilities, (medicalFacilityRecord) => {
 				return [
 				{
@@ -361,7 +360,6 @@ export default {
 		        strokeWeight: regionOverlayRecord.strokeWeight,
 		        fillColor: caseLevelColor,
 		        fillOpacity: regionOverlayRecord.fillOpacity,
-		        mouseover: this.mouseOverPolygon(),
 		    });
 		    this.google.maps.event.addListener(poly, 'mouseover', (e) => this.mouseOverPolygon(e, regionRecordForOverlay.adminRegion3Id));
 		    this.google.maps.event.addListener(poly, 'mouseout', (e) => this.mouseOutPolygon(e));
@@ -427,61 +425,61 @@ export default {
 	  color: #ff0000;
 	}
 
-	.map__hospital_name {
+	.maps__hospital_name {
 		font-size: 22px;
 		margin-bottom: 8px;
 	}
 
-	.map__hospital_faciliy_type_header {
+	.maps__hospital_faciliy_type_header {
 	  font-size: 16px;
 	  margin-bottom: 8px;
 	}
 
-	.map__hospital_status {
+	.maps__hospital_status {
 	  font-size: 16px;
 	  margin-bottom: 4px;
 	}
 
-	.map__hospital_available_beds {
+	.maps__hospital_available_beds {
 	  font-size: 16px;
 	  margin-bottom: 10px;
 	}
 
-	.map__hospital_address_street, .map__hospital_hours, .map__hospital_operator {
+	.maps__hospital_address_street, .maps__hospital_hours, .maps__hospital_operator {
 	  font-size: 14px;
 	  margin: 0px 0px 4px 0px;
 	}
 
-	.map__hospital_phone {
+	.maps__hospital_phone {
 	  font-size: 14px;
 	}
 
-	.map__hospital_address_city_state {
+	.maps__hospital_address_city_state {
 		font-size: 14px;
 	  margin-bottom: 10px;
 	}
 
-	.map__hospital_status_available {
+	.maps__hospital_status_available {
 	  color: #228b22;
 	}
 
-	.map__hospital_status_unavailable {
+	.maps__hospital_status_unavailable {
 	  color: grey;
 	}
 
-	.map__hospital_status_full {
+	.maps__hospital_status_full {
 	  color: #ff0000;
 	}
 
-	.map__hospital_available_beds_great {
+	.maps__hospital_available_beds_great {
 	  color: #228b22;
 	}
 
-	.map__hospital_available_beds_good {
+	.maps__hospital_available_beds_good {
 	  color: #ff8000;
 	}
 
-	.map__hospital_available_beds_bad {
+	.maps__hospital_available_beds_bad {
 	  color: #ff0000;
 	}
 </style>
