@@ -14,7 +14,7 @@
 			>
 				<GmapInfoWindow
 					v-if="showingInfoWindow"
-					@closeclick="showingInfoWindow=false"
+					@closeclick="onCancelMarker"
 					:options="{
 	                    pixelOffset: {
 	                        width: 0,
@@ -43,9 +43,10 @@
       </v-col>
       <v-col cols="4" xs="12" sm="12" md="4" lg="4">
       	<v-card elevation="0" hover tile style="height: 800px; max-height: 800px; overflow-y: scroll; border-top: 0px;">
-		    <v-card-title>{{ currentRegion ? `${currentRegion.name} ` : "" }}Medical Facilities</v-card-title>
-		    <h4 v-if="loading === true">Loading...</h4>
-		    <v-card-subtitle>{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
+      		<v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
+		    <v-card-title v-if="markerClicked === false">{{ currentRegion ? `${currentRegion.name} ` : "" }}Medical Facilities</v-card-title>
+		    <v-card-subtitle v-if="loading === true">Loading...</v-card-subtitle>
+		    <v-card-subtitle v-if="markerClicked === false">{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
 		    <template v-for="(table, index) in tables" v-if="currentMedicalFacilities !== null">
 		    	<v-data-table
 			    	:key="index"
@@ -149,9 +150,10 @@ function createNewRegionRecord(data) {
 export default {
 	data() {
 	  return {
+	  	loading: false,
 	    map: undefined,
 	    administrativeZoneDataAll: administrativeZoneDataAll,
-      	activeMarker: null,
+      	markerClicked: false,
       	showingInfoWindow: false,
       	infoWindowPosition: null,
       	regionSelected: false,
@@ -189,9 +191,12 @@ export default {
   		this.currentRegion = null
       	this.currentMedicalFacilities = null
 	  },
+	  onCancelMarker() {
+	  	this.showingInfoWindow = false
+	  	this.currentMedicalFacility = null
+	  	this.markerClicked = false
+	  },
 	  onClickMarker(e, medicalFacilityRecord, latLngData) {
-	  	console.log("clicked marker")
-	  	// this.resetViews()
 	  	this.currentMedicalFacility = medicalFacilityRecord
 	  	this.currentMedicalFacilities = [ medicalFacilityRecord ]
 	  	
@@ -209,8 +214,16 @@ export default {
 	  	this.tables = this.getTables()
 	  	this.showingInfoWindow = true
 	  	this.infoWindowPosition = latLngData
+
+	  	if (this.currentMedicalFacility) {
+	  		this.markerClicked = true
+	  	} else {
+	  		this.markerClicked = false
+	  	}
 	  },
 	  onClickPolygon(e, adminRegion3Id) {
+		this.markerClicked = false
+
 	  	let selectedRegion = _find(this.regionRecords, { 'adminRegion3Id': adminRegion3Id })
 
 	  	if (selectedRegion !== this.currentRegion) {
@@ -230,7 +243,6 @@ export default {
 			    ]
 			})
 			this.tables = this.getTables()
-
 	  	} else {
 	  		this.regionSelected = false
 	  		this.currentRegion = null
@@ -383,6 +395,7 @@ export default {
     	})
 	  },
 	  init() {
+	  	this.loading = true
 	  	axios
 	      .get(`https://sheetsu.com/apis/v1.0su/97079a6a1458/`)
 	      .then((response) => {
@@ -400,9 +413,11 @@ export default {
 
 	        	this.createPolygons()
 	        	this.createMarkers()
+	        	this.loading = false
 	      })
 	      .catch((error) => {
 	        console.log(error)
+	        this.loading = false
 	      })
 	  },
 	}
