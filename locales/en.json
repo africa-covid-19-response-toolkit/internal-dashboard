@@ -26,7 +26,7 @@
   "chart_titles": {
     "monthly": "Monthly",
     "daily": "Daily",
-    "hourly": "Hourly",
+    "hourly": "Cases by Hour of day",
     "total": "Total",
     "confirmed": "Confirmed"
   },
