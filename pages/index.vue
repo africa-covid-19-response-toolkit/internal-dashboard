@@ -49,7 +49,7 @@
           <TotalBarChart
             :horizontal="false"
             :showDataLabel="false"
-            :title="$t('chart_titles.total_by_traveled_from')"
+            :title="$t('Cases by Originating Country')"
             :series="getTotalByTravelSeries.series"
             :labels="getTotalByTravelSeries.labels"
           />
@@ -59,7 +59,7 @@
             class="mt-8"
             :horizontal="false"
             :showDataLabel="false"
-            :title="$t('chart_titles.total_by_city')"
+            :title="$t('Cases by Zone')"
             :series="getTotalByRegionSeries.series"
             :labels="getTotalByRegionSeries.labels"
           />
@@ -96,7 +96,7 @@
       <v-col cols="12">
         <v-lazy>
           <TimeSeriesChart
-            :title="$t('chart_titles.total_combined_cases')"
+            :title="$t('Cases by Day')"
             :chartdata="getCombinedTimeSeriesData"
           />
         </v-lazy>

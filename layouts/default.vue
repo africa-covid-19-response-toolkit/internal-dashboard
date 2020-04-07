@@ -150,9 +150,14 @@ export default {
           icon: "mdi-apps",
           titleKey: "menu.dashboard",
           to: "/"
+        },        
+        {
+          icon: "mdi-briefcase-search-outline",
+          titleKey: "menu.surveillance",
+          to: "/surveillance"
         },
         {
-          icon: "mdi-map",
+          icon: "mdi-map-marker-radius",
           titleKey: "menu.map",
           to: "/maps"
         }
@@ -164,7 +169,12 @@ export default {
           to: "/"
         },
         {
-          icon: "mdi-map",
+          icon: "mdi-briefcase-search-outline",
+          titleKey: "menu.surveillance",
+          to: "/surveillance"
+        },
+        {
+          icon: "mdi-map-marker-radius",
           titleKey: "menu.map",
           to: "/maps"
         }

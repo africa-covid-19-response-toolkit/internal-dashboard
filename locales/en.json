@@ -33,7 +33,8 @@
   "menu": {
     "dashboard": "Dashboard",
     "cases": "Cases",
-    "map": "Map",
+    "surveillance": "Surveillance",
+    "map": "Medical Resource Map",
     "global_data": "Global Data",
     "languages": "Languages",
     "bulk_sms": "Bulk SMS",
