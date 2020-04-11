@@ -3,6 +3,9 @@
 Covid19 outbreak status monitoring and case tracking.
 This dashboard will be used by Ministry of health for internal logging and monitoring.
 
+# NOTE
+You need to add an environment variable ```VUE_APP_GOOGLE_MAPS_API_KEY``` with a valid google maps API key for maps to show properly.
+
 # How to contribute
 
 [Here are the guidelines](CONTRIBUTING.md)
