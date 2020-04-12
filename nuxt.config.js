@@ -3,7 +3,8 @@ import colors from "vuetify/es5/util/colors";
 
 export default {
   env: {
-    API_URL: process.env.API_URL || "http://localhost:5535"
+    API_URL: process.env.API_URL || "http://localhost:9017",
+    GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
   },
   mode: "spa",
   /*
@@ -42,10 +43,11 @@ export default {
    */
   plugins: [
     // { src: "~/plugins/leaflet.js", ssr: false },
+    { src: "~/plugins/google-maps.js" },
     { src: "~/plugins/apex.chart.js" },
-    { src: "~/plugins/feathers-vuex.js" },
-    { src: "~/plugins/feathers-client.js" },
-    { src: "~/plugins/authInit.js", ssr: false }
+    { src: "~/plugins/i18n.js" },
+    { src: "~/plugins/amplify.js", ssr: false },
+    { src: "~/plugins/amplify.auth.js", mode: "client" }
   ],
 
   /*
@@ -60,7 +62,7 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    "nuxt-client-init-module",
+    // "nuxt-client-init-module",
     ["@nuxtjs/pwa", { Icon: false }],
     "@nuxtjs/toast",
     "nuxt-leaflet",
@@ -81,7 +83,7 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.teal.darken1,
+          primary: "#fdd30e",
           accent: colors.orange.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -90,7 +92,7 @@ export default {
           success: colors.green.accent3
         },
         light: {
-          primary: "#FFD443",
+          primary: "#fdd30e",
           secondary: "#122a40",
           accent: "#ff9800",
           error: "#f44336",
@@ -113,7 +115,9 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
-    transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
+    extend(config, ctx) {
+    },
+    transpile: [/^vue2-google-maps($|\/)/],
+    // transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
   }
 };

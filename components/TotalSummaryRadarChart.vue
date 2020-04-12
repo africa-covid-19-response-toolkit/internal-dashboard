@@ -1,6 +1,6 @@
 <template>
-  <v-card elevation="0" hover tile>
-    <v-card-title>{{ name }}</v-card-title>
+  <v-card elevation="0">
+    <v-card-title>{{ $t('chart_titles.confirmed') }}</v-card-title>
 
     <apexchart
       ref="radialBar"
@@ -25,12 +25,11 @@ export default {
   },
   data: function() {
     return {
-      name: "ቫይረሱ የተገኘባቸው",
       chartOptions: {
         theme: {
           palette: "palette6"
         },
-        colors : ['#f26666', '#f2a81d', '#50bfa0', '#122a40'],
+        colors: ["#f26666", "#f2a81d", "#50bfa0", "#122a40"],
         animations: {
           enabled: false
         },
@@ -55,7 +54,12 @@ export default {
             }
           }
         },
-        labels: ["የተገኘባቸው", "ወደ ህክምና የገቡ", "ያገገሙ", "በሞት የተለዩ"],
+        labels: [
+          this.$t("covid_stages.confirmed"),
+          this.$t("covid_stages.hospitalized"),
+          this.$t("covid_stages.hospitalized_icu"),
+          this.$t("covid_stages.dead")
+        ],
         legend: {
           show: true,
           floating: true,

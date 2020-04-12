@@ -1,5 +1,6 @@
 <template>
-  <v-content class="d-flex justify-md-space-around vertical-center">
+  <amplify-authenticator class="flex justify-md-space-around vertical-center"></amplify-authenticator>
+  <!--<v-content class="flex justify-md-space-around vertical-center">
     <v-card
       max-width="480"
       width="380"
@@ -10,13 +11,19 @@
       xs="11"
       class="my-auto px-8 py-3"
     >
+      <v-img src="/logo.png"></v-img>
       <v-card-title>Covid19.ET</v-card-title>
       <v-card-subtitle>Log in</v-card-subtitle>
       <v-card-text>
-        <v-alert color="warn" dark dense dismissible class="caption" v-if="error">
-          {{
-          error
-          }}
+        <v-alert
+          color="warn"
+          dark
+          dense
+          dismissible
+          class="caption"
+          v-if="error"
+        >
+          {{ error }}
         </v-alert>
 
         <v-form ref="loginForm">
@@ -53,11 +60,13 @@
         <v-btn @click="login">Login</v-btn>
       </v-card-actions>
     </v-card>
-  </v-content>
+  </v-content>-->
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import { components, AmplifyEventBus } from "aws-amplify-vue";
+
 export default {
   layout: "login-layout",
   data() {
@@ -68,26 +77,31 @@ export default {
       error: false
     };
   },
+  components: {
+    ...components
+  },
   methods: {
-    ...mapActions("auth", ["authenticate"]),
-    login() {
-      this.error = null;
-      this.loading = true;
-
-      this.authenticate({
-        user: this.username,
-        password: this.password,
-        strategy: "local"
-      })
-        .then(res => {
-          this.loading = false;
-          this.$router.push("/");
-        })
-        .catch(err => {
-          this.loading = false;
-          this.error = err;
-        });
+    // login() {}
+  },
+  mounted() {
+    if (this.$store.state.auth.user) {
+      //already logged in so we redirect to home page
+      this.$router.push("/");
     }
+  },
+  created() {
+    AmplifyEventBus.$on("authState", info => {
+      if (info === "signedIn") {
+        this.$store.dispatch("auth/load");
+        this.$router.push("/");
+      } else if (info === "signedOut") {
+        this.$router.push("/login");
+      }
+
+      console.log(
+        `Here is the auth event that was just emitted by an Amplify component: ${info}`
+      );
+    });
   }
 };
 </script>

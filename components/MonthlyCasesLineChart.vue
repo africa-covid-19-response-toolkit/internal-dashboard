@@ -1,6 +1,6 @@
 <template>
-  <v-card elevation="0" hover tile>
-    <v-card-title>{{ chart_title }}</v-card-title>
+  <v-card>
+    <v-card-title>{{ `${$t('chart_titles.monthly')} - ${new Date().toDateString()}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>
@@ -20,12 +20,18 @@ export default {
   },
   data: function() {
     return {
-      chart_title: `ወርሃዊ መረጃ - ${new Date().getFullYear()}`,
       chartOptions: {
         animations: {
           enabled: false
         },
-        colors : ['#499ebf', '#f26666', '#f2a81d', '#484c7f', '#50bfa0', '#122a40'],
+        colors: [
+          "#499ebf",
+          "#f26666",
+          "#f2a81d",
+          "#484c7f",
+          "#50bfa0",
+          "#122a40"
+        ],
         xaxis: {
           categories: [
             "Jan",

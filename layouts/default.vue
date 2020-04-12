@@ -2,73 +2,93 @@
   <v-app :style="bgStyle">
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant&&!smallScreen"
+      :mini-variant="miniVariant && !smallScreen"
       clipped
-      light
-      color="#e2e2e2"
       mini-variant-width="54"
       :expand-on-hover="!smallScreen && expandOnHover"
       app
     >
       <v-layout tag="v-list" column>
         <v-list>
-          <v-container fluid v-if="admin">
-            <v-list-item md="auto">
-              <v-avatar
-                class="center mx-auto my-1 elevation-0"
-                color="rgba(255,255,255,0)"
-                :size="avatarSize"
-              >
-                <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
-                <v-icon large v-else>mdi-account</v-icon>
-              </v-avatar>
-            </v-list-item>
-            <v-list-item link two-line to="/admins/profile">
-              <v-list-item-content>
-                <v-list-item-title class="subtitle">
-                  {{ admin.first_name }}
-                  {{ admin.last_name }}
-                </v-list-item-title>
-                <v-list-item-subtitle>{{ admin.email }}</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-icon>mdi-menu-down</v-icon>
-              </v-list-item-action>
-            </v-list-item>
-          </v-container>
-
           <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" dense router exact>
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title" />
+              <v-list-item-title v-text="$t(item.titleKey)" />
             </v-list-item-content>
           </v-list-item>
         </v-list>
+
+        <!-- <v-list-group no-action sub-group value="true" dense>
+          <template v-slot:activator>
+            <v-list-item>
+              <v-list-item-title>{{ $t("menu.languages")}}</v-list-item-title>
+            </v-list-item>
+          </template>
+          <v-list-item v-for="(lang, i) in languages" :key="i" dense @click="setLang(lang.value)">
+            <v-list-item-action @click="setLang(lang.value)">
+              <v-icon>{{ "mdi-earth" }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="$t(lang.titleKey)" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>-->
       </v-layout>
     </v-navigation-drawer>
 
     <v-app-bar elevation="8" light color="primary" hide-on-scroll clipped-left app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-img
-        class="mx-2"
-        src="/logo.png"
-        max-height="60"
-        max-width="190"
-      ></v-img>
-      <span class="overline mx-0 mt-6">ALPHA3</span>
-      <v-spacer />
-      <v-btn v-if="admin" text to="/addcases">+NEW</v-btn>
-      <v-btn text v-if="!admin" to="/login" router>LOG IN</v-btn>
-      <v-btn text v-else @click="signout">LOG OUT</v-btn>
 
+      <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
+      <!-- <span class="overline mx-0 mt-6">{{ $t("app.stage") }}</span> -->
+      <v-spacer />
+      <!-- <v-alert type="error">
+        Warning! This is false data! for testing only
+        <br />username:1234567890 password:password
+      </v-alert>-->
+
+      <v-menu>
+        <template v-slot:activator="{ on }">
+          <v-btn color="secondary" icon v-on="on">
+            <v-icon>mdi-translate</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="(lang, i) in languages" :key="i" dense @click="setLang(lang.value)">
+            <v-list-item-content>
+              <v-list-item-title v-text="$t(lang.titleKey)" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-btn icon @click="fullscreen">
         <v-icon>{{ fullscreenIcon }}</v-icon>
       </v-btn>
-      <v-btn @click.stop="darkTheme" icon>
-        <v-icon>mdi-theme-light-dark</v-icon>
-      </v-btn>
+      <v-btn text v-if="!admin" to="/login" router>{{ $t("login") }}</v-btn>
+      <v-menu v-else>
+        <template v-slot:activator="{ on }">
+          <v-btn color="secondary" fab small outlined elevation="0" dark v-on="on">
+            <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
+            <v-icon medium v-else>mdi-account-outline</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item link two-line>
+            <v-list-item-content>
+              <v-list-item-title>{{ admin.username }}</v-list-item-title>
+              <v-list-item-subtitle class="subtitle">{{ admin.first_name }} {{ admin.last_name }}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>mdi-menu-down</v-icon>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item @click="signout">
+            <v-list-item-title>LOG OUT</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-content class="px-auto">
@@ -76,14 +96,34 @@
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>
+        <!-- <v-row app>
+          <span class="overline mx-auto">
+            &copy; {{ new Date().getFullYear() }}, MOH, MINT, ETHIOPIA COVID19 RESPONSE TEAM, Fyn
+            Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
+          </span>
+        </v-row>-->
       </v-container>
     </v-content>
     <v-footer small app>
       <span class="overline">
-        &copy; {{ new Date().getFullYear() }}, Yohannes Ejigu - Fyn
-        Systems
+        &copy; {{ new Date().getFullYear() }}, MOH, MINT, ETHIOPIA COVID19 RESPONSE TEAM, Fyn
+        Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
       </span>
     </v-footer>
+    <v-speed-dial v-if="admin" v-model="fab" bottom right fixed :open-on-hover="expandOnHover">
+      <template v-slot:activator>
+        <v-btn v-model="fab" color="secondary" dark fab>
+          <v-icon v-if="fab">mdi-close</v-icon>
+          <v-icon v-else>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <v-btn fab dark small color="green" v-if="admin" to="/admins/add">
+        <v-icon>mdi-account-plus-outline</v-icon>
+      </v-btn>
+      <!-- <v-btn fab dark small color="indigo" v-if="admin" to="/addcases">
+        <v-icon>mdi-briefcase-plus-outline</v-icon>
+      </v-btn>-->
+    </v-speed-dial>
   </v-app>
 </template>
 
@@ -104,65 +144,39 @@ export default {
       color: "primary",
       btn_color: "#5778ff",
       isFullscreen: false,
+      fab: false,
       public: [
         {
           icon: "mdi-apps",
-          title: "Dashboard",
+          titleKey: "menu.dashboard",
           to: "/"
         },
         {
-          icon: "mdi-card-text",
-          title: "Cases",
-          to: "/cases"
-        },
-        {
           icon: "mdi-map",
-          title: "Map",
+          titleKey: "menu.map",
           to: "/maps"
-        },
-        {
-          icon: "mdi-earth",
-          title: "World Data",
-          to: "/world"
         }
       ],
-
       adminsNav: [
         {
           icon: "mdi-apps",
-          title: "Dashboard",
+          titleKey: "menu.dashboard",
           to: "/"
         },
         {
-          icon: "mdi-card-text",
-          title: "Cases",
-          to: "/cases"
-        },
-
-        {
-          icon: "mdi-cellphone-message",
-          title: "Bulk SMS",
-          to: "/bulksms"
-        },
-        {
-          icon: "mdi-account-plus",
-          title: "Add Staff",
-          to: "/admins/add"
-        },
-        {
-          icon: "mdi-account-multiple",
-          title: "All Staffs",
-          to: "/admins/list"
-        },
-        {
           icon: "mdi-map",
-          title: "Map",
+          titleKey: "menu.map",
           to: "/maps"
+        }
+      ],
+      languages: [
+        {
+          titleKey: "lang.amharic",
+          value: "am"
         },
         {
-          icon: "mdi-earth",
-          title: "World Data",
-          to: "/world"
+          titleKey: "lang.english",
+          value: "en"
         }
       ],
       miniVariant: true,
@@ -188,6 +202,9 @@ export default {
     fullscreen() {
       this.isFullscreen = Util.toggleFullScreen();
     },
+    setLang(lang) {
+      this.$store.commit("SET_LANG", lang);
+    },
     deleteAllCookies() {
       var cookies = document.cookie.split(";");
 
@@ -204,7 +221,7 @@ export default {
       return this.admin ? this.adminsNav : this.public;
     },
     admin() {
-      return this.$store.state.auth.user;
+      return this.$auth.user;
     },
     fullscreenIcon() {
       return this.isFullscreen ? "mdi-fullscreen-exit" : "mdi-fullscreen";

@@ -1,33 +1,30 @@
 <template>
-  <v-card elevation="0" dark tile min-width="100" hover height="120" :color="color" :style="{ borderColor: color}">
-
-    <v-layout row class="py-0 my-0">
-      <div
-        flat
-        dark
-        tile
-        style="background: #ffffff; font-weight: 900; font-size: 48px; text-align:center; height=100%; box-shadow: 5px 5px 0 rgba(0,0,0,0.2); padding: 10px;"
-        :style="{ color: color}"
-        class="sm4 xs4 flex text-sm-center display-1 my-auto mx-auto"
-      >{{ title }}</div>
-
-      <div
-        style="text-align:center; height=100%;"
-        class="sm8 caption xs8 flex text-sm-center my-auto"
-      >{{ subTitle }}</div>
+  <v-card min-width="100" hover height="100">
+    <v-layout column class="flex column">
+      <div class="overline font-weight-bold flex ml-2">{{title}}</div>
+      <v-flex row class="black--text ml-2 mb-0">
+        <span class="display-1 font-weight-bold">{{primaryValue || 0}}</span>
+        <div v-if="secondaryLabel" class="red--text ml-2">
+          <span class="overline font-weight-medium">{{secondaryValue || 0}} {{secondaryLabel}}</span>
+          <!-- <span class="body-2">{{secondaryLabel}}</span> -->
+        </div>
+      </v-flex>
+      <apexchart width="100%" height="30" type="area" :options="chartOptions" :series="getSeries"></apexchart>
     </v-layout>
-    <v-spacer />
-    <apexchart width="100%" height="40" type="bar" :options="chartOptions" :series="getSeries"></apexchart>
   </v-card>
 </template>
+
 
 <script>
 export default {
   props: {
+    color: String,
     icon: String,
     title: String,
-    subTitle: String,
-    color: String,
+    primaryValue: Number,
+    primaryLabel: String,
+    secondaryValue: Number,
+    secondaryLabel: String,
     chart: {
       type: Object,
       default: () => {
@@ -47,10 +44,10 @@ export default {
           // mode: "light",
           palette: "palette1",
           monochrome: {
-            enabled: false,
-            color: "#255aee",
+            enabled: true,
+            color: this.color,
             shadeTo: "light",
-            shadeIntensity: 0.55
+            shadeIntensity: 0.5
           }
         },
 
@@ -65,13 +62,14 @@ export default {
           },
           background: "transparent"
         },
-        colors: ["#ffffff", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
+        colors: ["secondary", "#66DA26", "#546E7A", "#E91E63", "#FF9800"],
 
         stroke: {
-          width: 1
+          width: 2,
+          opacity: 0.8
         },
         fill: {
-          opacity: 1
+          opacity: 0.5
         },
         xaxis: { min: 0, max: 31 },
         yaxis: {

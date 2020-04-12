@@ -1,0 +1,44 @@
+{
+  "app": {
+  	"stage": "ቤታ ፩"
+  },
+  "titles": {
+   "dashboard": "ዳሽቦርድ",
+   "live_status": "የቀጥታ ሁኔታ - ኢትዮጵያ"
+  },
+  "login": "ምዝግብ",
+  "refresh": "አድስ",
+  "covid_stages": {
+	"quarantined" : "ማግለያ የገቡ",
+	"confirmed": "የተገኘባቸው",
+	"hospitalized": "ወደ ህክምና የገቡ",
+	"hospitalized_icu": "በጠና የታመሙ",
+	"recovered": "ያገገሙ",
+	"dead": "በሞት የተለዩ"
+  },
+  "calendar": {
+  	"days": "ቀናት",
+  	"hour": "ሰአት",
+  	"month": "ወር"
+  },
+  "chart_titles": {
+  	"monthly": "ወርሃዊ መረጃ",
+  	"daily": "በየቀኑ መረጃ",
+    "hourly": "የየስዓቱ መረጃ",
+  	"total": "አጠቃላይ ቻርት",
+  	"confirmed": "ቫይረሱ የተገኘባቸው"
+  },
+  "menu": {
+  	"dashboard": "ዳሽቦርድ",
+  	"cases": "ጉዳዮች",
+  	"map": "ካርታ",
+  	"global_data": "አጠቃላይ መረጃ",
+  	"languages": "ቋንቋ",
+  	"bulk_sms": "ጀምላ ኤስኤምኤስ",
+    "users": "ተጠቃሚዎች"
+  },
+  "lang": {
+  	"amharic": "አማርኛ",
+  	"english": "እንግሊዝኛ"
+  }
+}

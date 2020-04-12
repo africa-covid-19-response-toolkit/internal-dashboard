@@ -1,34 +1,36 @@
+
+<template>
+  <v-card flat class="pr-1">
+    <v-card-title>{{ title }}</v-card-title>
+    <apexchart type="bar" width="100%" height="300" :series="series" :options="chartOptions" />
+  </v-card>
+</template>
 <script>
-import { Bar } from "vue-chartjs";
 
 export default {
-  extends: Bar,
-  data: () => ({
-    chartdata: {
-      labels: [
-        "January",
-        "February",
-        "January",
-        "February",
-        "January",
-        "February"
-      ],
-      datasets: [
-        {
-          label: "Data One",
-          backgroundColor: "#f87979",
-          data: [40, 20, 130, 5, 13, 73]
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
-    }
-  }),
-
-  mounted() {
-    this.renderChart(this.chartdata, this.options);
-  }
+  props: ["title", "series", "labels", "horizontal", "showDataLabel"],
+  data() {
+    return {
+      chartOptions: {
+        plotOptions: {
+          bar: {
+            horizontal: this.$props.horizontal,
+            columnWidth: "55%",
+            endingShape: "rounded"
+          }
+        },
+        title: { text: undefined, align: "center", floating: true },
+        dataLabels: {
+          enabled: this.$props.showDataLabel,
+          textAnchor: "middle"
+        },
+        xaxis: {
+          categories: this.$props.labels
+        },
+       
+      }
+    };
+  },
+  mounted() {}
 };
 </script>

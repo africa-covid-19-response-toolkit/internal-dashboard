@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <h4>STAFFS and ADMINS</h4>
-    <v-divider class="mt-4" />
+  <v-container fluid>
+    <h1>USER MANAGEMENT</h1>
+    <h6>STAFF AND ADMIN USERS</h6>
+    <v-btn class="mt-2" color="secondary" tile depressed to="/admins/add"
+      ><v-icon class="mr-2">mdi-account-plus-outline</v-icon> ADD NEW
+      USER</v-btn
+    >
+    <v-divider class="mt-4 mb-4" />
     <v-data-table
       :headers="getHeaders"
       :items="staffs"
@@ -30,25 +35,23 @@
             hint="Search..."
             class="my-8"
           ></v-text-field>
-          <v-btn
-            small
-            rounded
-            color="primary"
-            @click.stop="fetchStaffs"
-            class="mb-7 ml-4 py-1"
-          >SEARCH</v-btn>
+          <v-btn small rounded @click.stop="fetchStaffs" class="mb-7 ml-4 py-1"
+            >SEARCH</v-btn
+          >
         </v-toolbar>
       </template>
 
       <template v-slot:item.disabled="{ item }">
         <v-icon small :color="item.disabled ? 'error' : 'info'">
           {{
-          item.disabled ? "mdi-alert-circle" : "mdi-checkbox-marked-circle"
+            item.disabled ? "mdi-alert-circle" : "mdi-checkbox-marked-circle"
           }}
         </v-icon>
       </template>
       <template v-slot:item.role="{ item }">
-        <v-chip small class="caption label pt-1 pb-1">{{ getRole(item.role) }}</v-chip>
+        <v-chip small class="caption label pt-1 pb-1">{{
+          getRole(item.role)
+        }}</v-chip>
       </template>
 
       <template v-slot:item.status="{ item }">
@@ -57,18 +60,24 @@
           small
           dark
           class="caption label pt-1 pb-1"
-        >{{ getStatus(item.status) }}</v-chip>
+          >{{ getStatus(item.status) }}</v-chip
+        >
       </template>
       <template v-slot:item.action="{ item }">
-        <div row v-if=" item.id !== user.id && (item.added_by===user.id || user.role>item.role )">
+        <div
+          row
+          v-if="
+            item.id !== user.id &&
+              (item.added_by === user.id || user.role > item.role)
+          "
+        >
           <v-btn icon @click="editItem(item)">
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
           <v-btn icon @click="suspendItem(item)">
-            <v-icon
-              small
-              :color="item.disabled ? '' : 'error'"
-            >{{item.disabled ? "mdi-checkbox-marked-circle" : "mdi-alert-circle"}}</v-icon>
+            <v-icon small :color="item.disabled ? '' : 'error'">{{
+              item.disabled ? "mdi-checkbox-marked-circle" : "mdi-alert-circle"
+            }}</v-icon>
           </v-btn>
         </div>
         <!-- <v-menu bottom left>
@@ -96,8 +105,8 @@
         <AddStaff
           title="Edit"
           :case="editedItem"
-          @canceled="editDialog=false;"
-          @successCallback="editDialog=false"
+          @canceled="editDialog = false"
+          @successCallback="editDialog = false"
         />
       </v-card>
     </v-dialog>
@@ -105,20 +114,23 @@
     <v-dialog width="480" v-model="disableWarning">
       <v-card>
         <v-card-title>Confirm</v-card-title>
-        <v-card-text>Are you sure you want to {{disablingItem.disabled? 'ENABLE':'DISABLE'}} {{disablingItem.first_name}}</v-card-text>
+        <v-card-text
+          >Are you sure you want to
+          {{ disablingItem.disabled ? "ENABLE" : "DISABLE" }}
+          {{ disablingItem.first_name }}</v-card-text
+        >
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="disableWarning=false" small class="ma-4">CANCEL</v-btn>
-          <v-btn
-            @click="disableItem()"
-            color="primary"
-            small
-            class="ma-4"
-          >{{disablingItem.disabled? 'ENABLE':'DISABLE'}}</v-btn>
+          <v-btn @click="disableWarning = false" small class="ma-4"
+            >CANCEL</v-btn
+          >
+          <v-btn @click="disableItem()" color="primary" small class="ma-4">{{
+            disablingItem.disabled ? "ENABLE" : "DISABLE"
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>
