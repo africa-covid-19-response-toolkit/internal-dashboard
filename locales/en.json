@@ -9,14 +9,14 @@
   "login": "LOG IN",
   "refresh": "REFRESH",
   "covid_stages": {
-    "quarantined": "Quarantined",
+    "quarantined": "Tested",
     "confirmed": "Confirmed",
     "hospitalized": "Hospitalized",
     "hospitalized_icu": "Hospitalized (ICU)",
     "hospitalized_stable": "Stable",
     "hospitalized_critical": "Critical",
     "recovered": "Recovered",
-    "dead": "Dead"
+    "dead": "Deceased"
   },
   "calendar": {
     "days": "Days",
@@ -26,14 +26,15 @@
   "chart_titles": {
     "monthly": "Monthly",
     "daily": "Daily",
-    "hourly": "Cases by Hour of day",
+    "hourly": "Cases by Hour of Day",
     "total": "Total",
     "confirmed": "Confirmed"
   },
   "menu": {
     "dashboard": "Dashboard",
     "cases": "Cases",
-    "map": "Map",
+    "surveillance": "Surveillance",
+    "map": "Medical Resource Map",
     "global_data": "Global Data",
     "languages": "Languages",
     "bulk_sms": "Bulk SMS",

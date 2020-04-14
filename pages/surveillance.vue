@@ -44,9 +44,9 @@
       <v-col cols="4" xs="12" sm="12" md="4" lg="4">
       	<v-card elevation="0" hover tile style="height: 800px; max-height: 800px; overflow-y: scroll; border-top: 0px;">
       		<v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
-		    <v-card-title v-if="markerClicked === false">{{ currentRegion ? `${currentRegion.name} ` : "" }}Medical Facilities</v-card-title>
+		    <v-card-title v-if="markerClicked === false">{{ currentRegion ? `${currentRegion.name} ` : "" }}Surveillance Cases</v-card-title>
 		    <v-card-subtitle v-if="loading === true">Loading...</v-card-subtitle>
-		    <v-card-subtitle v-if="markerClicked === false">{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
+		    <v-card-subtitle v-if="markerClicked === false">{{ currentRegion ? `The following cases exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region to view cases"}}.</v-card-subtitle>
 		    <template v-for="(table, index) in tables" v-if="currentMedicalFacilities !== null">
 		    	<v-data-table
 			    	:key="index"
@@ -136,8 +136,6 @@ function transformDataForGoogleMaps(latLongData) {
 
 function createNewRegionRecord(data) {
   return {
-	adminRegion1Id: data.properties.ID_1,
-	adminRegion1Name: data.properties.NAME_1,
     adminRegion3Id: data.properties.ID_3,
     name: data.properties.NAME_3,
     totalCases: 0,
@@ -252,97 +250,98 @@ export default {
 	  	}
 	  },
 	  getTables() {
-	  	return _map(this.currentMedicalFacilities, (medicalFacilityRecord) => {
+	  	// update for surveillance forms
+	  // 	return _map(this.currentMedicalFacilities, (medicalFacilityRecord) => {
 
-				// caculate color values for each label once thresholds are decided
-				return [
-					{
-						key: "Facility Type",
-						value: medicalFacilityRecord.amenity,
-						color: "#228b22"
-					},
-					{
-						key: "Facility Status",
-						value: medicalFacilityRecord.status,
-						color: "#228b22"
-					},
-					{
-						key: "Total Beds",
-						value: medicalFacilityRecord.total_beds,
-						color: "#228b22"
-					},
-					{
-						key: "Occupied Beds",
-						value: medicalFacilityRecord.occupied_beds,
-						color: "#228b22"
-					},
+			// 	// caculate color values for each label once thresholds are decided
+			// 	return [
+			// 		{
+			// 			key: "Facility Type",
+			// 			value: medicalFacilityRecord.amenity,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Facility Status",
+			// 			value: medicalFacilityRecord.status,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Total Beds",
+			// 			value: medicalFacilityRecord.total_beds,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Occupied Beds",
+			// 			value: medicalFacilityRecord.occupied_beds,
+			// 			color: "#228b22"
+			// 		},
 
-					{
-						key: "Available Beds",
-						value: medicalFacilityRecord.available_beds,
-						color: "#228b22"
-					},
-					{
-						key: "Total ICU Beds",
-						value: medicalFacilityRecord.total_icu_beds,
-						color: "#228b22"
-					},				
-					{
-						key: "Total Occupied ICU Beds",
-						value: medicalFacilityRecord.occupied_icu_beds,
-						color: "#228b22"
-					},
-					{
-						key: "Total Available ICU Beds",
-						value: medicalFacilityRecord.available_icu_beds,
-						color: "#228b22"
-					},				
-					{
-						key: "Total Mechanical Ventilators",
-						value: medicalFacilityRecord.total_ventilators,
-						color: "#228b22"
-					},
-					{
-						key: "Occupied Mechanical Ventilators",
-						value: medicalFacilityRecord.occupied_ventilators,
-						color: "#228b22"
-					},
-					{
-						key: "Available Mechanical Ventilators",
-						value: medicalFacilityRecord.available_ventilators,
-						color: "#228b22"
-					},
-					{
-						key: "Masks",
-						value: medicalFacilityRecord.masks,
-						color: "#228b22"
-					},
-					{
-						key: "Gloves",
-						value: medicalFacilityRecord.gloves,
-						color: "#228b22"
-					},				{
-						key: "Gowns",
-						value: medicalFacilityRecord.gowns,
-						color: "#228b22"
-					},
-					{
-						key: "Goggles",
-						value: medicalFacilityRecord.goggles,
-						color: "#228b22"
-					},
-					{
-						key: "Face Shields",
-						value: medicalFacilityRecord.face_shields,
-						color: "#228b22"
-					},
-					{
-						key: "Testings Kits",
-						value: medicalFacilityRecord.testing_kits,
-						color: "#228b22"
-					},
-				]
-			})
+			// 		{
+			// 			key: "Available Beds",
+			// 			value: medicalFacilityRecord.available_beds,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Total ICU Beds",
+			// 			value: medicalFacilityRecord.total_icu_beds,
+			// 			color: "#228b22"
+			// 		},				
+			// 		{
+			// 			key: "Total Occupied ICU Beds",
+			// 			value: medicalFacilityRecord.occupied_icu_beds,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Total Available ICU Beds",
+			// 			value: medicalFacilityRecord.available_icu_beds,
+			// 			color: "#228b22"
+			// 		},				
+			// 		{
+			// 			key: "Total Mechanical Ventilators",
+			// 			value: medicalFacilityRecord.total_ventilators,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Occupied Mechanical Ventilators",
+			// 			value: medicalFacilityRecord.occupied_ventilators,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Available Mechanical Ventilators",
+			// 			value: medicalFacilityRecord.available_ventilators,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Masks",
+			// 			value: medicalFacilityRecord.masks,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Gloves",
+			// 			value: medicalFacilityRecord.gloves,
+			// 			color: "#228b22"
+			// 		},				{
+			// 			key: "Gowns",
+			// 			value: medicalFacilityRecord.gowns,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Goggles",
+			// 			value: medicalFacilityRecord.goggles,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Face Shields",
+			// 			value: medicalFacilityRecord.face_shields,
+			// 			color: "#228b22"
+			// 		},
+			// 		{
+			// 			key: "Testings Kits",
+			// 			value: medicalFacilityRecord.testing_kits,
+			// 			color: "#228b22"
+			// 		},
+			// 	]
+			// })
 	  },
 	  mouseOverPolygon(e, adminRegion3Id) {
 		// console.log("mouseover")
@@ -358,7 +357,7 @@ export default {
 		    return coordinates
 		  })
 
-		  return { adminRegion3Id: data.properties.ID_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 1, strokeOpacity: 1.0, fillColor: POLYGON_COLORS[1], fillOpacity: 0.45 }
+		  return { adminRegion3Id: data.properties.ID_3, key: index, paths: formattedCoordinates, strokeColor: "#FFFFFF", strokeWeight: 1, strokeOpacity: 1.0, fillColor: POLYGON_COLORS[1], fillOpacity: 0.2 }
 		})
 	  },
 	  createPolygons() {
@@ -382,18 +381,25 @@ export default {
     	})
 	  },
 	  createMarkers() {
+	  	let latlon = new google.maps.MVCArray();
 	  	_forEach(this.medicalFacilityRecords, (medicalFacilityRecord) => {
     		let latLngData = {
 		        lat: parseFloat(roundValue(medicalFacilityRecord.latitude, 3)),
 			    lng: parseFloat(roundValue(medicalFacilityRecord.longitude, 3))
 		     }
 
-    		let marker = new this.google.maps.Marker({
-		      position: latLngData,
-		      map: this.map,
-		    });
+    		// let marker = new this.google.maps.Marker({
+		    //   position: latLngData,
+		    //   map: this.map,
+		    // });
 
-		    this.google.maps.event.addListener(marker, 'click', (e) => this.onClickMarker(e, medicalFacilityRecord, latLngData));
+            latlon.push(new google.maps.LatLng(latLngData.lat, latLngData.lng, 3));
+            let x = new google.maps.visualization.HeatmapLayer({
+              data: latlon,
+              map: this.map
+            });
+
+		    // this.google.maps.event.addListener(marker, 'click', (e) => this.onClickMarker(e, medicalFacilityRecord, latLngData));
     	})
 	  },
 	  init() {

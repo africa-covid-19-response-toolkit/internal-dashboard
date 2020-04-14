@@ -1,7 +1,7 @@
 <template>
   <v-container id="map-wrap" :style="mapstyle">
-    <v-row style="height: 100%;">
-      <v-col cols="12" xs="12" sm="12" md="12" lg="12">
+    
+      
         <v-card elevation="0" hover tile style="height: 100%; border-top: 0px;">
           <GmapMap
           :center="{
@@ -33,8 +33,8 @@
         </GmapInfoWindow>
         </GmapMap>
       </v-card>
-      </v-col>
-    </v-row>
+      
+    
   </v-container>
 </template>
 
@@ -47,11 +47,12 @@ import _find from 'lodash/find'
 import _filter from 'lodash/filter'
 import {gmapApi} from 'vue2-google-maps'
 import administrativeZoneDataAll from '../resources/ethiopia_administrative_zones_full.json'
+import pmoPatients from '../resources/pmoPatients.json'
 
 const POLYGON_COLORS = [
-  "#228b22",
-  "#ff8000",
-  "#ff0000"
+  "#CCCCCC",
+  "#800000",
+  "#FF0000"
 ]
 
 function roundValue(value, decimals) {
@@ -59,17 +60,20 @@ function roundValue(value, decimals) {
 }
 
 function polygonColor(count) {
+  var color = null
   if (count === 0) {
-    return POLYGON_COLORS[0]
+    color = POLYGON_COLORS[0]
   }
 
-  if (count < 1 && count > 0) {
-    return POLYGON_COLORS[1]
+  if (count > 0) {
+    color = POLYGON_COLORS[1]
   }
 
   if (count > 1) {
-    return POLYGON_COLORS[2]
+    color = POLYGON_COLORS[2]
   }
+
+  return color
 }
 
 function transformDataForGoogleMaps(latLongData) {
@@ -78,6 +82,8 @@ function transformDataForGoogleMaps(latLongData) {
 
 function createNewRegionRecord(data) {
   return {
+    adminRegion1Id: data.properties.ID_1,
+    adminRegion1Name: data.properties.NAME_1,
     adminRegion3Id: data.properties.ID_3,
     name: data.properties.NAME_3,
     totalCases: 0,
@@ -93,7 +99,7 @@ export default {
   props: {
     mapstyle: {
       type: String,
-      default: "min-height: 660px; height: 100%; padding: 0;"
+      default: "min-height: 660px; height: 100%; width: 100%; max-width: none; padding: 0;"
     }
   },
 
@@ -221,8 +227,14 @@ export default {
   methods: {
     getRegionRecords() {
       this.regionRecords = []
+
+      let patients = pmoPatients.results
+
       this.regionOverlayRecords = _map(this.administrativeZoneDataAll[0].features, (data, index) => {
         let regionRecord = createNewRegionRecord(data)
+        regionRecord.totalCases = _filter(patients, (patient) => {
+          return (patient.location === regionRecord.adminRegion1Name)
+        }).length
         this.regionRecords.push(regionRecord)
 
         const formattedCoordinates = _map(data.geometry.coordinates[0], (latLongData) => {
@@ -230,8 +242,10 @@ export default {
           return coordinates
         })
 
-        return { adminRegion3Id: data.properties.ID_3, name: data.properties.NAME_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 2, strokeOpacity: 1.0, fillColor: POLYGON_COLORS[1], fillOpacity: 0.45 }
-    })
+        const caseLevelColor = polygonColor(regionRecord.totalCases)
+
+        return { adminRegion3Id: data.properties.ID_3, name: data.properties.NAME_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 1, strokeOpacity: 1.0, fillColor: caseLevelColor, fillOpacity: 0.45 }
+      })
     },
     createPolygons() {
       _forEach(this.regionOverlayRecords, (regionOverlayRecord) => {
@@ -239,16 +253,16 @@ export default {
         let regionName = regionOverlayRecord.name
 
         let regionRecordForOverlay = _find(this.regionRecords, { 'adminRegion3Id': regionId })
-        let matchingRecords = _filter(this.sampleData, { 'name': regionName })
+        // let matchingRecords = _filter(this.sampleData, { 'name': regionName })
 
-        const caseLevelColor = polygonColor(matchingRecords.length)
+        // const caseLevelColor = polygonColor(regionOverlayRecord.totalCases)
 
         var polygon = new this.google.maps.Polygon({
             paths: regionOverlayRecord.paths,
             strokeColor: regionOverlayRecord.strokeColor,
             strokeOpacity: regionOverlayRecord.strokeOpacity,
             strokeWeight: regionOverlayRecord.strokeWeight,
-            fillColor: caseLevelColor,
+            fillColor: regionOverlayRecord.fillColor,
             fillOpacity: regionOverlayRecord.fillOpacity,
         });
 
@@ -258,7 +272,6 @@ export default {
       })
     },
     mouseOverPolygon(e, polygon, regionOverlayRecord) {
-      console.log("mouseover")
 
       var bounds = new google.maps.LatLngBounds();
       polygon.getPath().forEach(function (path, index) {
@@ -274,15 +287,18 @@ export default {
       let regionId = regionOverlayRecord.adminRegion3Id
       let regionName = regionOverlayRecord.name
       let regionRecordForOverlay = _find(this.regionRecords, { 'adminRegion3Id': regionId })
-      let matchingRecords = _filter(this.sampleData, { 'name': regionName })
+
+      var totalCases = regionRecordForOverlay.totalCases
+
+      if (regionName.includes("WEREDA ") === true) {
+        regionName = `Addis Ababa (${regionName})`
+        totalCases = `${totalCases} (Addis Ababa Total)`
+      }
 
       this.infoWindowDetails = {
         name: regionName,
-        totalCases: matchingRecords.length
+        totalCases: totalCases
       }
-
-      console.log('polygon mouseover')
-      console.log(latLngData)
 
       this.showingInfoWindow = true
       this.infoWindowPosition = latLngData
@@ -317,8 +333,6 @@ export default {
       //     console.log(err);
       //   });
     },
-  },
-  created() {
   },
   mounted() {
     this.$refs.frontPageMap.$mapPromise.then((map) => {
