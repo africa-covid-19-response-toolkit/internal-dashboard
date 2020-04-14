@@ -29,7 +29,6 @@ export default {
 
   computed: {
     getChartOptions() {
-      console.log("getChartOptions");
       if (this.chartdata && this.chartdata.xaxis) {
         return {
           ...this.chartOptions,

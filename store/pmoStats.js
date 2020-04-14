@@ -1,4 +1,5 @@
 const axios = require("axios").default;
+import pmoPatients from '../resources/pmoPatients.json'
 
 export const state = () => ({
   // this is the default state

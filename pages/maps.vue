@@ -358,7 +358,7 @@ export default {
 		    return coordinates
 		  })
 
-		  return { adminRegion3Id: data.properties.ID_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 2, strokeOpacity: 1.0, fillColor: POLYGON_COLORS[1], fillOpacity: 0.45 }
+		  return { adminRegion3Id: data.properties.ID_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 1, strokeOpacity: 1.0, fillColor: POLYGON_COLORS[1], fillOpacity: 0.45 }
 		})
 	  },
 	  createPolygons() {

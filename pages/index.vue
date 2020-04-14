@@ -29,6 +29,7 @@
       <v-col v-for="(item, index) in getTotalStats.series" :key="index" xs="4">
         <v-lazy>
           <MiniStatistics
+            :height="584"
             :title="getCat(index)"
             :primaryValue="item[0]"
             :secondaryValue="item[1]"
@@ -41,21 +42,21 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" xs="12" sm="12" md="12" lg="12">
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6">
         <Map />
       </v-col>
-      <!-- <v-col cols="12" xs="12" sm="6" md="5" lg="5">
-        <div style="height: 636px;">
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+        <v-lazy>
           <TotalBarChart
-            :height="600"
-            :horizontal="false"
+            :height="'600px'"
+            :horizontal="true"
             :showDataLabel="false"
-            :title="$t('Cases by Travel History (Top 10)')"
+            :title="$t('Cases by Region (Top 20)')"
             :series="getTop20Regions.series"
             :labels="getTop20Regions.labels"
           />
-        </div>
-      </v-col> -->
+        </v-lazy>
+      </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
@@ -188,13 +189,18 @@ function roundValue(value, decimals) {
 
 function createNewRegionRecord(data) {
   var name = data.properties.NAME_3
+  var adminRegion1Id = data.properties.ID_1
+  var adminRegion1Name = data.properties.NAME_1
+  var adminRegion3Id = data.properties.ID_3
+
   if (data.properties.NAME_3.includes("WEREDA ") === true) {
     name = data.properties.NAME_1
   }
+
   return {
-    adminRegion1Id: data.properties.ID_1,
-    adminRegion1Name: data.properties.NAME_1,
-    adminRegion3Id: data.properties.ID_3,
+    adminRegion1Id: adminRegion1Id,
+    adminRegion1Name: adminRegion1Name,
+    adminRegion3Id: adminRegion3Id,
     name: name,
     totalCases: 0,
     totalRecovered: 0,
@@ -251,13 +257,6 @@ function createMonthlyGroupedRecords(records) {
 
   return grouped
 }
-
-// function createDailyGroupedRecords(records) {
-//   var grouped = _groupBy(data, (record) => {
-//     return record.time
-//   })
-//   return grouped
-// }
 
 function sortRecordsByTime(groupedRecords) {
   return groupedRecords.sort(function (a, b) {
@@ -348,7 +347,7 @@ export default {
         }
       })
 
-      let top10Woredas = _orderBy(woredaByTotalCases, ['count'], ['desc']).slice(0, 10)
+      let top10Woredas = _orderBy(woredaByTotalCases, ['count'], ['desc']).slice(0, 20)
       let top10WoredasLabels = _map(top10Woredas, 'country')
       let top10WoredasCounts = _map(top10Woredas, 'count')
 
@@ -361,11 +360,6 @@ export default {
         ],
         labels: top10WoredasLabels
       };
-
-      console.log("top 10 regions")
-      console.log(top10Woredas)
-      console.log(top10WoredasLabels)
-      console.log(top10WoredasCounts)
 
       return chartdata
     }, 
@@ -796,7 +790,6 @@ export default {
 
         let ratioDeceased = roundValue(totalDeceased / total, 3)
         let percentDeceased = roundValue(ratioDeceased, 2) * 100
-        console.log(percentDeceased * 100)
         // this.finalOutcomePercentage = "33.3"
         return dataset
       }
@@ -895,19 +888,8 @@ export default {
     //   });
     // });
 
-    this.getCases().then((data) => {
-      console.log("PMO STATS CASES")
-      console.log(data)
-    }).catch(() => {
-      console.log("failed get cases")
-    })
-
-    this.getPatients().then((data) => {
-      console.log("PMO STATS Patients")
-      console.log(data)
-    }).catch(() => {
-      console.log("failed get Patients")
-    })
+    // this.getCases()
+    // this.getPatients()
   }
 };
 </script>

@@ -8,7 +8,7 @@
 <script>
 
 export default {
-  props: ["title", "series", "labels", "horizontal", "showDataLabel"],
+  props: ["title", "height", "series", "labels", "horizontal", "showDataLabel"],
   data() {
     return {
       height: 300,

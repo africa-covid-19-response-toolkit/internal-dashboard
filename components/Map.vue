@@ -244,7 +244,7 @@ export default {
 
         const caseLevelColor = polygonColor(regionRecord.totalCases)
 
-        return { adminRegion3Id: data.properties.ID_3, name: data.properties.NAME_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 2, strokeOpacity: 1.0, fillColor: caseLevelColor, fillOpacity: 0.45 }
+        return { adminRegion3Id: data.properties.ID_3, name: data.properties.NAME_3, key: index, paths: formattedCoordinates, strokeColor: "#000000", strokeWeight: 1, strokeOpacity: 1.0, fillColor: caseLevelColor, fillOpacity: 0.45 }
       })
     },
     createPolygons() {
@@ -272,7 +272,6 @@ export default {
       })
     },
     mouseOverPolygon(e, polygon, regionOverlayRecord) {
-      console.log("mouseover")
 
       var bounds = new google.maps.LatLngBounds();
       polygon.getPath().forEach(function (path, index) {
@@ -289,13 +288,17 @@ export default {
       let regionName = regionOverlayRecord.name
       let regionRecordForOverlay = _find(this.regionRecords, { 'adminRegion3Id': regionId })
 
-      this.infoWindowDetails = {
-        name: regionName,
-        totalCases: regionRecordForOverlay.totalCases
+      var totalCases = regionRecordForOverlay.totalCases
+
+      if (regionName.includes("WEREDA ") === true) {
+        regionName = `Addis Ababa (${regionName})`
+        totalCases = `${totalCases} (Addis Ababa Total)`
       }
 
-      console.log('polygon mouseover')
-      console.log(latLngData)
+      this.infoWindowDetails = {
+        name: regionName,
+        totalCases: totalCases
+      }
 
       this.showingInfoWindow = true
       this.infoWindowPosition = latLngData
