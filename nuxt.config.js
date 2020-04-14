@@ -1,5 +1,17 @@
 /* eslint-disable quotes */
 import colors from "vuetify/es5/util/colors";
+require('./config');
+
+module.exports = {
+  modules: [
+    'nuxt-stripe-module',
+  ],
+
+  stripe: {
+    version: 'v3',
+    publishableKey: process.env.STRIPE_PK,
+  },
+};
 
 export default {
   env: {

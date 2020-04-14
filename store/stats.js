@@ -16,7 +16,7 @@ export const actions = {
     try {
       //this is where we change the url for actual stats
       //TODO: this is where the actual api endpoint url is given
-      const stats = await axios.get("https://capi.abren.tech/stats");
+      const stats = await axios.get(process.env.STATUS_AXIOS_URL);
       commit("set", stats.data);
       return stats.data;
     } catch (err) {
