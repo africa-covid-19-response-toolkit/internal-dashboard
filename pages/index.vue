@@ -714,10 +714,7 @@ export default {
       return { series: [0, 0, 0, 0, 0, 0] };
     },
     getHospitalizationStats() {
-      // let labels = [ "Unhospitalized", "Hospitilized" ]
-      const all = this.findStatStore;
-      if (all && all.data && all.data.length > 0) {
-        let totalCaseObj = pmoCases[0]
+      let totalCaseObj = pmoCases[0]
         let total = totalCaseObj.confirmed
         let totalHospitalized = totalCaseObj.stable + totalCaseObj.critical
         
@@ -738,7 +735,6 @@ export default {
 
         this.hospitalizedPercentage = roundValue(totalIcu / total, 3) * 100
         return dataset
-      }
     },
 
     getIcuStats() {
@@ -768,12 +764,7 @@ export default {
     },
 
     getFinalOutcomeStats() {
-      const all = this.findStatStore;
-      if (all && all.data && all.data.length > 0) {
-        // let totalRecovered = all.data[0].total.data[5]
-        // let totalDeceased =  all.data[0].total.data[6]
-        // let total =  totalDeceased + totalRecovered
-        let totalCaseObj = pmoCases[0]
+      let totalCaseObj = pmoCases[0]
         let totalRecovered = totalCaseObj.recovered
         let totalDeceased =  totalCaseObj.deceased
         let total = totalDeceased + totalRecovered
@@ -790,9 +781,8 @@ export default {
 
         let ratioDeceased = roundValue(totalDeceased / total, 3)
         let percentDeceased = roundValue(ratioDeceased, 2) * 100
-        // this.finalOutcomePercentage = "33.3"
+        
         return dataset
-      }
     },
 
     getLiveTotal() {
