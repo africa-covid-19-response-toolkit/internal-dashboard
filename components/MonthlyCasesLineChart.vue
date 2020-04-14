@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>{{ `${$t('chart_titles.monthly')} - ${new Date().toDateString()}` }}</v-card-title>
+    <v-card-title>{{ `${$t('chart_titles.monthly')}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
   </v-card>

@@ -136,6 +136,8 @@ function transformDataForGoogleMaps(latLongData) {
 
 function createNewRegionRecord(data) {
   return {
+	adminRegion1Id: data.properties.ID_1,
+	adminRegion1Name: data.properties.NAME_1,
     adminRegion3Id: data.properties.ID_3,
     name: data.properties.NAME_3,
     totalCases: 0,

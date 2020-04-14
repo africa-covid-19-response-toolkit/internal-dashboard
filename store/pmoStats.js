@@ -2,31 +2,59 @@ const axios = require("axios").default;
 
 export const state = () => ({
   // this is the default state
-  allstats: null
+  allCases: null,
+  allPatients: null,
 });
 
 export const mutations = {
-  set(state, data) {
-    state.allstats = data;
-  }
+  setCases(state, data) {
+    state.allCases = data
+  },
+  setPatients(state, data) {
+    state.allPatients = data
+  },
 };
 
 export const actions = {
-  async loadStats({ commit }) {
+  async getCases({ commit }) {
     try {
-      //this is where we change the url for actual stats
-      //TODO: this is where the actual api endpoint url is given
-      const stats = await axios.get("https://api.pmo.gov.et/v1/cases/");
-      commit("set", stats.data);
-      return stats.data;
+      let headers = {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'content-type': 'application/json'
+        }
+      }
+
+      const cases = await axios.get("https://api.pmo.gov.et/v1/cases/?format=json", headers)
+      commit("setCases", cases.data)
+      return cases.data
     } catch (err) {
-      commit("set", null);
+      commit("setCases", null)
     }
-  }
+  },
+  async getPatients({ commit }, limit) {
+    try {
+      let headers = {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'content-type': 'application/json'
+        }
+      }
+
+      const patients = await axios.get(`https://api.pmo.gov.et/v1/patients/?format=json&limit=${limit}`, headers)
+      commit("setPatients", patients.data)
+      return patients.data
+    } catch (err) {
+      commit("setPatients", null)
+    }
+  },
 };
 
 export const getters = {
-  getAllStats: state => {
-    return state.allstats;
-  }
+  getAllCases: state => {
+    return state.allCases
+  },
+  getPatients: state => {
+    return state.allPatients
+  },
 };
