@@ -150,7 +150,7 @@ export default {
     },
     mapstyle: {
       type: String,
-      default: "min-height: 780px; height: 100%;"
+      default: "min-height: 600px; height: 100%;"
     },
     onRegionClick: {
       type: Function,

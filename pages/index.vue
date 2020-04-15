@@ -65,6 +65,7 @@
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <TotalBarChart
+            :height="'600px'"
             :horizontal="false"
             :showDataLabel="false"
             :title="$t('Cases by Zone')"
