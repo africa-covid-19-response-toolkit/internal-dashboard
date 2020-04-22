@@ -3,7 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant && !smallScreen"
-      clipped
+      :clipped="clipped"
       mini-variant-width="54"
       :expand-on-hover="!smallScreen && expandOnHover"
       app
@@ -38,7 +38,7 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-app-bar elevation="8" light color="primary" hide-on-scroll clipped-left app>
+    <v-app-bar elevation="8" light color="primary" absolute :clipped-left="clipped" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
@@ -92,24 +92,22 @@
     </v-app-bar>
 
     <v-content class="px-auto">
-      <v-container fluid>
+      <v-container>
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>
-        <!-- <v-row app>
-          <span class="overline mx-auto">
-            &copy; {{ new Date().getFullYear() }}, MOH, MINT, ETHIOPIA COVID19 RESPONSE TEAM, Fyn
-            Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
-          </span>
-        </v-row>-->
+        <div class="mt-12 text-sm-center" app>
+          <span
+            class="overline"
+          >&copy; {{ new Date().getFullYear() }} ETHIOPIA COVID19 RESPONSE TEAM</span>
+        </div>
       </v-container>
     </v-content>
-    <v-footer small app>
+    <!-- <v-footer small app>
       <span class="overline">
-        &copy; {{ new Date().getFullYear() }}, MOH, MINT, ETHIOPIA COVID19 RESPONSE TEAM, Fyn
-        Systems, AGELGIL TECHNOLOGIES, JSI, ICT-ET
+        &copy; {{ new Date().getFullYear() }} ETHIOPIA COVID19 RESPONSE TEAM
       </span>
-    </v-footer>
+    </v-footer>-->
     <v-speed-dial v-if="admin" v-model="fab" bottom right fixed :open-on-hover="expandOnHover">
       <template v-slot:activator>
         <v-btn v-model="fab" color="secondary" dark fab>
@@ -136,7 +134,7 @@ export default {
   components: { AddNewCases },
   data() {
     return {
-      clipped: true,
+      clipped: false,
       drawer: true,
       fixed: false,
       expandOnHover: true,
@@ -150,7 +148,7 @@ export default {
           icon: "mdi-apps",
           titleKey: "menu.dashboard",
           to: "/"
-        },        
+        },
         {
           icon: "mdi-briefcase-search-outline",
           titleKey: "menu.surveillance",
