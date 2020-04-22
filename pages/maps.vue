@@ -66,7 +66,7 @@
         <v-card-subtitle
           v-if="markerClicked === false"
         >{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
-        <template v-for="(table, index) in tables" v-if="currentMedicalFacilities !== null">
+        <template v-for="(table, index) in tables">
           <v-data-table
             :key="index"
             :headers="headers[index]"
@@ -200,7 +200,9 @@ export default {
       this.init();
     });
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    delete this.map;
+  },
   methods: {
     getClass(property) {
       return {
