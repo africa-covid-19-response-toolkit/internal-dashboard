@@ -176,7 +176,7 @@ import _forEach from "lodash/forEach";
 import _sortedUniqBy from "lodash/sortedUniqBy";
 import _uniqBy from "lodash/uniqBy";
 import _find from "lodash/find";
-import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
+// import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
 import MomentTimezone from "moment-timezone";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
@@ -324,7 +324,7 @@ export default {
       hospitalizedPercentage: null,
       icuPercentage: null,
       finalOutcomePercentage: null,
-      administrativeZoneDataAll: administrativeZoneDataAll,
+      administrativeZoneDataAll: null,
       regionRecords: [],
       woredaCasesChartData: {
         series: [
@@ -903,7 +903,7 @@ export default {
   },
   async mounted() {
     this.getStats();
-    this.getRegionRecords();
+    // this.getRegionRecords();
     // this.getApiToken().then(() => {
     //   this.getAllCommunities().then(() => {
     //     // set up community related panels

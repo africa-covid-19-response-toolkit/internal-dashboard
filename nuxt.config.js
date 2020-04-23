@@ -131,6 +131,5 @@ export default {
      */
     extend(config, ctx) {},
     transpile: [/^vue2-google-maps($|\/)/]
-    // transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
   }
 };

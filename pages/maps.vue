@@ -97,7 +97,9 @@ import _map from "lodash/map";
 import _find from "lodash/find";
 import _filter from "lodash/filter";
 import { gmapApi } from "vue2-google-maps";
-import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
+import Util from "@/util/util";
+
+// import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
 
 const MAP_CENTER = {
   lat: 8.75,
@@ -176,7 +178,7 @@ export default {
     return {
       loading: false,
       map: undefined,
-      administrativeZoneDataAll: administrativeZoneDataAll,
+      administrativeZoneDataAll: null,
       markerClicked: false,
       showingInfoWindow: false,
       infoWindowPosition: null,
@@ -382,7 +384,7 @@ export default {
     mouseOverPolygon(e, adminRegion3Id) {
       // console.log("mouseover")
     },
-    getRegionRecords() {
+    async getRegionRecords() {
       this.regionRecords = [];
       this.regionOverlayRecords = _map(
         this.administrativeZoneDataAll[0].features,
@@ -392,14 +394,17 @@ export default {
 
           const formattedCoordinates = _map(
             data.geometry.coordinates[0],
-            latLongData
+            latLongData => {
+              const coordinates = transformDataForGoogleMaps(latLongData);
+              return coordinates;
+            }
           );
 
           return {
             adminRegion3Id: data.properties.ID_3,
             key: index,
             paths: formattedCoordinates,
-            strokeColor: "#000000",
+            strokeColor: "rgba(0,0,0,0.2)",
             strokeWeight: 1,
             strokeOpacity: 1.0,
             fillColor: POLYGON_COLORS[1],
@@ -408,7 +413,7 @@ export default {
         }
       );
     },
-    createPolygons() {
+    async createPolygons() {
       _forEach(this.regionOverlayRecords, regionOverlayRecord => {
         let regionId = regionOverlayRecord.adminRegion3Id;
         let regionRecordForOverlay = _find(this.regionRecords, {
@@ -436,7 +441,7 @@ export default {
         poly.setMap(this.map);
       });
     },
-    createMarkers() {
+    async createMarkers() {
       _forEach(this.medicalFacilityRecords, medicalFacilityRecord => {
         let latLngData = {
           lat: parseFloat(roundValue(medicalFacilityRecord.latitude, 3)),
@@ -453,36 +458,40 @@ export default {
         );
       });
     },
-    init() {
+    async init() {
       this.loading = true;
-      axios
-        .get(`https://sheetsu.com/apis/v1.0su/97079a6a1458/`)
-        .then(response => {
-          this.getRegionRecords();
+      try {
+        const response = await axios.get(
+          `https://sheetsu.com/apis/v1.0su/97079a6a1458/`
+        );
 
-          this.medicalFacilityRecords = _map(
-            response.data,
-            medicalFacilityRecord => {
-              return Object.assign({}, medicalFacilityRecord, {
-                osm_id: parseInt(medicalFacilityRecord.osm_id),
-                status: capitalizeFirstLetter(medicalFacilityRecord.status),
-                admin_region_3_id: parseInt(
-                  medicalFacilityRecord.admin_region_3_id
-                ),
-                latitude: parseFloat(medicalFacilityRecord.latitude),
-                longitude: parseFloat(medicalFacilityRecord.longitude)
-              });
-            }
-          );
+        this.administrativeZoneDataAll = await Util.downloadGeoJson(
+          this.$axios
+        );
+        await this.getRegionRecords();
+        await this.createPolygons();
+        await this.createMarkers();
 
-          this.createPolygons();
-          this.createMarkers();
-          this.loading = false;
-        })
-        .catch(error => {
-          console.log(error);
-          this.loading = false;
-        });
+        this.medicalFacilityRecords = _map(
+          response.data,
+          medicalFacilityRecord => {
+            return Object.assign({}, medicalFacilityRecord, {
+              osm_id: parseInt(medicalFacilityRecord.osm_id),
+              status: capitalizeFirstLetter(medicalFacilityRecord.status),
+              admin_region_3_id: parseInt(
+                medicalFacilityRecord.admin_region_3_id
+              ),
+              latitude: parseFloat(medicalFacilityRecord.latitude),
+              longitude: parseFloat(medicalFacilityRecord.longitude)
+            });
+          }
+        );
+
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+        this.loading = false;
+      }
     }
   }
 };
