@@ -36,6 +36,7 @@ const downloadGeoJson = async axios => {
     const result = await fetch(
       "/resources/ethiopia_administrative_zones_full.json"
     );
+
     return await result.json();
   } catch (err) {
     console.log("cant download geojson... ", err);
