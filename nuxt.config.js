@@ -80,7 +80,7 @@ export default {
   nuxtPrecompress: {
     enabled: true, // Enable in production
     report: true, // set false to turn off console messages
-    test: /\.(js|css|html|txt|xml|svg)$/, // files to compress on build
+    test: /\.(js|css|html|txt|xml|svg|json|geojson)$/, // files to compress on build
     // Serving options
     middleware: {
       // You can disable middleware if you serve static files using nginx...
@@ -103,7 +103,7 @@ export default {
     },
     brotli: {
       // should compress to brotli?
-      enabled: true,
+      enabled: false,
       // compression config
       // https://www.npmjs.com/package/compression-webpack-plugin
       filename: "[path].br[query]", // middleware will look for this filename
