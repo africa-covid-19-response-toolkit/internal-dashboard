@@ -67,7 +67,7 @@
         <v-card-subtitle
           v-if="markerClicked === false"
         >{{ currentRegion ? `The following cases exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region to view cases"}}.</v-card-subtitle>
-        <template v-for="(table, index) in tables" v-if="currentMedicalFacilities !== null">
+        <template v-for="(table, index) in tables">
           <v-data-table
             :key="index"
             :headers="headers[index]"

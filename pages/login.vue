@@ -1,4 +1,4 @@
-<template>
+<!--<template>
   <amplify-authenticator class="flex justify-md-space-around vertical-center"></amplify-authenticator>
   <!--<v-content class="flex justify-md-space-around vertical-center">
     <v-card
@@ -61,49 +61,49 @@
       </v-card-actions>
     </v-card>
   </v-content>-->
-</template>
+</template>-->
 
-<script>
-import { mapActions } from "vuex";
-import { components, AmplifyEventBus } from "aws-amplify-vue";
+// <script>
+// import { mapActions } from "vuex";
+// import { components, AmplifyEventBus } from "aws-amplify-vue";
 
-export default {
-  layout: "login-layout",
-  data() {
-    return {
-      username: "",
-      password: "",
-      loading: false,
-      error: false
-    };
-  },
-  components: {
-    ...components
-  },
-  methods: {
-    // login() {}
-  },
-  mounted() {
-    if (this.$store.state.auth.user) {
-      //already logged in so we redirect to home page
-      this.$router.push("/");
-    }
-  },
-  created() {
-    AmplifyEventBus.$on("authState", info => {
-      if (info === "signedIn") {
-        this.$store.dispatch("auth/load");
-        this.$router.push("/");
-      } else if (info === "signedOut") {
-        this.$router.push("/login");
-      }
+// export default {
+//   layout: "login-layout",
+//   data() {
+//     return {
+//       username: "",
+//       password: "",
+//       loading: false,
+//       error: false
+//     };
+//   },
+//   components: {
+//     ...components
+//   },
+//   methods: {
+//     // login() {}
+//   },
+//   mounted() {
+//     if (this.$store.state.auth.user) {
+//       //already logged in so we redirect to home page
+//       this.$router.push("/");
+//     }
+//   },
+//   created() {
+//     AmplifyEventBus.$on("authState", info => {
+//       if (info === "signedIn") {
+//         this.$store.dispatch("auth/load");
+//         this.$router.push("/");
+//       } else if (info === "signedOut") {
+//         this.$router.push("/login");
+//       }
 
-      console.log(
-        `Here is the auth event that was just emitted by an Amplify component: ${info}`
-      );
-    });
-  }
-};
+//       console.log(
+//         `Here is the auth event that was just emitted by an Amplify component: ${info}`
+//       );
+//     });
+//   }
+// };
 </script>
 
 <style>

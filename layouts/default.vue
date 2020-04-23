@@ -229,7 +229,7 @@ export default {
       return this.admin ? this.adminsNav : this.public;
     },
     admin() {
-      return this.$auth.user;
+      return this.$store.state.auth.user;
     },
     fullscreenIcon() {
       return this.isFullscreen ? "mdi-fullscreen-exit" : "mdi-fullscreen";
