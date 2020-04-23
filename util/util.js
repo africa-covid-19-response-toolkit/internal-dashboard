@@ -33,10 +33,11 @@ const apiHost = "http://api.covid19.et";
 
 const downloadGeoJson = async axios => {
   try {
-    const result = await axios.get(
+    const result = await fetch(
       "/resources/ethiopia_administrative_zones_full.json"
     );
-    return result.data && result.data.length > 0 ? result.data : [];
+
+    return await result.json();
   } catch (err) {
     console.log("cant download geojson... ", err);
   }
@@ -44,10 +45,10 @@ const downloadGeoJson = async axios => {
 
 const downloadGeoJsonMinimized = async axios => {
   try {
-    const result = await axios.get(
+    const result = await fetch(
       "/resources/ethiopia_administrative_zones_full_mimimized.json"
     );
-    return result.data && result.data.length > 0 ? result.data : [];
+    return await result.json();
   } catch (err) {
     console.log("cant download geojson... ", err);
   }
