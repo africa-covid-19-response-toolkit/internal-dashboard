@@ -44,8 +44,9 @@ import _map from "lodash/map";
 import _find from "lodash/find";
 import _filter from "lodash/filter";
 import { gmapApi } from "vue2-google-maps";
-import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
+// import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
 import pmoPatients from "../resources/pmoPatients.json";
+import Util from "@/util/util";
 
 const POLYGON_COLORS = ["rgba(255,255,255,0.8)", "#800000", "#FF0000"];
 
@@ -108,7 +109,7 @@ export default {
   data() {
     return {
       map: undefined,
-      administrativeZoneDataAll: administrativeZoneDataAll,
+      administrativeZoneDataAll: null,
       regionSelected: false,
       showingInfoWindow: false,
       infoWindowPosition: null,
@@ -295,6 +296,16 @@ export default {
         polygon.setMap(this.map);
       });
     },
+
+    async init() {
+      this.loading = true;
+      this.administrativeZoneDataAll = await Util.downloadGeoJson(this.$axios);
+
+      await this.getRegionRecords();
+      await this.createPolygons();
+      this.loading = false;
+    },
+
     mouseOverPolygon(e, polygon, regionOverlayRecord) {
       var bounds = new google.maps.LatLngBounds();
       polygon.getPath().forEach(function(path, index) {
@@ -365,9 +376,7 @@ export default {
   mounted() {
     this.$refs.frontPageMap.$mapPromise.then(map => {
       this.map = map;
-      this.getRegionRecords().then(res => {
-        this.createPolygons();
-      });
+      this.init();
     });
     // this.fetchFromServer();
   }
