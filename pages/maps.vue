@@ -394,14 +394,17 @@ export default {
 
           const formattedCoordinates = _map(
             data.geometry.coordinates[0],
-            latLongData
+            latLongData => {
+              const coordinates = transformDataForGoogleMaps(latLongData);
+              return coordinates;
+            }
           );
 
           return {
             adminRegion3Id: data.properties.ID_3,
             key: index,
             paths: formattedCoordinates,
-            strokeColor: "#000000",
+            strokeColor: "rgba(0,0,0,0.2)",
             strokeWeight: 1,
             strokeOpacity: 1.0,
             fillColor: POLYGON_COLORS[1],
