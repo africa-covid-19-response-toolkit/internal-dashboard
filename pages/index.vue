@@ -7,19 +7,8 @@
       </v-col>
       <v-spacer />
 
-      <v-progress-circular
-        indeterminate
-        color="primary"
-        v-if="loading"
-        class="my-auto mx-2"
-      />
-      <v-btn
-        depressed
-        rounded
-        color="secondary"
-        class="my-auto"
-        @click="getStats"
-      >
+      <v-progress-circular indeterminate color="primary" v-if="loading" class="my-auto mx-2" />
+      <v-btn depressed rounded color="secondary" class="my-auto" @click="getStats">
         <v-icon>mdi-reload</v-icon>
         {{ $t("refresh") }}
       </v-btn>
@@ -42,13 +31,15 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+      <v-flex xs12 sm12>
         <Map />
-      </v-col>
+      </v-flex>
+    </v-row>
+    <v-row>
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <TotalBarChart
-            :height="'600px'"
+            :height="400"
             :horizontal="true"
             :showDataLabel="false"
             :title="$t('Cases by Region (Top 20)')"
@@ -57,12 +48,11 @@
           />
         </v-lazy>
       </v-col>
-    </v-row>
-    <v-row>
+
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <TotalBarChart
-            class="mt-8"
+            :height="400"
             :horizontal="false"
             :showDataLabel="false"
             :title="$t('Cases by Zone')"
@@ -76,6 +66,7 @@
       <v-col cols="12" xs="12" sm="12" md="12" lg="12">
         <v-lazy>
           <TotalBarChart
+            :height="360"
             :horizontal="true"
             :showDataLabel="false"
             :title="$t('Cases by Travel History (Top 10)')"
@@ -86,38 +77,47 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="4" xs="12" md="6">
+      <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
           <v-card elevation="0" hover tile style="height: 510px;">
-            <v-card-title>Hospitalization Status<span class="index__pie_chart_percentage_label">{{ hospitalizedPercentage ? ` ${hospitalizedPercentage}% ICU` : '' }}</span></v-card-title>
-              <PieChart :labels="[ 'Non-hospitalized', 'Hospitalized ICU', 'Hospitalized Non-ICU' ]" :datasets="getHospitalizationStats" />
-          </v-card>    
+            <v-card-title>
+              Hospitalization Status
+              <span
+                class="index__pie_chart_percentage_label"
+              >{{ hospitalizedPercentage ? ` ${hospitalizedPercentage}% ICU` : '' }}</span>
+            </v-card-title>
+            <PieChart
+              :labels="[ 'Non-hospitalized', 'Hospitalized ICU', 'Hospitalized Non-ICU' ]"
+              :datasets="getHospitalizationStats"
+            />
+          </v-card>
         </v-lazy>
       </v-col>
-      <v-col cols="4" xs="12" md="6">
+      <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
           <v-card elevation="0" hover tile style="height: 510px;">
-            <v-card-title>Outcome Status<span class="index__pie_chart_percentage_label">{{ finalOutcomePercentage ? ` ${finalOutcomePercentage}% Deceased` : '' }}</span></v-card-title>
-              <PieChart :labels="[ 'Recovered', 'Deceased' ]" :datasets="getFinalOutcomeStats" />
-          </v-card>    
+            <v-card-title>
+              Outcome Status
+              <span
+                class="index__pie_chart_percentage_label"
+              >{{ finalOutcomePercentage ? ` ${finalOutcomePercentage}% Deceased` : '' }}</span>
+            </v-card-title>
+            <PieChart :labels="[ 'Recovered', 'Deceased' ]" :datasets="getFinalOutcomeStats" />
+          </v-card>
         </v-lazy>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
         <v-lazy>
-          <HourlyCasesLineChart 
-          :chartdata="getHourlyLiveStats" />
+          <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
         </v-lazy>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
         <v-lazy>
-          <TimeSeriesChart
-            :title="$t('Last 7 Days')"
-            :chartdata="getWeekStats"
-          />
+          <TimeSeriesChart :title="$t('Last 7 Days')" :chartdata="getWeekStats" />
         </v-lazy>
       </v-col>
     </v-row>
@@ -165,36 +165,36 @@ import LineChart from "~/components/LineChart.vue";
 import TotalBarChart from "~/components/TotalBarChart.vue";
 import PieChart from "~/components/PieChart.vue";
 import Map from "@/components/Map";
-import pmoCases from '../resources/pmoCases.json'
-import pmoPatients from '../resources/pmoPatients.json'
-import _groupBy from 'lodash/groupBy'
-import _map from 'lodash/map'
-import _orderBy from 'lodash/orderBy'
-import _filter from 'lodash/filter'
-import _reject from 'lodash/reject'
-import _forEach from 'lodash/forEach'
-import _sortedUniqBy from 'lodash/sortedUniqBy'
-import _uniqBy from 'lodash/uniqBy'
-import _find from 'lodash/find'
-import administrativeZoneDataAll from '../resources/ethiopia_administrative_zones_full.json'
-import MomentTimezone from 'moment-timezone'
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
+import pmoCases from "../resources/pmoCases.json";
+import pmoPatients from "../resources/pmoPatients.json";
+import _groupBy from "lodash/groupBy";
+import _map from "lodash/map";
+import _orderBy from "lodash/orderBy";
+import _filter from "lodash/filter";
+import _reject from "lodash/reject";
+import _forEach from "lodash/forEach";
+import _sortedUniqBy from "lodash/sortedUniqBy";
+import _uniqBy from "lodash/uniqBy";
+import _find from "lodash/find";
+import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
+import MomentTimezone from "moment-timezone";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
 const moment = extendMoment(MomentTimezone);
 
 function roundValue(value, decimals) {
-  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+  return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
 }
 
 function createNewRegionRecord(data) {
-  var name = data.properties.NAME_3
-  var adminRegion1Id = data.properties.ID_1
-  var adminRegion1Name = data.properties.NAME_1
-  var adminRegion3Id = data.properties.ID_3
+  var name = data.properties.NAME_3;
+  var adminRegion1Id = data.properties.ID_1;
+  var adminRegion1Name = data.properties.NAME_1;
+  var adminRegion3Id = data.properties.ID_3;
 
   if (data.properties.NAME_3.includes("WEREDA ") === true) {
-    name = data.properties.NAME_1
+    name = data.properties.NAME_1;
   }
 
   return {
@@ -207,74 +207,85 @@ function createNewRegionRecord(data) {
     totalHospitalized: 0,
     totalIsolated: 0,
     totalDeceased: 0,
-    firstCase: null,
-  }
+    firstCase: null
+  };
 }
 
-var progress = [{ duration: 120, dateAdded: "2017-03-02T15:45:31.315Z" }, { duration: 120, dateAdded: "2017-03-02T15:47:32.150Z" }, { duration: 120, dateAdded: "2017-03-02T12:45:32.150Z" }, { duration: 120, dateAdded: "2017-03-02T12:47:32.150Z" }, { duration: 120, dateAdded: "2017-03-02T10:45:32.150Z" }]
+var progress = [
+  { duration: 120, dateAdded: "2017-03-02T15:45:31.315Z" },
+  { duration: 120, dateAdded: "2017-03-02T15:47:32.150Z" },
+  { duration: 120, dateAdded: "2017-03-02T12:45:32.150Z" },
+  { duration: 120, dateAdded: "2017-03-02T12:47:32.150Z" },
+  { duration: 120, dateAdded: "2017-03-02T10:45:32.150Z" }
+];
 
 function createHourlyGroupedRecords(records) {
-  let hash = Object.create(null)
+  let hash = Object.create(null);
   let grouped = [];
-  _forEach(records, (record) => {
+  _forEach(records, record => {
     var key = record.date_time_announced.slice(0, 13);
     if (!hash[key]) {
-        hash[key] = { cases: 1, time: key + ':00:00.000Z' };
-        grouped.push(hash[key]);
+      hash[key] = { cases: 1, time: key + ":00:00.000Z" };
+      grouped.push(hash[key]);
     }
     hash[key].cases += 1;
   });
 
-  return grouped
+  return grouped;
 }
 
 function createDailyGroupedRecords(records) {
-  let hash = Object.create(null)
+  let hash = Object.create(null);
   let grouped = [];
-  _forEach(records, (record) => {
+  _forEach(records, record => {
     var key = record.date_time_announced.slice(0, 10);
     if (!hash[key]) {
-        hash[key] = { cases: 1, time: key + 'T00:00:00.000Z' };
-        grouped.push(hash[key]);
+      hash[key] = { cases: 1, time: key + "T00:00:00.000Z" };
+      grouped.push(hash[key]);
     }
     hash[key].cases += 1;
   });
 
-  return grouped
+  return grouped;
 }
 
 function createMonthlyGroupedRecords(records) {
-  let hash = Object.create(null)
+  let hash = Object.create(null);
   let grouped = [];
-  _forEach(records, (record) => {
+  _forEach(records, record => {
     var key = record.date_time_announced.slice(0, 7);
     if (!hash[key]) {
-        hash[key] = { cases: 1, time: key + '-01T00:00:00.000Z' };
-        grouped.push(hash[key]);
+      hash[key] = { cases: 1, time: key + "-01T00:00:00.000Z" };
+      grouped.push(hash[key]);
     }
     hash[key].cases += 1;
   });
 
-  return grouped
+  return grouped;
 }
 
 function sortRecordsByTime(groupedRecords) {
-  return groupedRecords.sort(function (a, b) {
+  return groupedRecords.sort(function(a, b) {
     return b.time.localeCompare(a.time);
   });
 }
 
-function timeOneDay(){
-    var time = [];
-    var hoursPerDay = 24;
-    var formattedTime;
+function timeOneDay() {
+  var time = [];
+  var hoursPerDay = 24;
+  var formattedTime;
 
-    var i
-    for(i =0; i < hoursPerDay ; i++){ //fill in all of the hours
-        formattedTime = (moment().startOf('hour').tz('Africa/Addis_Ababa').subtract(i, "hours")).toISOString();  //give the time in format X AM/PM
-        time.unshift(formattedTime);  //add to beginning of array
-    }
-    return time                                //do this for all 24 hours
+  var i;
+  for (i = 0; i < hoursPerDay; i++) {
+    //fill in all of the hours
+    formattedTime = moment()
+      .startOf("hour")
+      .tz("Africa/Addis_Ababa")
+      .subtract(i, "hours")
+      .toISOString(); //give the time in format X AM/PM
+    time.unshift(formattedTime); //add to beginning of array
+  }
+  return time; //do this for all 24 hours
 }
 
 export default {
@@ -333,55 +344,73 @@ export default {
       return this.$store.state.stats.allstats;
     },
     getTotalStats() {
-      let totalCaseObj = pmoCases[0]
-      let totalHospitalized = totalCaseObj.stable + totalCaseObj.critical
-      return { series: [[ totalCaseObj.confirmed, totalCaseObj.deceased ], [ totalHospitalized, totalCaseObj.critical ], [ totalCaseObj.recovered ], [ totalCaseObj.tested ]] };
+      let totalCaseObj = pmoCases[0];
+      let totalHospitalized = totalCaseObj.stable + totalCaseObj.critical;
+      return {
+        series: [
+          [totalCaseObj.confirmed, totalCaseObj.deceased],
+          [totalHospitalized, totalCaseObj.critical],
+          [totalCaseObj.recovered],
+          [totalCaseObj.tested]
+        ]
+      };
     },
     getTop20Regions() {
-
-      let uniqueRegions = _uniqBy(this.regionRecords, 'name')
-      let woredaByTotalCases = _map(uniqueRegions, (regionRecord) => {
+      let uniqueRegions = _uniqBy(this.regionRecords, "name");
+      let woredaByTotalCases = _map(uniqueRegions, regionRecord => {
         return {
-            country: regionRecord.name,
-            count: regionRecord.totalCases
-        }
-      })
+          country: regionRecord.name,
+          count: regionRecord.totalCases
+        };
+      });
 
-      let top10Woredas = _orderBy(woredaByTotalCases, ['count'], ['desc']).slice(0, 20)
-      let top10WoredasLabels = _map(top10Woredas, 'country')
-      let top10WoredasCounts = _map(top10Woredas, 'count')
+      let top10Woredas = _orderBy(
+        woredaByTotalCases,
+        ["count"],
+        ["desc"]
+      ).slice(0, 20);
+      let top10WoredasLabels = _map(top10Woredas, "country");
+      let top10WoredasCounts = _map(top10Woredas, "count");
 
       const chartdata = {
         series: [
           {
-            name: 'cases',
+            name: "cases",
             data: top10WoredasCounts
           }
         ],
         labels: top10WoredasLabels
       };
 
-      return chartdata
-    }, 
+      return chartdata;
+    },
 
     getTotalByTravelSeries() {
+      let patients = pmoPatients.results;
+      let patientsWithTravelHistory = _reject(patients, [
+        "recent_travel_to",
+        "No Travel History"
+      ]);
+      let groupedPatients = _groupBy(
+        patientsWithTravelHistory,
+        "recent_travel_to"
+      );
+      let labels = Object.keys(groupedPatients);
 
-      let patients = pmoPatients.results
-      let patientsWithTravelHistory = _reject(patients, ['recent_travel_to', 'No Travel History'])
-      let groupedPatients = _groupBy(patientsWithTravelHistory, "recent_travel_to")
-      let labels = Object.keys(groupedPatients)
-
-      let countriesByTotal = _map(labels, (label) => {
+      let countriesByTotal = _map(labels, label => {
         return {
-            country: label,
-            count: groupedPatients[label].length
-          }
-      })
+          country: label,
+          count: groupedPatients[label].length
+        };
+      });
 
-
-      let top10Countries = _orderBy(countriesByTotal, ['count'], ['desc']).slice(0, 10)
-      let top10CountriesLabels = _map(top10Countries, 'country')
-      let top10CountriesCounts = _map(top10Countries, 'count')
+      let top10Countries = _orderBy(
+        countriesByTotal,
+        ["count"],
+        ["desc"]
+      ).slice(0, 10);
+      let top10CountriesLabels = _map(top10Countries, "country");
+      let top10CountriesCounts = _map(top10Countries, "count");
 
       const chartdata = {
         series: [
@@ -442,80 +471,85 @@ export default {
       return chartdata;
     },
     getHourlyLiveStats() {
-        var d = { series: [] }
+      var d = { series: [] };
 
-        let patients = pmoPatients.results
-        let groupedHourlyRecords = createHourlyGroupedRecords(patients)
-        let sortedGroupedHourlyRecords = sortRecordsByTime(groupedHourlyRecords)
+      let patients = pmoPatients.results;
+      let groupedHourlyRecords = createHourlyGroupedRecords(patients);
+      let sortedGroupedHourlyRecords = sortRecordsByTime(groupedHourlyRecords);
 
-        let last24hours = timeOneDay();
-        let last24hoursOrdered = _orderBy(last24hours, (hourStr) => {
-          return new moment(hourStr)
-        }).reverse()
+      let last24hours = timeOneDay();
+      let last24hoursOrdered = _orderBy(last24hours, hourStr => {
+        return new moment(hourStr);
+      }).reverse();
 
-        var casesPerHour = []
-        _forEach(last24hoursOrdered, (hour) => {
-          let matchingHourRecord = _find(sortedGroupedHourlyRecords, (record) => {
-            return (record.time === hour)
-          })
+      var casesPerHour = [];
+      _forEach(last24hoursOrdered, hour => {
+        let matchingHourRecord = _find(sortedGroupedHourlyRecords, record => {
+          return record.time === hour;
+        });
 
-          if (matchingHourRecord) {
-            casesPerHour.push(matchingHourRecord.cases)
-          } else {
-            casesPerHour.push(0)
-          }
-        })
+        if (matchingHourRecord) {
+          casesPerHour.push(matchingHourRecord.cases);
+        } else {
+          casesPerHour.push(0);
+        }
+      });
 
-        var xAxisLabels = last24hours
-        xAxisLabels = _map(last24hours, (hourIsoStr) => {
-          return moment(hourIsoStr).format('h:mmA')
-        })
+      var xAxisLabels = last24hours;
+      xAxisLabels = _map(last24hours, hourIsoStr => {
+        return moment(hourIsoStr).format("h:mmA");
+      });
 
-        const xaxis = {
-          categories: xAxisLabels,
-          title: {
-            text: this.$t("calendar.hours")
-          }
-        };
+      const xaxis = {
+        categories: xAxisLabels,
+        title: {
+          text: this.$t("calendar.hours")
+        }
+      };
 
-        const series = [
-          {
-            name: this.$t("Cases"),
-            data: casesPerHour
-          }
-        ];
+      const series = [
+        {
+          name: this.$t("Cases"),
+          data: casesPerHour
+        }
+      ];
 
-        d = { series, xaxis, labels: xAxisLabels };
-        return d
+      d = { series, xaxis, labels: xAxisLabels };
+      return d;
     },
 
     getWeekStats() {
-      let patients = pmoPatients.results
-      let groupedDailyRecords = createDailyGroupedRecords(patients)
-      let sortedGroupedDailyRecords = sortRecordsByTime(groupedDailyRecords)
+      let patients = pmoPatients.results;
+      let groupedDailyRecords = createDailyGroupedRecords(patients);
+      let sortedGroupedDailyRecords = sortRecordsByTime(groupedDailyRecords);
 
-      const range = moment.range(moment().startOf('day').subtract(7, "day"), moment().startOf('day'))
-      let lastWeek = Array.from(range.by('day'))
-      let lastWeekOrdered = _orderBy(lastWeek, (dayStr) => {
-        return new moment(dayStr)
-      }).reverse()
+      const range = moment.range(
+        moment()
+          .startOf("day")
+          .subtract(7, "day"),
+        moment().startOf("day")
+      );
+      let lastWeek = Array.from(range.by("day"));
+      let lastWeekOrdered = _orderBy(lastWeek, dayStr => {
+        return new moment(dayStr);
+      }).reverse();
 
-      var casesPerDay = []
-      _forEach(lastWeek, (day) => {
-        let matchingHourRecord = _find(sortedGroupedDailyRecords, (record) => {
-          return (record.time.slice(0, 10) === day.toISOString().slice(0, 10))
-        })
+      var casesPerDay = [];
+      _forEach(lastWeek, day => {
+        let matchingHourRecord = _find(sortedGroupedDailyRecords, record => {
+          return record.time.slice(0, 10) === day.toISOString().slice(0, 10);
+        });
 
         if (matchingHourRecord) {
-          casesPerDay.push(matchingHourRecord.cases)
+          casesPerDay.push(matchingHourRecord.cases);
         } else {
-          casesPerDay.push(0)
+          casesPerDay.push(0);
         }
-      })
+      });
 
-      let weekLabels = _map(lastWeek, (day) => {
-          return day.format("M/DD")
-      })
+      let weekLabels = _map(lastWeek, day => {
+        return day.format("M/DD");
+      });
 
       return {
         yaxis: [
@@ -523,7 +557,7 @@ export default {
             title: {
               text: "Cases"
             }
-          },
+          }
         ],
         stroke: {
           width: [3, 3, 3, 0],
@@ -535,7 +569,7 @@ export default {
             name: "Cases",
             type: "line",
             data: casesPerDay
-          },
+          }
         ]
       };
     },
@@ -601,32 +635,37 @@ export default {
     },
 
     getMonthlyLiveStats() {
-      let patients = pmoPatients.results
-      let groupedMonthlyRecords = createMonthlyGroupedRecords(patients)
-      let sortedGroupedMonthlyRecords = sortRecordsByTime(groupedMonthlyRecords)
+      let patients = pmoPatients.results;
+      let groupedMonthlyRecords = createMonthlyGroupedRecords(patients);
+      let sortedGroupedMonthlyRecords = sortRecordsByTime(
+        groupedMonthlyRecords
+      );
 
-      const range = moment.range(moment().startOf('year'), moment().endOf('year'))
-      let lastYearMonths = Array.from(range.by('month'))
-      let lastYearMonthsOrdered = _orderBy(lastYearMonths, (dayStr) => {
-        return new moment(dayStr)
-      }).reverse()
+      const range = moment.range(
+        moment().startOf("year"),
+        moment().endOf("year")
+      );
+      let lastYearMonths = Array.from(range.by("month"));
+      let lastYearMonthsOrdered = _orderBy(lastYearMonths, dayStr => {
+        return new moment(dayStr);
+      }).reverse();
 
-      var casesPerMonth = []
-      _forEach(lastYearMonths, (day) => {
-        let matchingHourRecord = _find(sortedGroupedMonthlyRecords, (record) => {
-          return (record.time.slice(0, 7) === day.toISOString().slice(0, 7))
-        })
+      var casesPerMonth = [];
+      _forEach(lastYearMonths, day => {
+        let matchingHourRecord = _find(sortedGroupedMonthlyRecords, record => {
+          return record.time.slice(0, 7) === day.toISOString().slice(0, 7);
+        });
 
         if (matchingHourRecord) {
-          casesPerMonth.push(matchingHourRecord.cases)
+          casesPerMonth.push(matchingHourRecord.cases);
         } else {
-          casesPerMonth.push(0)
+          casesPerMonth.push(0);
         }
-      })
+      });
 
-      let monthLabels = _map(lastYearMonths, (day) => {
-          return day.format("MMM")
-      })
+      let monthLabels = _map(lastYearMonths, day => {
+        return day.format("MMM");
+      });
 
       const series = [
         {
@@ -647,32 +686,37 @@ export default {
     },
 
     getLast30DayStats() {
-      let patients = pmoPatients.results
-      let groupedDailyRecords = createDailyGroupedRecords(patients)
-      let sortedGroupedDailyRecords = sortRecordsByTime(groupedDailyRecords)
+      let patients = pmoPatients.results;
+      let groupedDailyRecords = createDailyGroupedRecords(patients);
+      let sortedGroupedDailyRecords = sortRecordsByTime(groupedDailyRecords);
 
-      const range = moment.range(moment().startOf('day').subtract(30, "day"), moment().startOf('day'))
-      let lastMonth = Array.from(range.by('day'))
-      let lastMonthOrdered = _orderBy(lastMonth, (dayStr) => {
-        return new moment(dayStr)
-      }).reverse()
+      const range = moment.range(
+        moment()
+          .startOf("day")
+          .subtract(30, "day"),
+        moment().startOf("day")
+      );
+      let lastMonth = Array.from(range.by("day"));
+      let lastMonthOrdered = _orderBy(lastMonth, dayStr => {
+        return new moment(dayStr);
+      }).reverse();
 
-      var casesPerDay = []
-      _forEach(lastMonth, (day) => {
-        let matchingHourRecord = _find(sortedGroupedDailyRecords, (record) => {
-          return (record.time.slice(0, 10) === day.toISOString().slice(0, 10))
-        })
+      var casesPerDay = [];
+      _forEach(lastMonth, day => {
+        let matchingHourRecord = _find(sortedGroupedDailyRecords, record => {
+          return record.time.slice(0, 10) === day.toISOString().slice(0, 10);
+        });
 
         if (matchingHourRecord) {
-          casesPerDay.push(matchingHourRecord.cases)
+          casesPerDay.push(matchingHourRecord.cases);
         } else {
-          casesPerDay.push(0)
+          casesPerDay.push(0);
         }
-      })
+      });
 
-      let weekLabels = _map(lastMonth, (day) => {
-          return day.format("M/DD")
-      })
+      let weekLabels = _map(lastMonth, day => {
+        return day.format("M/DD");
+      });
 
       return {
         yaxis: [
@@ -680,7 +724,7 @@ export default {
             title: {
               text: "Cases"
             }
-          },
+          }
         ],
         stroke: {
           width: [3, 3, 3, 0],
@@ -692,7 +736,7 @@ export default {
             name: "Cases",
             type: "line",
             data: casesPerDay
-          },
+          }
         ]
       };
     },
@@ -714,27 +758,23 @@ export default {
       return { series: [0, 0, 0, 0, 0, 0] };
     },
     getHospitalizationStats() {
-      let totalCaseObj = pmoCases[0]
-        let total = totalCaseObj.confirmed
-        let totalHospitalized = totalCaseObj.stable + totalCaseObj.critical
-        
-        let totalNonHospitalized = total - totalHospitalized
-        let totalIcu = totalCaseObj.critical
-        let totalNonIcu =  totalCaseObj.stable
+      let totalCaseObj = pmoCases[0];
+      let total = totalCaseObj.confirmed;
+      let totalHospitalized = totalCaseObj.stable + totalCaseObj.critical;
 
-        let dataset = [
-          {
-            backgroundColor: [
-              '#41B883',
-              '#E46651',
-              '#ff8000'
-            ],
-            data: [ totalNonHospitalized, totalIcu, totalNonIcu  ]
-          }
-        ]
+      let totalNonHospitalized = total - totalHospitalized;
+      let totalIcu = totalCaseObj.critical;
+      let totalNonIcu = totalCaseObj.stable;
 
-        this.hospitalizedPercentage = roundValue(totalIcu / total, 3) * 100
-        return dataset
+      let dataset = [
+        {
+          backgroundColor: ["#41B883", "#E46651", "#ff8000"],
+          data: [totalNonHospitalized, totalIcu, totalNonIcu]
+        }
+      ];
+
+      this.hospitalizedPercentage = roundValue(totalIcu / total, 3) * 100;
+      return dataset;
     },
 
     getIcuStats() {
@@ -743,46 +783,40 @@ export default {
         // let totalIcu = all.data[0].total.data[4]
         // let totalNonIcu =  all.data[0].total.data[3] - all.data[0].total.data[4]
         // let total = totalIcu + totalNonIcu
-        let totalCaseObj = pmoCases[0]
-        let totalIcu = totalCaseObj.critical
-        let totalNonIcu =  totalCaseObj.stable
-        let total = totalIcu + totalNonIcu
+        let totalCaseObj = pmoCases[0];
+        let totalIcu = totalCaseObj.critical;
+        let totalNonIcu = totalCaseObj.stable;
+        let total = totalIcu + totalNonIcu;
 
         let dataset = [
           {
-            backgroundColor: [
-              '#41B883',
-              '#E46651',
-            ],
-            data: [ totalNonIcu, totalIcu ]
+            backgroundColor: ["#41B883", "#E46651"],
+            data: [totalNonIcu, totalIcu]
           }
-        ]
+        ];
 
-        this.icuPercentage = roundValue(totalIcu / total, 3) * 100
-        return dataset
+        this.icuPercentage = roundValue(totalIcu / total, 3) * 100;
+        return dataset;
       }
     },
 
     getFinalOutcomeStats() {
-      let totalCaseObj = pmoCases[0]
-        let totalRecovered = totalCaseObj.recovered
-        let totalDeceased =  totalCaseObj.deceased
-        let total = totalDeceased + totalRecovered
+      let totalCaseObj = pmoCases[0];
+      let totalRecovered = totalCaseObj.recovered;
+      let totalDeceased = totalCaseObj.deceased;
+      let total = totalDeceased + totalRecovered;
 
-        let dataset = [
-          {
-            backgroundColor: [
-              '#41B883',
-              '#E46651',
-            ],
-            data: [ totalRecovered, totalDeceased ]
-          }
-        ]
+      let dataset = [
+        {
+          backgroundColor: ["#41B883", "#E46651"],
+          data: [totalRecovered, totalDeceased]
+        }
+      ];
 
-        let ratioDeceased = roundValue(totalDeceased / total, 3)
-        let percentDeceased = roundValue(ratioDeceased, 2) * 100
-        
-        return dataset
+      let ratioDeceased = roundValue(totalDeceased / total, 3);
+      let percentDeceased = roundValue(ratioDeceased, 2) * 100;
+
+      return dataset;
     },
 
     getLiveTotal() {
@@ -856,20 +890,20 @@ export default {
       else return "grey";
     },
     getRegionRecords() {
-      this.regionRecords = []
-      let patients = pmoPatients.results
-      _forEach(this.administrativeZoneDataAll[0].features, (data) => {
-        let regionRecord = createNewRegionRecord(data)
-        regionRecord.totalCases = _filter(patients, (patient) => {
-          return (patient.location === regionRecord.adminRegion1Name)
-        }).length
-        this.regionRecords.push(regionRecord)
-      })
+      this.regionRecords = [];
+      let patients = pmoPatients.results;
+      _forEach(this.administrativeZoneDataAll[0].features, data => {
+        let regionRecord = createNewRegionRecord(data);
+        regionRecord.totalCases = _filter(patients, patient => {
+          return patient.location === regionRecord.adminRegion1Name;
+        }).length;
+        this.regionRecords.push(regionRecord);
+      });
     }
   },
   async mounted() {
     this.getStats();
-    this.getRegionRecords()
+    this.getRegionRecords();
     // this.getApiToken().then(() => {
     //   this.getAllCommunities().then(() => {
     //     // set up community related panels

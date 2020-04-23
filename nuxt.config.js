@@ -1,22 +1,20 @@
 /* eslint-disable quotes */
 import colors from "vuetify/es5/util/colors";
-require('./config');
+require("./config");
 
 module.exports = {
-  modules: [
-    'nuxt-stripe-module',
-  ],
+  modules: ["nuxt-stripe-module"],
 
   stripe: {
-    version: 'v3',
-    publishableKey: process.env.STRIPE_PK,
-  },
+    version: "v3",
+    publishableKey: process.env.STRIPE_PK
+  }
 };
 
 export default {
   env: {
     API_URL: process.env.API_URL || "http://localhost:9017",
-    GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
+    GOOGLE_MAPS_API_KEY: process.env.VUE_APP_GOOGLE_MAPS_API_KEY
   },
   mode: "spa",
   /*
@@ -82,12 +80,19 @@ export default {
     position: "top-right",
     duration: 3000
   },
+
+  loadingIndicator: {
+    name: "circle",
+    color: "#f00",
+    background: "#fff"
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
    */
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
+    treeShake: true,
     theme: {
       dark: false,
       themes: {
@@ -124,9 +129,8 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {
-    },
-    transpile: [/^vue2-google-maps($|\/)/],
+    extend(config, ctx) {},
+    transpile: [/^vue2-google-maps($|\/)/]
     // transpile: ["feathers-vuex", "vue-echarts", "resize-detector"]
   }
 };
