@@ -66,8 +66,8 @@
       <v-btn icon @click="fullscreen">
         <v-icon>{{ fullscreenIcon }}</v-icon>
       </v-btn>
-      <v-btn text v-if="!admin" to="/login" router>{{ $t("login") }}</v-btn>
-      <v-menu v-else>
+      <!-- <v-btn text v-if="!admin" to="/login" router>{{ $t("login") }}</v-btn> -->
+      <!-- <v-menu v-else>
         <template v-slot:activator="{ on }">
           <v-btn color="secondary" fab small outlined elevation="0" dark v-on="on">
             <v-img v-if="admin.image_url" :src="admin.image_url"></v-img>
@@ -88,7 +88,7 @@
             <v-list-item-title>LOG OUT</v-list-item-title>
           </v-list-item>
         </v-list>
-      </v-menu>
+      </v-menu>-->
     </v-app-bar>
 
     <v-content class="px-auto">

@@ -129,7 +129,6 @@ export default {
    */
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
-    treeShake: true,
     theme: {
       dark: false,
       themes: {
@@ -154,11 +153,6 @@ export default {
       }
     }
   },
-  pwa: {
-    workbox: {
-      /* workbox options */
-    }
-  },
   /*
    ** Build configuration
    */
@@ -167,6 +161,6 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {},
-    transpile: [/^vue2-google-maps($|\/)/]
+    transpile: [/^vue2-google-maps($|\/)/, "vue-apexcharts"]
   }
 };

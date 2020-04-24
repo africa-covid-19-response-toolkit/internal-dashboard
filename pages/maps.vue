@@ -441,7 +441,7 @@ export default {
         poly.setMap(this.map);
       });
     },
-    async createMarkers() {
+    createMarkers() {
       _forEach(this.medicalFacilityRecords, medicalFacilityRecord => {
         let latLngData = {
           lat: parseFloat(roundValue(medicalFacilityRecord.latitude, 3)),
@@ -469,8 +469,6 @@ export default {
           this.$axios
         );
         await this.getRegionRecords();
-        await this.createPolygons();
-        await this.createMarkers();
 
         this.medicalFacilityRecords = _map(
           response.data,
@@ -486,6 +484,9 @@ export default {
             });
           }
         );
+
+        await this.createPolygons();
+        this.createMarkers();
 
         this.loading = false;
       } catch (error) {
