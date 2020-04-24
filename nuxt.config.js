@@ -129,7 +129,6 @@ export default {
    */
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
-    treeShake: true,
     theme: {
       dark: false,
       themes: {
@@ -166,7 +165,11 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) {
+      if (ctx && ctx.isClient) {
+        config.optimization.splitChunks.maxSize = 256000;
+      }
+    },
     transpile: [/^vue2-google-maps($|\/)/]
   }
 };
