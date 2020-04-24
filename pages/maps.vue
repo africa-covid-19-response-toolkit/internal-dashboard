@@ -469,8 +469,6 @@ export default {
           this.$axios
         );
         await this.getRegionRecords();
-        await this.createPolygons();
-        await this.createMarkers();
 
         this.medicalFacilityRecords = _map(
           response.data,
@@ -487,6 +485,8 @@ export default {
           }
         );
 
+        await this.createPolygons();
+        await this.createMarkers();
         this.loading = false;
       } catch (error) {
         console.log(error);
