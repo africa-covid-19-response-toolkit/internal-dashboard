@@ -111,21 +111,21 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-3">
+    <v-row class="px-3 mx-0">
       <v-col cols="12">
         <v-lazy>
           <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-3">
+    <v-row class="px-3 mx-0">
       <v-col cols="12">
         <v-lazy>
           <TimeSeriesChart :title="$t('Last 7 Days')" :chartdata="getWeekStats" />
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-3">
+    <v-row class="px-3 mx-0">
       <v-col cols="12" xs="12" sm="6" md="12" lg="12">
         <v-lazy>
           <DailyCasesLineChart
@@ -136,7 +136,7 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-3">
+    <v-row class="px-3 mx-0">
       <!-- <v-col cols="12" xs="12" sm="6" md="4" lg="4">
         <v-lazy>
           <TotalRadar :chartdata="getLiveTotalConfirmed" />
