@@ -48,7 +48,7 @@ import { gmapApi } from "vue2-google-maps";
 import pmoPatients from "../resources/pmoPatients.json";
 import Util from "@/util/util";
 
-const POLYGON_COLORS = ["rgba(255,255,255,0.8)", "#800000", "#FF0000"];
+const POLYGON_COLORS = ["rgba(253,211,14,0.8)", "#800000", "#FF0000"];
 
 function roundValue(value, decimals) {
   return Number(Math.round(value + "e" + decimals) + "e-" + decimals);

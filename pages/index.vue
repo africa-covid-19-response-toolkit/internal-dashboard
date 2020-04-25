@@ -46,6 +46,7 @@
               :title="$t('Cases by Region (Top 20)')"
               :series="getTop20Regions.series"
               :labels="getTop20Regions.labels"
+              class="transparent"
             />
           </v-lazy>
         </v-col>
@@ -59,6 +60,7 @@
               :title="$t('Cases by Zone')"
               :series="getTotalByRegionSeries.series"
               :labels="getTotalByRegionSeries.labels"
+              class="transparent"
             />
           </v-lazy>
         </v-col>
@@ -78,10 +80,10 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-6">
+    <v-row class="px-12 mx-12">
       <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;">
+          <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
             <v-card-title>
               Hospitalization Status
               <span
@@ -97,7 +99,7 @@
       </v-col>
       <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;">
+          <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
             <v-card-title>
               Outcome Status
               <span
@@ -109,7 +111,7 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="px-3">
       <v-col cols="12">
         <v-lazy>
           <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
