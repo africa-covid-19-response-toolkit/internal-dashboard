@@ -118,14 +118,14 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="px-3">
       <v-col cols="12">
         <v-lazy>
           <TimeSeriesChart :title="$t('Last 7 Days')" :chartdata="getWeekStats" />
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="px-3">
       <v-col cols="12" xs="12" sm="6" md="12" lg="12">
         <v-lazy>
           <DailyCasesLineChart
@@ -136,7 +136,7 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="px-3">
       <!-- <v-col cols="12" xs="12" sm="6" md="4" lg="4">
         <v-lazy>
           <TotalRadar :chartdata="getLiveTotalConfirmed" />
@@ -436,9 +436,9 @@ export default {
     },
     getTotalByRegionSeries() {
       const whatapigives = {
-        confirmed: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
-        recovored: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
-        dead: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
+        confirmed: [4, 3, 3, 6, 17, 25, 6, 11, 34, 4, 24],
+        recovored: [2, 1, 3, 3, 6, 19, 0, 1, 22, 1, 3],
+        dead: [0, 0, 3, 1, 1, 4, 4, 1,1, 4, 14],
         labels: [
           "Tigray",
           "Afar",
