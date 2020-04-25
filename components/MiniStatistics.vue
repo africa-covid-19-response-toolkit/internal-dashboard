@@ -1,5 +1,5 @@
 <template>
-  <v-card min-width="100" hover height="100">
+  <v-card min-width="100" hover height="100" elevation="0">
     <v-layout column class="flex column">
       <div class="overline font-weight-bold flex ml-2">{{title}}</div>
       <v-flex row class="black--text ml-2 mb-0">

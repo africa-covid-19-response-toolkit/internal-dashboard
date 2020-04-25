@@ -1,5 +1,5 @@
 <template>
-  <v-container id="map-wrap" :style="mapstyle">
+  <v-container id="map-wrap" :style="mapstyle" class="pa-3">
     <v-card elevation="0" hover tile style="height: 100%; border-top: 0px;">
       <GmapMap
         :center="{

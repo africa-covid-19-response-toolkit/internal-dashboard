@@ -1,6 +1,6 @@
 <template>
-  <v-row>
-    <v-col cols="8" xs="12" sm="12" md="8" lg="8">
+  <v-row no-gutters>
+    <v-col cols="8" xs="12" sm="12" md="8" lg="9">
       <v-card elevation="0" hover tile style="height: 800px; border-top: 0px;">
         <GmapMap
           :center="{
@@ -51,7 +51,7 @@
         </GmapMap>
       </v-card>
     </v-col>
-    <v-col cols="4" xs="12" sm="12" md="4" lg="4">
+    <v-col cols="4" xs="12" sm="12" md="4" lg="3">
       <v-card
         elevation="0"
         hover
@@ -519,18 +519,18 @@ export default {
 }
 
 .maps__hospital_faciliy_type_header {
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 8px;
 }
 
 .maps__hospital_status {
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 4px;
 }
 
 .maps__hospital_available_beds {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
 .maps__hospital_address_street,

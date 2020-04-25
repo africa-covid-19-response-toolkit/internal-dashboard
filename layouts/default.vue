@@ -3,7 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant && !smallScreen"
-      :clipped="clipped"
+      clipped
       mini-variant-width="54"
       :expand-on-hover="!smallScreen && expandOnHover"
       app
@@ -38,7 +38,7 @@
       </v-layout>
     </v-navigation-drawer>
 
-    <v-app-bar elevation="8" light color="primary" absolute :clipped-left="clipped" app>
+    <v-app-bar elevation="0" light color="primary"  clipped-left collapse-on-scroll app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-img class="mx-2" src="/logo.png" max-height="60" max-width="190"></v-img>
@@ -92,7 +92,7 @@
     </v-app-bar>
 
     <v-content class="px-auto">
-      <v-container>
+      <v-container fluid>
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>
@@ -263,5 +263,12 @@ body,
 
 html {
   overflow-y: auto !important;
+}
+.v-toolbar.v-toolbar--collapsed {
+    max-width: 54px;
+    overflow: hidden;
+}
+.v-application--is-ltr .v-toolbar.v-toolbar--collapsed {
+    border-bottom-right-radius: 0;
 }
 </style>

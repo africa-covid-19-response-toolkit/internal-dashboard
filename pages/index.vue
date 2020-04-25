@@ -918,6 +918,11 @@ export default {
 };
 </script>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,400;0,600;0,700;0,800;0,900;1,100&family=Barlow:wght@100;300;400;500;600;700;800;900&display=swap");
+* {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-weight: 500 ;
+}
 .index__pie_chart_percentage_label {
   color: red;
   font-size: 16px;
