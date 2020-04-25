@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid align-center>
-    <v-row>
-      <v-col class="my-0">
+  <v-container fluid align-center class="mx-0 px-0">
+    <v-row class="px-3 mx-0">
+      <v-col class="my-0 px-0">
         <h1>{{ $t("titles.dashboard") }}</h1>
         <h6>{{ $t("titles.live_status") }}</h6>
       </v-col>
@@ -13,8 +13,8 @@
         {{ $t("refresh") }}
       </v-btn>
     </v-row>
-    <v-divider class="mt-0" />
-    <v-row>
+    <!-- <v-divider class="mt-0 px-3" /> -->
+    <v-row class="px-3">
       <v-col v-for="(item, index) in getTotalStats.series" :key="index" xs="4">
         <v-lazy>
           <MiniStatistics
@@ -35,34 +35,36 @@
         <Map />
       </v-flex>
     </v-row>
-    <v-row>
-      <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-        <v-lazy>
-          <TotalBarChart
-            :height="400"
-            :horizontal="true"
-            :showDataLabel="false"
-            :title="$t('Cases by Region (Top 20)')"
-            :series="getTop20Regions.series"
-            :labels="getTop20Regions.labels"
-          />
-        </v-lazy>
-      </v-col>
+    <v-container>
+      <v-row>
+        <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+          <v-lazy>
+            <TotalBarChart
+              :height="400"
+              :horizontal="true"
+              :showDataLabel="false"
+              :title="$t('Cases by Region (Top 20)')"
+              :series="getTop20Regions.series"
+              :labels="getTop20Regions.labels"
+            />
+          </v-lazy>
+        </v-col>
 
-      <v-col cols="12" xs="12" sm="12" md="6" lg="6">
-        <v-lazy>
-          <TotalBarChart
-            :height="400"
-            :horizontal="false"
-            :showDataLabel="false"
-            :title="$t('Cases by Zone')"
-            :series="getTotalByRegionSeries.series"
-            :labels="getTotalByRegionSeries.labels"
-          />
-        </v-lazy>
-      </v-col>
-    </v-row>
-    <v-row>
+        <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+          <v-lazy>
+            <TotalBarChart
+              :height="400"
+              :horizontal="false"
+              :showDataLabel="false"
+              :title="$t('Cases by Zone')"
+              :series="getTotalByRegionSeries.series"
+              :labels="getTotalByRegionSeries.labels"
+            />
+          </v-lazy>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-row class="px-6">
       <v-col cols="12" xs="12" sm="12" md="12" lg="12">
         <v-lazy>
           <TotalBarChart
@@ -76,7 +78,7 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="px-6">
       <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
           <v-card elevation="0" hover tile style="height: 510px;">
@@ -921,7 +923,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,400;0,600;0,700;0,800;0,900;1,100&family=Barlow:wght@100;300;400;500;600;700;800;900&display=swap");
 * {
     font-family: 'Barlow Semi Condensed', sans-serif;
-    font-weight: 500 ;
+    font-weight: 500;
 }
 .index__pie_chart_percentage_label {
   color: red;

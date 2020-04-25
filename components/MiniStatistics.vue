@@ -1,5 +1,5 @@
 <template>
-  <v-card min-width="100" hover height="100" elevation="0">
+  <v-card min-width="100" hover tile height="100" elevation="0" class="pa-3">
     <v-layout column class="flex column">
       <div class="overline font-weight-bold flex ml-2">{{title}}</div>
       <v-flex row class="black--text ml-2 mb-0">
@@ -9,7 +9,7 @@
           <!-- <span class="body-2">{{secondaryLabel}}</span> -->
         </div>
       </v-flex>
-      <apexchart width="100%" height="30" type="area" :options="chartOptions" :series="getSeries"></apexchart>
+      <apexchart width="100%" height="20" type="area" :options="chartOptions" :series="getSeries"></apexchart>
     </v-layout>
   </v-card>
 </template>
@@ -88,6 +88,6 @@ export default {
 </script>
 <style>
 .v-card {
-  border-top: 10px solid;
+  background: #f9f9f9 !important;
 }
 </style>
