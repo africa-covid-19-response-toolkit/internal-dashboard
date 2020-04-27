@@ -8,7 +8,7 @@
 			     lng: 40.35
 			    }"
           :zoom="6.3"
-          map-type-id="hybrid"
+          map-type-id="roadmap"
           style="width: 100%; height: 800px;"
           ref="mapRef"
         >

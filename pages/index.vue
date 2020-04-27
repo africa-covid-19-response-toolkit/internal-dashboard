@@ -84,7 +84,7 @@
       <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
           <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
-            <v-card-title>
+            <v-card-title class="justify-center">
               Hospitalization Status
               <span
                 class="index__pie_chart_percentage_label"
@@ -100,7 +100,7 @@
       <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
           <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
-            <v-card-title>
+            <v-card-title class="justify-center">
               Outcome Status
               <span
                 class="index__pie_chart_percentage_label"
