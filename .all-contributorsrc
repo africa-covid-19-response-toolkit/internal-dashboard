@@ -31,6 +31,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "rkassa",
+      "name": "Robel Kassa",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/201428?v=4",
+      "profile": "https://github.com/rkassa",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
