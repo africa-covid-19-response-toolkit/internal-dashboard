@@ -1,6 +1,6 @@
 # TackleCovid19
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Covid19 outbreak status monitoring and case tracking.
@@ -110,6 +110,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/gedion"><img src="https://avatars3.githubusercontent.com/u/1224206?v=4" width="100px;" alt=""/><br /><sub><b>Gedion Woldeselassie</b></sub></a><br /><a href="https://github.com/africa-covid-19-response-toolkit/internal-dashboard/commits?author=gedion" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/rtezera1"><img src="https://avatars1.githubusercontent.com/u/6413973?v=4" width="100px;" alt=""/><br /><sub><b>Robel Tezera</b></sub></a><br /><a href="https://github.com/africa-covid-19-response-toolkit/internal-dashboard/commits?author=rtezera1" title="Code">💻</a></td>
   </tr>
 </table>
 
