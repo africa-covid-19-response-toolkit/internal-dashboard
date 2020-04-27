@@ -1,3 +1,7 @@
+<div align="center">
+  <img alt="ACRT Internal Dashboard" src="acrt_internal_dashboard.png" width="650px">
+</div>
+
 # TackleCovid19
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
