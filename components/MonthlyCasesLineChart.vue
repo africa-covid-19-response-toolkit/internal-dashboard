@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card tile elevation="0" class="px-12">
     <v-card-title>{{ `${$t('chart_titles.monthly')}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>

@@ -1,6 +1,6 @@
 
 <template>
-  <v-card tile class="pr-1" elevation="0">
+  <v-card tile class="pa-12" elevation="0">
     <v-card-title>{{ title }}</v-card-title>
     <apexchart type="bar" width="100%" :height="height" :series="series" :options="chartOptions" />
   </v-card>

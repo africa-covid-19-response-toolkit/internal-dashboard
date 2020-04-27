@@ -1,5 +1,5 @@
 <template>
-  <v-card tile>
+  <v-card tile elevation="0" class="transparent pa-12">
     <v-card-title>{{ title }}</v-card-title>
     <apexchart
       type="line"

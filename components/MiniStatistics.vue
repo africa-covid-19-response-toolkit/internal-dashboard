@@ -87,7 +87,7 @@ export default {
 };
 </script>
 <style>
-.v-card {
+.v-card.greyback {
   background: #f9f9f9 !important;
 }
 </style>
