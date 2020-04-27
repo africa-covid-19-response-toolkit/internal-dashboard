@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid align-center>
-    <v-row>
-      <v-col class="my-0">
+  <v-container fluid align-center class="mx-0 px-0">
+    <v-row class="px-6 mx-0">
+      <v-col class="my-0 px-0">
         <h1>{{ $t("titles.dashboard") }}</h1>
         <h6>{{ $t("titles.live_status") }}</h6>
       </v-col>
@@ -13,8 +13,8 @@
         {{ $t("refresh") }}
       </v-btn>
     </v-row>
-    <v-divider class="mt-0" />
-    <v-row>
+    <!-- <v-divider class="mt-0 px-3" /> -->
+    <v-row class="px-6">
       <v-col v-for="(item, index) in getTotalStats.series" :key="index" xs="4">
         <v-lazy>
           <MiniStatistics
@@ -30,12 +30,12 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mt-6 mb-n6">
       <v-flex xs12 sm12>
         <Map />
       </v-flex>
     </v-row>
-    <v-row>
+    <v-row class="px-0 mb-n6">
       <v-col cols="12" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <TotalBarChart
@@ -45,6 +45,7 @@
             :title="$t('Cases by Region (Top 20)')"
             :series="getTop20Regions.series"
             :labels="getTop20Regions.labels"
+            class="transparent greyback"
           />
         </v-lazy>
       </v-col>
@@ -58,12 +59,13 @@
             :title="$t('Cases by Zone')"
             :series="getTotalByRegionSeries.series"
             :labels="getTotalByRegionSeries.labels"
+            class="transparent"
           />
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12" xs="12" sm="12" md="12" lg="12">
+    <v-row class="px-0">
+      <v-col cols="12" xs="12" sm="12" md="12" lg="12" class="px-0">
         <v-lazy>
           <TotalBarChart
             :height="360"
@@ -76,11 +78,11 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="px-12 mx-12">
       <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;">
-            <v-card-title>
+          <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
+            <v-card-title class="justify-center">
               Hospitalization Status
               <span
                 class="index__pie_chart_percentage_label"
@@ -95,34 +97,32 @@
       </v-col>
       <v-col cols="12" xs="12" sm="6" md="6">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;">
-            <v-card-title>
+          <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
+            <v-card-title class="justify-center">
               Outcome Status
               <span
                 class="index__pie_chart_percentage_label"
               >{{ finalOutcomePercentage ? ` ${finalOutcomePercentage}% Deceased` : '' }}</span>
             </v-card-title>
             <PieChart :labels="[ 'Recovered', 'Deceased' ]" :datasets="getFinalOutcomeStats" />
-          </v-card>
+          </v-card>f
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12">
+    <v-row class="px-0 mx-0">
+      <v-col cols="12" class="px-0">
         <v-lazy>
           <HourlyCasesLineChart :chartdata="getHourlyLiveStats" />
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12">
+    <v-row class="px-0 mx-0 mb-n6">
+      <v-col cols="12" class="px-0" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <TimeSeriesChart :title="$t('Last 7 Days')" :chartdata="getWeekStats" />
         </v-lazy>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" xs="12" sm="6" md="12" lg="12">
+      <v-col cols="12" class="px-0" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <DailyCasesLineChart
             chartType="line"
@@ -132,14 +132,14 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="px-0 mx-0">
       <!-- <v-col cols="12" xs="12" sm="6" md="4" lg="4">
         <v-lazy>
           <TotalRadar :chartdata="getLiveTotalConfirmed" />
         </v-lazy>
       </v-col>-->
       <!--  xs="12" sm="6" md="8" lg="8" -->
-      <v-col cols="12">
+      <v-col cols="12" class="px-0">
         <v-lazy>
           <MonthlyCasesLineChart :chartdata="getMonthlyLiveStats" />
         </v-lazy>
@@ -432,9 +432,9 @@ export default {
     },
     getTotalByRegionSeries() {
       const whatapigives = {
-        confirmed: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
-        recovored: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
-        dead: [0, 0, 3, 0, 0, 25, 0, 0, 0, 0],
+        confirmed: [4, 3, 3, 6, 17, 25, 6, 11, 34, 4, 24],
+        recovored: [2, 1, 3, 3, 6, 19, 0, 1, 22, 1, 3],
+        dead: [0, 0, 3, 1, 1, 4, 4, 1,1, 4, 14],
         labels: [
           "Tigray",
           "Afar",
@@ -918,6 +918,11 @@ export default {
 };
 </script>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,400;0,600;0,700;0,800;0,900;1,100&family=Barlow:wght@100;300;400;500;600;700;800;900&display=swap");
+* {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-weight: 500;
+}
 .index__pie_chart_percentage_label {
   color: red;
   font-size: 16px;

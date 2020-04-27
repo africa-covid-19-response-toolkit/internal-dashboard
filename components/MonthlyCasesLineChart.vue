@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card tile elevation="0" class="px-12">
     <v-card-title>{{ `${$t('chart_titles.monthly')}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
@@ -21,17 +21,27 @@ export default {
   data: function() {
     return {
       chartOptions: {
+        chart: {
+          dropShadow: {
+            enabled: true,
+            top: 0,
+            left: 0,
+            blur: 4,
+            opacity: 0.6,
+            color: ['#662E9B', '#F86624', '#F9C80E', '#EA3546', '#43BCCD'],
+          },
+        },
         animations: {
           enabled: false
         },
-        colors: [
-          "#499ebf",
-          "#f26666",
-          "#f2a81d",
-          "#484c7f",
-          "#50bfa0",
-          "#122a40"
-        ],
+        // colors: [
+        //   "#499ebf",
+        //   "#f26666",
+        //   "#f2a81d",
+        //   "#484c7f",
+        //   "#50bfa0",
+        //   "#122a40"
+        // ],
         xaxis: {
           categories: [
             "Jan",
@@ -98,7 +108,7 @@ export default {
           xaxis: this.chartdata.xaxis,
           theme: {
             mode: this.$vuetify.theme.dark ? "dark" : "light",
-            palette: "palette6"
+            palette: "palette8"
           }
         };
       }

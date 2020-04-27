@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card tile elevation="0" class="pa-12 mb-n6">
     <v-card-title>{{ `${$t('chart_titles.hourly')} - ${new Date().toDateString()}` }}</v-card-title>
     <apexchart
       type="line"

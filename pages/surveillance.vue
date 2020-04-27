@@ -1,6 +1,6 @@
 <template>
-  <v-row>
-    <v-col cols="8" xs="12" sm="12" md="8" lg="8">
+  <v-row no-gutters>
+    <v-col cols="8" xs="12" sm="12" md="8" lg="9">
       <v-card elevation="0" hover tile style="height: 800px; border-top: 0px;">
         <GmapMap
           :center="{
@@ -8,7 +8,7 @@
 			     lng: 40.35
 			    }"
           :zoom="6.3"
-          map-type-id="hybrid"
+          map-type-id="roadmap"
           style="width: 100%; height: 800px;"
           ref="mapRef"
         >
@@ -52,7 +52,7 @@
         </GmapMap>
       </v-card>
     </v-col>
-    <v-col cols="4" xs="12" sm="12" md="4" lg="4">
+    <v-col cols="4" xs="12" sm="12" md="4" lg="3">
       <v-card
         elevation="0"
         hover

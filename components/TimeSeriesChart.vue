@@ -1,5 +1,5 @@
 <template>
-  <v-card tile>
+  <v-card tile elevation="0" class="transparent pa-12">
     <v-card-title>{{ title }}</v-card-title>
     <apexchart
       type="line"
@@ -20,7 +20,17 @@ export default {
     return {
       series,
       chartOptions: {
-        ...chartOptions
+        ...chartOptions,
+        chart: {
+          dropShadow: {
+            enabled: true,
+            top: 0,
+            left: 0,
+            blur: 4,
+            opacity: 0.6,
+            color: ['#449DD1', '#F86624', '#EA3546', '#662E9B', '#C5D86D'],
+          },
+        },
       }
     };
   },
