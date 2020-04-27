@@ -108,7 +108,7 @@
         &copy; {{ new Date().getFullYear() }} ETHIOPIA COVID19 RESPONSE TEAM
       </span>
     </v-footer>-->
-    <v-speed-dial v-if="admin" v-model="fab" bottom right fixed :open-on-hover="expandOnHover">
+    <!-- <v-speed-dial v-if="admin" v-model="fab" bottom right fixed :open-on-hover="expandOnHover">
       <template v-slot:activator>
         <v-btn v-model="fab" color="secondary" dark fab>
           <v-icon v-if="fab">mdi-close</v-icon>
@@ -121,7 +121,7 @@
       <!-- <v-btn fab dark small color="indigo" v-if="admin" to="/addcases">
         <v-icon>mdi-briefcase-plus-outline</v-icon>
       </v-btn>-->
-    </v-speed-dial>
+    <!-- </v-speed-dial> --> -->
   </v-app>
 </template>
 
