@@ -67,6 +67,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "gedion",
+      "name": "Gedion Woldeselassie",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1224206?v=4",
+      "profile": "https://github.com/gedion",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -1,6 +1,6 @@
 # TackleCovid19
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Covid19 outbreak status monitoring and case tracking.
@@ -107,6 +107,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://www.javaonlinecompiler.com"><img src="https://avatars1.githubusercontent.com/u/20665149?v=4" width="100px;" alt=""/><br /><sub><b>Tekle Ayele</b></sub></a><br /><a href="https://github.com/africa-covid-19-response-toolkit/internal-dashboard/commits?author=tekleayele" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/abelhbeyene"><img src="https://avatars1.githubusercontent.com/u/12272815?v=4" width="100px;" alt=""/><br /><sub><b>Abel</b></sub></a><br /><a href="https://github.com/africa-covid-19-response-toolkit/internal-dashboard/commits?author=abelhbeyene" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/nabebe"><img src="https://avatars2.githubusercontent.com/u/17017927?v=4" width="100px;" alt=""/><br /><sub><b>Nati Abebe</b></sub></a><br /><a href="https://github.com/africa-covid-19-response-toolkit/internal-dashboard/commits?author=nabebe" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/gedion"><img src="https://avatars3.githubusercontent.com/u/1224206?v=4" width="100px;" alt=""/><br /><sub><b>Gedion Woldeselassie</b></sub></a><br /><a href="https://github.com/africa-covid-19-response-toolkit/internal-dashboard/commits?author=gedion" title="Code">💻</a></td>
   </tr>
 </table>
 
