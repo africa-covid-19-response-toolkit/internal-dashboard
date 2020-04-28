@@ -21,6 +21,10 @@ export default {
       series,
       chartOptions: {
         ...chartOptions,
+        stroke: {
+          width: 2,
+          curve: "smooth"
+        },
         chart: {
           dropShadow: {
             enabled: true,

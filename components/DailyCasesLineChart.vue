@@ -27,6 +27,15 @@ export default {
           type: 'datetime',
           tickAmount: 6,
         },
+        stroke: {
+          width: 2,
+          curve: "smooth"
+        },
+        tooltip: {
+          x: {
+            format: 'dd MMMM'
+          }
+        },
         chart: {
           dropShadow: {
             enabled: true,
