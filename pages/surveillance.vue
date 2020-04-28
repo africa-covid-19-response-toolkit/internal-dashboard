@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row no-gutters class="mb-6">
     <v-col cols="8" xs="12" sm="12" md="8" lg="9">
       <v-card elevation="0" hover tile style="height: 800px; border-top: 0px;">
         <GmapMap
@@ -62,8 +62,11 @@
         <v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
         <v-card-title
           v-if="markerClicked === false"
-        >{{ currentRegion ? `${currentRegion.name} ` : "" }}Surveillance Cases</v-card-title>
-        <v-card-subtitle v-if="loading === true">Loading...</v-card-subtitle>
+        >Surveillance Cases{{ currentRegion ? ` in ${currentRegion.name}` : "" }}</v-card-title>
+        <v-card-subtitle v-if="loading === true">
+          Loading...
+          <v-progress-linear indeterminate></v-progress-linear>
+          </v-card-subtitle>
         <v-card-subtitle
           v-if="markerClicked === false"
         >{{ currentRegion ? `The following cases exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region to view cases"}}.</v-card-subtitle>
@@ -124,7 +127,7 @@ const ETHIOPIA_BOUNDS_2 = {
   strictBounds: true
 };
 
-const POLYGON_COLORS = ["#228b22", "#ff8000", "#ff0000"];
+const POLYGON_COLORS = ["rgba(253,211,14,0.8)", "#800000", "#FF0000"];
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -399,8 +402,8 @@ export default {
             adminRegion3Id: data.properties.ID_3,
             key: index,
             paths: formattedCoordinates,
-            strokeColor: "#FFFFFF",
-            strokeWeight: 1,
+            strokeColor: "rgba(0,0,0,0.2)",
+            strokeWeight: 0.5,
             strokeOpacity: 1.0,
             fillColor: POLYGON_COLORS[1],
             fillOpacity: 0.2

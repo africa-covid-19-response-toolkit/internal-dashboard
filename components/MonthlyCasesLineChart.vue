@@ -1,5 +1,5 @@
 <template>
-  <v-card tile elevation="0" class="px-12">
+  <v-card tile elevation="0" class="pa-12">
     <v-card-title>{{ `${$t('chart_titles.monthly')}` }}</v-card-title>
 
     <apexchart width="100%" height="340" type="line" :options="getChartOptions" :series="getSeries"></apexchart>
@@ -26,8 +26,8 @@ export default {
             enabled: true,
             top: 0,
             left: 0,
-            blur: 4,
-            opacity: 0.6,
+            blur: 2,
+            opacity: 0.4,
             color: ['#662E9B', '#F86624', '#F9C80E', '#EA3546', '#43BCCD'],
           },
         },

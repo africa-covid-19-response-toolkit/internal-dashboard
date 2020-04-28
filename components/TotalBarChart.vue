@@ -16,17 +16,17 @@ export default {
             enabled: true,
             top: 0,
             left: 0,
-            blur: 3,
-            opacity: 0.5,
+            blur: 2,
+            opacity: 0.4,
             color: ['#662E9B', '#F86624', '#F9C80E', '#EA3546', '#43BCCD'],
           },
         },
         plotOptions: {
           bar: {
             startingShape: 'flat',
-            endingShape: 'rounded',
+            endingShape: 'flat',
             horizontal: this.$props.horizontal,
-            columnWidth: "60%"
+            columnWidth: "50%"
           }
         },
         title: { text: undefined, align: "center", floating: true },

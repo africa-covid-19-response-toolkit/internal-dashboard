@@ -96,7 +96,7 @@
         <v-fade-transition>
           <nuxt />
         </v-fade-transition>
-        <div class="mt-12 text-sm-center" app>
+        <div class="my-n6 text-sm-center footer py-3" app>
           <span
             class="overline"
           >&copy; {{ new Date().getFullYear() }} ETHIOPIA COVID19 RESPONSE TEAM</span>
@@ -270,5 +270,9 @@ html {
 }
 .v-application--is-ltr .v-toolbar.v-toolbar--collapsed {
     border-bottom-right-radius: 0;
+}
+div.footer {
+    background: #2a2a2a;
+    color: #efefef;
 }
 </style>

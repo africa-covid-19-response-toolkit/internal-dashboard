@@ -30,13 +30,13 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="mt-6 mb-n6">
+    <v-row class="mt-6 mb-n3">
       <v-flex xs12 sm12>
         <Map />
       </v-flex>
     </v-row>
-    <v-row class="px-0 mb-n6">
-      <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+    <v-row class="px-0 mb-n3">
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="pa-0">
         <v-lazy>
           <TotalBarChart
             :height="400"
@@ -50,7 +50,7 @@
         </v-lazy>
       </v-col>
 
-      <v-col cols="12" xs="12" sm="12" md="6" lg="6">
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" class="pa-0">
         <v-lazy>
           <TotalBarChart
             :height="400"
@@ -78,10 +78,10 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-12 mx-12">
-      <v-col cols="12" xs="12" sm="6" md="6">
+    <v-row class="pa-0 my-n3">
+      <v-col cols="12" xs="12" sm="6" md="6" class="pa-0 ma-0">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
+          <v-card elevation="0" hover tile style="height: 510px;" class="py-6 transparent">
             <v-card-title class="justify-center">
               Hospitalization Status
               <span
@@ -95,9 +95,9 @@
           </v-card>
         </v-lazy>
       </v-col>
-      <v-col cols="12" xs="12" sm="6" md="6">
+      <v-col cols="12" xs="12" sm="6" md="6" class="pa-0 ma-0">
         <v-lazy>
-          <v-card elevation="0" hover tile style="height: 510px;" class="transparent">
+          <v-card elevation="0" hover tile style="height: 510px;" class="py-6 greyback transparent">
             <v-card-title class="justify-center">
               Outcome Status
               <span
@@ -116,13 +116,13 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-0 mx-0 mb-n6">
-      <v-col cols="12" class="px-0" xs="12" sm="12" md="6" lg="6">
+    <v-row class="px-0 mx-0 mb-n6 mt-3">
+      <v-col cols="12" class="pa-0" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <TimeSeriesChart :title="$t('Last 7 Days')" :chartdata="getWeekStats" />
         </v-lazy>
       </v-col>
-      <v-col cols="12" class="px-0" xs="12" sm="12" md="6" lg="6">
+      <v-col cols="12" class="pa-0" xs="12" sm="12" md="6" lg="6">
         <v-lazy>
           <DailyCasesLineChart
             chartType="line"
@@ -132,14 +132,14 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <v-row class="px-0 mx-0">
+    <v-row class="pa-0 ma-0">
       <!-- <v-col cols="12" xs="12" sm="6" md="4" lg="4">
         <v-lazy>
           <TotalRadar :chartdata="getLiveTotalConfirmed" />
         </v-lazy>
       </v-col>-->
       <!--  xs="12" sm="6" md="8" lg="8" -->
-      <v-col cols="12" class="px-0">
+      <v-col cols="12" class="pa-0">
         <v-lazy>
           <MonthlyCasesLineChart :chartdata="getMonthlyLiveStats" />
         </v-lazy>
@@ -928,6 +928,11 @@ export default {
   font-size: 16px;
   padding-left: 10px;
   line-height: 20px;
+}
+.v-card__title {
+  color: #6E8192;
+  font-weight: 600;
+  font-size: 1.75rem;
 }
 </style>
 
