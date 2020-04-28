@@ -23,6 +23,10 @@ export default {
       series,
       chartOptions: {
         ...chartOptions,
+        xaxis: {
+          type: 'datetime',
+          tickAmount: 6,
+        },
         chart: {
           dropShadow: {
             enabled: true,
