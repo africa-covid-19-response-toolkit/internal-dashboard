@@ -63,7 +63,7 @@
           v-if="markerClicked === false"
         >Medical Facilities{{ currentRegion ? ` in ${currentRegion.name} ` : "" }}</v-card-title>
         <v-card-subtitle v-if="loading === true">
-          Loading...
+          Loading regional maps...
           <v-progress-linear indeterminate></v-progress-linear>
         </v-card-subtitle>
         <v-card-subtitle

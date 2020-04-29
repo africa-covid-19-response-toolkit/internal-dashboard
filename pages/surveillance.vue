@@ -68,7 +68,7 @@
           <h1>Surveillance Cases</h1>
         </v-card-text>
         <v-card-subtitle v-if="loading === true">
-          Loading...
+          Loading regional maps ...
           <v-progress-linear indeterminate></v-progress-linear>
           </v-card-subtitle>
         <v-card-subtitle
