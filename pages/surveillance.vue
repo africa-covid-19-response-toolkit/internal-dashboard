@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row no-gutters class="mb-6">
     <v-col cols="8" xs="12" sm="12" md="8" lg="9">
       <v-card elevation="0" hover tile style="height: 800px; border-top: 0px;">
         <GmapMap
@@ -7,7 +7,7 @@
 			     lat: 8.35,
 			     lng: 40.35
 			    }"
-          :zoom="6.3"
+          :zoom="6"
           map-type-id="roadmap"
           style="width: 100%; height: 800px;"
           ref="mapRef"
@@ -60,10 +60,17 @@
         style="height: 800px; max-height: 800px; overflow-y: scroll; border-top: 0px;"
       >
         <v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
-        <v-card-title
-          v-if="markerClicked === false"
-        >{{ currentRegion ? `${currentRegion.name} ` : "" }}Surveillance Cases</v-card-title>
-        <v-card-subtitle v-if="loading === true">Loading...</v-card-subtitle>
+        <v-card-text v-if="markerClicked === false && currentRegion">
+          <span class="overline">Surveillance Cases</span>
+          <h1>{{currentRegion.name}}</h1>
+        </v-card-text>
+        <v-card-text v-else>
+          <h1>Surveillance Cases</h1>
+        </v-card-text>
+        <v-card-subtitle v-if="loading === true">
+          Loading regional maps ...
+          <v-progress-linear indeterminate></v-progress-linear>
+          </v-card-subtitle>
         <v-card-subtitle
           v-if="markerClicked === false"
         >{{ currentRegion ? `The following cases exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region to view cases"}}.</v-card-subtitle>
@@ -124,7 +131,7 @@ const ETHIOPIA_BOUNDS_2 = {
   strictBounds: true
 };
 
-const POLYGON_COLORS = ["#228b22", "#ff8000", "#ff0000"];
+const POLYGON_COLORS = ["rgba(253,211,14,0.8)", "#800000", "#FF0000"];
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -399,8 +406,8 @@ export default {
             adminRegion3Id: data.properties.ID_3,
             key: index,
             paths: formattedCoordinates,
-            strokeColor: "#FFFFFF",
-            strokeWeight: 1,
+            strokeColor: "rgba(0,0,0,0.2)",
+            strokeWeight: 0.5,
             strokeOpacity: 1.0,
             fillColor: POLYGON_COLORS[1],
             fillOpacity: 0.2
@@ -498,6 +505,23 @@ export default {
 };
 </script>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,400;0,600;0,700;0,800;0,900;1,100&family=Barlow:wght@100;300;400;500;600;700;800;900&display=swap");
+* {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-weight: 500;
+}
+.index__pie_chart_percentage_label {
+  color: red;
+  font-size: 16px;
+  padding-left: 10px;
+  line-height: 20px;
+}
+.v-card__title {
+  color: #6E8192;
+  font-weight: 600;
+  font-size: 1.75rem;
+}
+
 .text-start {
   border: 0.5px solid lightgray;
 }

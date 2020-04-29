@@ -1,5 +1,6 @@
 <script>
 import { Pie } from "vue-chartjs";
+import 'chartjs-plugin-style';
 
 export default {
   extends: Pie,
@@ -8,7 +9,11 @@ export default {
     this.renderChart({
       labels: this.labels,
       datasets: this.datasets,
-    }, {responsive: true, maintainAspectRatio: false})
+    }, {
+      cutoutPercentage: 60, 
+      responsive: true, 
+      maintainAspectRatio: false, 
+      })
   }
 }
 </script>
