@@ -7,7 +7,7 @@
 			     lat: 8.35,
 			     lng: 40.35
 			    }"
-          :zoom="6.3"
+          :zoom="6"
           map-type-id="roadmap"
           style="width: 100%; height: 800px;"
           ref="mapRef"
@@ -60,9 +60,13 @@
         style="height: 800px; max-height: 800px; overflow-y: scroll; border-top: 0px;"
       >
         <v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
-        <v-card-title
-          v-if="markerClicked === false"
-        >Surveillance Cases{{ currentRegion ? ` in ${currentRegion.name}` : "" }}</v-card-title>
+        <v-card-text v-if="markerClicked === false && currentRegion">
+          <span class="overline">Surveillance Cases</span>
+          <h1>{{currentRegion.name}}</h1>
+        </v-card-text>
+        <v-card-text v-else>
+          <h1>Surveillance Cases</h1>
+        </v-card-text>
         <v-card-subtitle v-if="loading === true">
           Loading...
           <v-progress-linear indeterminate></v-progress-linear>
@@ -501,6 +505,23 @@ export default {
 };
 </script>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,400;0,600;0,700;0,800;0,900;1,100&family=Barlow:wght@100;300;400;500;600;700;800;900&display=swap");
+* {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-weight: 500;
+}
+.index__pie_chart_percentage_label {
+  color: red;
+  font-size: 16px;
+  padding-left: 10px;
+  line-height: 20px;
+}
+.v-card__title {
+  color: #6E8192;
+  font-weight: 600;
+  font-size: 1.75rem;
+}
+
 .text-start {
   border: 0.5px solid lightgray;
 }

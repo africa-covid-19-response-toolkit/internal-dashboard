@@ -126,7 +126,7 @@
         <v-lazy>
           <DailyCasesLineChart
             chartType="line"
-            :title="'Last 30 days'"
+            :title="'Last 30 Days'"
             :chartdata="getLast30DayStats"
           />
         </v-lazy>
