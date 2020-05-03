@@ -1,4 +1,4 @@
-<template xmlns:height="http://www.w3.org/1999/xhtml">
+<template>
 	<v-row>
       <v-col cols="8" xs="12" sm="12" md="8" lg="8">
       	<v-card elevation="0" hover tile style="height: 800px; border-top: 0px;">
