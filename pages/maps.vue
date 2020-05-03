@@ -61,21 +61,24 @@
         <v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
         <v-card-title
           v-if="markerClicked === false"
-        >Medical Facilities{{ currentRegion ? ` in ${currentRegion.name} ` : "" }}</v-card-title>
+        >Medical Facilities{{ currentRegion ? ` in ${currentRegion.name} ` : "" }}
+        </v-card-title>
         <v-card-subtitle v-if="loading === true">
           Loading regional maps...
           <v-progress-linear indeterminate></v-progress-linear>
         </v-card-subtitle>
         <v-card-subtitle
           v-if="markerClicked === false"
-        >{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
+        >{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this
+          region'}` : "Click on a region or tooltip to view medical facility details"}}.
+        </v-card-subtitle>
         <download-excel v-if="tables && tables.length > 0"
-                        class   = "btn btn-default"
-                        :data   = "json_data"
-                        :fields = "json_fields"
-                        worksheet = "My Worksheet"
-                        type    = "csv"
-                        name    = 'Medical_Facilities_Report.xls'>
+                        class="btn btn-default"
+                        :data="json_data"
+                        :fields="json_fields"
+                        worksheet="My Worksheet"
+                        type="csv"
+                        name='Medical_Facilities_Report.xls'>
           <img style="height: 45px;" align="right" alt="Download Report" src="@/assets/images/export.png"/>
         </download-excel>
         <template v-for="(table, index) in tables">
@@ -103,27 +106,27 @@
   </v-row>
 </template>
 <script>
-import axios from "axios";
-import _forEach from "lodash/forEach";
-import _map from "lodash/map";
-import _find from "lodash/find";
-import _filter from "lodash/filter";
-import { gmapApi } from "vue2-google-maps";
-import Util from "@/util/util";
+  import axios from "axios";
+  import _forEach from "lodash/forEach";
+  import _map from "lodash/map";
+  import _find from "lodash/find";
+  import _filter from "lodash/filter";
+  import {gmapApi} from "vue2-google-maps";
+  import Util from "@/util/util";
 
-// import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
+  // import administrativeZoneDataAll from "../resources/ethiopia_administrative_zones_full.json";
 
-const MAP_CENTER = {
-  lat: 8.75,
-  lng: 40.25
-};
+  const MAP_CENTER = {
+    lat: 8.75,
+    lng: 40.25
+  };
 
-const ETHIOPIA_BOUNDS = {
-  north: 14,
-  south: 15,
-  west: 35,
-  east: 44
-};
+  const ETHIOPIA_BOUNDS = {
+    north: 14,
+    south: 15,
+    west: 35,
+    east: 44
+  };
 
   const ETHIOPIA_BOUNDS_2 = {
     latLngBounds: {
@@ -251,7 +254,7 @@ const ETHIOPIA_BOUNDS = {
                 sortable: false,
                 value: "key"
               },
-              { text: "", value: "value" }
+              {text: "", value: "value"}
             ];
           }
         );
@@ -291,7 +294,7 @@ const ETHIOPIA_BOUNDS = {
                   sortable: false,
                   value: "key"
                 },
-                { text: "", value: "value" }
+                {text: "", value: "value"}
               ];
             }
           );
@@ -399,7 +402,7 @@ const ETHIOPIA_BOUNDS = {
         return {
           'Facility Name': 'name',
           'Facility Type': 'amenity',
-          'Facility Status':  'status',
+          'Facility Status': 'status',
           'Total Beds': 'total_beds',
           'Occupied Beds': 'occupied_beds',
           'Available Beds': 'available_beds',
