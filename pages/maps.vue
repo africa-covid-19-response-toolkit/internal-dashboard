@@ -1,4 +1,4 @@
-<template>
+<template xmlns:height="http://www.w3.org/1999/xhtml">
 	<v-row>
       <v-col cols="8" xs="12" sm="12" md="8" lg="8">
       	<v-card elevation="0" hover tile style="height: 800px; border-top: 0px;">
@@ -22,7 +22,7 @@
 	                    }
 	                }"
 					:position="infoWindowPosition"
-				>	
+				>
 					<v-row>
 						<v-col xs="12">
 						  <h2 class="maps__hospital_name">{{ currentMedicalFacility.name }}</h2>
@@ -36,7 +36,7 @@
 			              <p class="maps__hospital_operator_phone">Operator Phone: {{ currentMedicalFacility.operator_contact_number }}</p>
 						</v-col>
 					</v-row>
-					
+
 				</GmapInfoWindow>
 			</GmapMap>
 		</v-card>
@@ -46,7 +46,17 @@
       		<v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
 		    <v-card-title v-if="markerClicked === false">{{ currentRegion ? `${currentRegion.name} ` : "" }}Medical Facilities</v-card-title>
 		    <v-card-subtitle v-if="loading === true">Loading...</v-card-subtitle>
-		    <v-card-subtitle v-if="markerClicked === false">{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
+		    <v-card-subtitle v-if="markerClicked === false">{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.
+        </v-card-subtitle>
+        <download-excel v-if="currentMedicalFacilities !== null"
+                       class   = "btn btn-default"
+                       :data   = "json_data"
+                       :fields = "json_fields"
+                       worksheet = "My Worksheet"
+                       type    = "csv"
+                       name    = "Medical_Facilities_Report.xls">
+                       <img style="height: 45px;" align="right" alt="Download Report" src="@/assets/images/export.png"/>
+        </download-excel>
 		    <template v-for="(table, index) in tables" v-if="currentMedicalFacilities !== null">
 		    	<v-data-table
 			    	:key="index"
@@ -199,7 +209,7 @@ export default {
 	  onClickMarker(e, medicalFacilityRecord, latLngData) {
 	  	this.currentMedicalFacility = medicalFacilityRecord
 	  	this.currentMedicalFacilities = [ medicalFacilityRecord ]
-	  	
+
 	  	this.headers = _map(this.currentMedicalFacilities, (medicalFacilityRecord) => {
 				return [
 				{
@@ -214,6 +224,8 @@ export default {
 	  	this.tables = this.getTables()
 	  	this.showingInfoWindow = true
 	  	this.infoWindowPosition = latLngData
+      this.json_fields = this.getJsonFields()
+      this.json_data = this.getJsonData()
 
 	  	if (this.currentMedicalFacility) {
 	  		this.markerClicked = true
@@ -284,7 +296,7 @@ export default {
 						key: "Total ICU Beds",
 						value: medicalFacilityRecord.total_icu_beds,
 						color: "#228b22"
-					},				
+					},
 					{
 						key: "Total Occupied ICU Beds",
 						value: medicalFacilityRecord.occupied_icu_beds,
@@ -294,7 +306,7 @@ export default {
 						key: "Total Available ICU Beds",
 						value: medicalFacilityRecord.available_icu_beds,
 						color: "#228b22"
-					},				
+					},
 					{
 						key: "Total Mechanical Ventilators",
 						value: medicalFacilityRecord.total_ventilators,
@@ -342,6 +354,53 @@ export default {
 				]
 			})
 	  },
+    getJsonFields() {
+      return {
+        'Facility Type': 'amenity',
+        'Facility Status':  'status',
+        'Total Beds': 'total_beds',
+        'Occupied Beds': 'occupied_beds',
+        'Available Beds': 'available_beds',
+        'Total ICU Beds': 'total_icu_beds',
+        'Total Occupied ICU Beds': 'occupied_icu_beds',
+        'Total Available ICU Beds': 'available_icu_beds',
+        'Total Mechanical Ventilators': 'total_ventilators',
+        'Occupied Mechanical Ventilators': 'occupied_ventilators',
+        'Available Mechanical Ventilators': 'available_ventilators',
+        'Masks': 'masks',
+        'Gloves': 'gloves',
+        'Gowns': 'gowns',
+        'Goggles': 'goggles',
+        'Face Shields': 'face_shields',
+        'Testings Kits': 'testing_kits'
+
+      }
+    },
+    getJsonData() {
+      return _map(this.currentMedicalFacilities, (medicalFacilityRecord) => {
+        return {
+          amenity: medicalFacilityRecord.amenity,
+          status: medicalFacilityRecord.status,
+          total_beds: medicalFacilityRecord.total_beds,
+          occupied_beds: medicalFacilityRecord.occupied_beds,
+          available_beds: medicalFacilityRecord.available_beds,
+          total_icu_beds: medicalFacilityRecord.total_icu_beds,
+          occupied_icu_beds: medicalFacilityRecord.occupied_icu_beds,
+          available_icu_beds: medicalFacilityRecord.available_icu_beds,
+          total_ventilators: medicalFacilityRecord.total_ventilators,
+          occupied_ventilators: medicalFacilityRecord.occupied_ventilators,
+          available_ventilators: medicalFacilityRecord.available_ventilators,
+          masks: medicalFacilityRecord.masks,
+          gloves: medicalFacilityRecord.gloves,
+          gowns: medicalFacilityRecord.gowns,
+          goggles: medicalFacilityRecord.goggles,
+          face_shields: medicalFacilityRecord.face_shields,
+          testing_kits: medicalFacilityRecord.testing_kits
+        }
+      })
+    },
+
+
 	  mouseOverPolygon(e, adminRegion3Id) {
 		// console.log("mouseover")
 	  },
