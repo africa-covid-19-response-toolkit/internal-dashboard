@@ -304,7 +304,7 @@ const ETHIOPIA_BOUNDS = {
       },
       getTables() {
         return _map(this.currentMedicalFacilities, medicalFacilityRecord => {
-          // caculate color values for each label once thresholds are decided
+          // calculate color values for each label once thresholds are decided
           return [
             {
               key: "Facility Type",
