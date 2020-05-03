@@ -46,8 +46,7 @@
       		<v-card-title v-if="markerClicked === true">{{ currentMedicalFacility.name }}</v-card-title>
 		    <v-card-title v-if="markerClicked === false">{{ currentRegion ? `${currentRegion.name} ` : "" }}Medical Facilities</v-card-title>
 		    <v-card-subtitle v-if="loading === true">Loading...</v-card-subtitle>
-		    <v-card-subtitle v-if="markerClicked === false">{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.
-        </v-card-subtitle>
+		    <v-card-subtitle v-if="markerClicked === false">{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
         <download-excel v-if="currentMedicalFacilities !== null"
                        class   = "btn btn-default"
                        :data   = "json_data"
