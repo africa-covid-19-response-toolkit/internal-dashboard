@@ -54,7 +54,8 @@ export default {
     { src: "~/plugins/apex.chart.js" },
     { src: "~/plugins/i18n.js" },
     { src: "~/plugins/amplify.js", ssr: false },
-    { src: "~/plugins/amplify.auth.js", mode: "client" }
+    { src: "~/plugins/amplify.auth.js", mode: "client" },
+    { src: "~/plugins/vue-json-to-csv.js" }
   ],
 
   /*
