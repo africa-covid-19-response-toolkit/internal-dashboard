@@ -69,13 +69,13 @@
         <v-card-subtitle
           v-if="markerClicked === false"
         >{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this region'}` : "Click on a region or tooltip to view medical facility details"}}.</v-card-subtitle>
-        <download-excel v-if="currentMedicalFacilities !== null"
+        <download-excel v-if="tables && tables.length > 0"
                         class   = "btn btn-default"
                         :data   = "json_data"
                         :fields = "json_fields"
                         worksheet = "My Worksheet"
                         type    = "csv"
-                        name    = "Medical_Facilities_Report.xls">
+                        name    = 'Medical_Facilities_Report.xls'>
           <img style="height: 45px;" align="right" alt="Download Report" src="@/assets/images/export.png"/>
         </download-excel>
         <template v-for="(table, index) in tables">
