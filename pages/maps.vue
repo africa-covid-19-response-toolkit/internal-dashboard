@@ -397,6 +397,7 @@ const ETHIOPIA_BOUNDS = {
       },
       getJsonFields() {
         return {
+          'Facility Name': 'name',
           'Facility Type': 'amenity',
           'Facility Status':  'status',
           'Total Beds': 'total_beds',
@@ -419,6 +420,7 @@ const ETHIOPIA_BOUNDS = {
       getJsonData() {
         return _map(this.currentMedicalFacilities, (medicalFacilityRecord) => {
           return {
+            name: medicalFacilityRecord.name,
             amenity: medicalFacilityRecord.amenity,
             status: medicalFacilityRecord.status,
             total_beds: medicalFacilityRecord.total_beds,
