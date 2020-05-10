@@ -68,9 +68,8 @@
           <v-progress-linear indeterminate></v-progress-linear>
         </v-card-subtitle>
         <v-card-subtitle
-          v-if="markerClicked === false"
-        >{{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : 'this
-          region'}` : "Click on a region or tooltip to view medical facility details"}}.
+          v-if="markerClicked === false">
+          {{ currentRegion ? `The following medical facilities exist in ${currentRegion.name ? currentRegion.name : this.region}` : "Click on a region or tooltip to view medical facility details"}}.
         </v-card-subtitle>
         <download-excel v-if="tables && tables.length > 0"
                         class="btn btn-default"
