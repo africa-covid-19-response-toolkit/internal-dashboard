@@ -28,7 +28,8 @@
     "daily": "Daily",
     "hourly": "Cases by Hour of Day",
     "total": "Total",
-    "confirmed": "Confirmed"
+    "confirmed": "Confirmed",
+    "total_by_age_and_gender": "Cases by age and gender"
   },
   "menu": {
     "dashboard": "Dashboard",
