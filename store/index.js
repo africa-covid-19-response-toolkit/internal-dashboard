@@ -18,6 +18,5 @@ export const mutations = {
 };
 
 export const actions = {
-  nuxtServerInit() {},
   nuxtServerInit() {}
 };

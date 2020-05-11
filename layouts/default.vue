@@ -158,6 +158,11 @@ export default {
           icon: "mdi-map-marker-radius",
           titleKey: "menu.map",
           to: "/maps"
+        },
+        {
+          icon: "mdi-briefcase",
+          titleKey: "menu.reports",
+          to: "/reports"
         }
       ],
       adminsNav: [
@@ -175,6 +180,11 @@ export default {
           icon: "mdi-map-marker-radius",
           titleKey: "menu.map",
           to: "/maps"
+        },
+        {
+          icon: "mdi-briefcase",
+          titleKey: "menu.reports",
+          to: "/reports"
         }
       ],
       languages: [

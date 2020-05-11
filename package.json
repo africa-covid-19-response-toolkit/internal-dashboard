@@ -39,6 +39,7 @@
     "vue-apexcharts": "^1.5.2",
     "vue-chartjs": "^3.5.0",
     "vue-i18n": "^8.16.0",
+    "vue-json-excel": "^0.2.98",
     "vue2-google-maps": "^0.10.7",
     "vue2-leaflet": "^2.5.2"
   },
